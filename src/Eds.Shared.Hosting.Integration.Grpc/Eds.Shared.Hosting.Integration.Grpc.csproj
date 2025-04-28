@@ -14,13 +14,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.30.2"/>
         <PackageReference Include="Grpc.AspNetCore" Version="2.71.0"/>
-        <PackageReference Include="Grpc.Tools" Version="2.71.0">
-            <PrivateAssets>All</PrivateAssets>
-        </PackageReference>
     </ItemGroup>
-    
+
     <ItemGroup>
         <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj"/>
     </ItemGroup>
