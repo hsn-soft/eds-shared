@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Eds.Shared.Contracts\Eds.Shared.Contracts.csproj" />
+      <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj" />
+    </ItemGroup>
+
+</Project>
