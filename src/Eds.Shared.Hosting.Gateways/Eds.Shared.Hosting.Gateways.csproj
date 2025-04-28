@@ -25,6 +25,11 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="HsnSoft.Base.Swashbuckle" Version="$(HsnSoftFrameworkVersion)"/>
+        <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Swashbuckle\HsnSoft.Base.Swashbuckle.csproj"/>-->
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj"/>
     </ItemGroup>
 
