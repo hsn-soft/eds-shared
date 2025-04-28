@@ -1,13 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <Import Project="..\..\common.version.props"/>
+    <Import Project="..\..\common.props"/>
+
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <PackageId>Eds.Shared.Hosting.Gateways</PackageId>
+        <RootNamespace>Eds.Shared.Hosting.Gateways</RootNamespace>
+        <Title>HsnSoft EDS Shared Hosting Gateways</Title>
+        <Description>HsnSoft EDS Shared Hosting Gateways</Description>
+        <PackageTags>HsnSoft EDS Shared Hosting Gateways</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj" />
+        <PackageReference Include="MMLib.Ocelot.Provider.AppConfiguration" Version="4.0.0"/>
+        <PackageReference Include="MMLib.SwaggerForOcelot" Version="9.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Ocelot" Version="23.4.3"/>
+        <!--<PackageReference Include="Ocelot.Provider.Polly" Version="17.0.1" />-->
+        <!--<PackageReference Include="Ocelot.Provider.Consul" Version="18.0.0" />-->
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -1,13 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <Import Project="..\..\common.version.props"/>
+    <Import Project="..\..\common.props"/>
+
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <PackageId>Eds.Shared.Contracts</PackageId>
+        <RootNamespace>Eds.Shared.Contracts</RootNamespace>
+        <Title>HsnSoft EDS Shared Contracts</Title>
+        <Description>HsnSoft EDS Shared Contracts</Description>
+        <PackageTags>HsnSoft EDS Shared Contracts</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Eds.Shared.Helper\Eds.Shared.Helper.csproj" />
+        <PackageReference Include="HsnSoft.Base.Ddd.Application.Contracts" Version="$(HsnSoftFrameworkVersion)"/>
+        <PackageReference Include="HsnSoft.Base.EventBus.Abstractions" Version="$(HsnSoftFrameworkVersion)"/>
+        <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Ddd.Application.Contracts\HsnSoft.Base.Ddd.Application.Contracts.csproj" />-->
+        <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.EventBus.Abstractions\HsnSoft.Base.EventBus.Abstractions.csproj" />-->
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <ProjectReference Include="..\Eds.Shared.Helper\Eds.Shared.Helper.csproj"/>
     </ItemGroup>
 
 </Project>

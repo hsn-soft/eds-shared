@@ -1,13 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <Import Project="..\..\common.version.props"/>
+    <Import Project="..\..\common.props"/>
+
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <PackageId>Eds.Shared.Helper</PackageId>
+        <RootNamespace>Eds.Shared.Helper</RootNamespace>
+        <Title>HsnSoft EDS Shared Helper</Title>
+        <Description>HsnSoft EDS Shared Helper</Description>
+        <PackageTags>HsnSoft EDS Shared Helper</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Eds.Shared.Localization\Eds.Shared.Localization.csproj" />
+        <ProjectReference Include="..\Eds.Shared.Localization\Eds.Shared.Localization.csproj"/>
     </ItemGroup>
 
 </Project>

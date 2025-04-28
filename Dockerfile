@@ -8,27 +8,27 @@ WORKDIR /build-source
 COPY ["./nuget.config", "./"]
 COPY ["./common.props", "./"]
 COPY ["./common.version.props", "./"]
-COPY ["./Hhs.Shared.sln", "./"]
+COPY ["./Eds.Shared.sln", "./"]
 
-COPY ["./src/Hhs.Shared.Contracts/Hhs.Shared.Contracts.csproj", "./src/Hhs.Shared.Contracts/"]
-COPY ["./src/Hhs.Shared.Helper/Hhs.Shared.Helper.csproj", "./src/Hhs.Shared.Helper/"]
-COPY ["./src/Hhs.Shared.Localization/Hhs.Shared.Localization.csproj", "./src/Hhs.Shared.Localization/"]
-COPY ["./src/Hhs.Shared.Hosting/Hhs.Shared.Hosting.csproj", "./src/Hhs.Shared.Hosting/"]
-COPY ["./src/Hhs.Shared.Hosting.Gateways/Hhs.Shared.Hosting.Gateways.csproj", "./src/Hhs.Shared.Hosting.Gateways/"]
-COPY ["./src/Hhs.Shared.Hosting.Microservices/Hhs.Shared.Hosting.Microservices.csproj", "./src/Hhs.Shared.Hosting.Microservices/"]
+COPY ["./src/Eds.Shared.Contracts/Eds.Shared.Contracts.csproj", "./src/Eds.Shared.Contracts/"]
+COPY ["./src/Eds.Shared.Helper/Eds.Shared.Helper.csproj", "./src/Eds.Shared.Helper/"]
+COPY ["./src/Eds.Shared.Localization/Eds.Shared.Localization.csproj", "./src/Eds.Shared.Localization/"]
+COPY ["./src/Eds.Shared.Hosting/Eds.Shared.Hosting.csproj", "./src/Eds.Shared.Hosting/"]
+COPY ["./src/Eds.Shared.Hosting.Gateways/Eds.Shared.Hosting.Gateways.csproj", "./src/Eds.Shared.Hosting.Gateways/"]
+COPY ["./src/Eds.Shared.Hosting.Microservices/Eds.Shared.Hosting.Microservices.csproj", "./src/Eds.Shared.Hosting.Microservices/"]
 
-RUN dotnet restore "./Hhs.Shared.sln" --verbosity minimal
+RUN dotnet restore "./Eds.Shared.sln" --verbosity minimal
 
-COPY ["./src/Hhs.Shared.Contracts/.", "./src/Hhs.Shared.Contracts/"]
-COPY ["./src/Hhs.Shared.Helper/.", "./src/Hhs.Shared.Helper/"]
-COPY ["./src/Hhs.Shared.Localization/.", "./src/Hhs.Shared.Localization/"]
-COPY ["./src/Hhs.Shared.Hosting/.", "./src/Hhs.Shared.Hosting/"]
-COPY ["./src/Hhs.Shared.Hosting.Gateways/.", "./src/Hhs.Shared.Hosting.Gateways/"]
-COPY ["./src/Hhs.Shared.Hosting.Microservices/.", "./src/Hhs.Shared.Hosting.Microservices/"]
+COPY ["./src/Eds.Shared.Contracts/.", "./src/Eds.Shared.Contracts/"]
+COPY ["./src/Eds.Shared.Helper/.", "./src/Eds.Shared.Helper/"]
+COPY ["./src/Eds.Shared.Localization/.", "./src/Eds.Shared.Localization/"]
+COPY ["./src/Eds.Shared.Hosting/.", "./src/Eds.Shared.Hosting/"]
+COPY ["./src/Eds.Shared.Hosting.Gateways/.", "./src/Eds.Shared.Hosting.Gateways/"]
+COPY ["./src/Eds.Shared.Hosting.Microservices/.", "./src/Eds.Shared.Hosting.Microservices/"]
 
-RUN dotnet build "./Hhs.Shared.sln" --no-restore --configuration Release --verbosity minimal
+RUN dotnet build "./Eds.Shared.sln" --no-restore --configuration Release --verbosity minimal
 
-RUN dotnet test "./Hhs.Shared.sln" --no-restore --no-build --configuration Release --verbosity minimal
+RUN dotnet test "./Eds.Shared.sln" --no-restore --no-build --configuration Release --verbosity minimal
 
 RUN --mount=type=secret,id=VERSION_NUMBER \
     export VERSION_NUMBER=$(cat /run/secrets/VERSION_NUMBER) && \
@@ -38,7 +38,7 @@ RUN --mount=type=secret,id=ACTION_NUMBER \
     export ACTION_NUMBER=$(cat /run/secrets/ACTION_NUMBER) && \
     echo ${ACTION_NUMBER} > ./action_number
 
-RUN dotnet pack "./Hhs.Shared.sln" --no-restore --no-build --configuration Release --output ./packages -p:PackageVersion=$(cat ./version_number).$(cat ./action_number)
+RUN dotnet pack "./Eds.Shared.sln" --no-restore --no-build --configuration Release --output ./packages -p:PackageVersion=$(cat ./version_number).$(cat ./action_number)
 
 FROM base AS final
 WORKDIR /packages
