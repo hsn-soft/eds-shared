@@ -1,4 +1,4 @@
-﻿namespace Eds.Shared.Contracts;
+﻿namespace Eds.Shared.Helper.Enums;
 
 public class GlobalEnums
 {
