@@ -23,11 +23,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="HsnSoft.Base.Swashbuckle" Version="$(HsnSoftFrameworkVersion)"/>
-        <PackageReference Include="HsnSoft.Base.EventBus.RabbitMQ" Version="$(HsnSoftFrameworkVersion)"/>
         <PackageReference Include="HsnSoft.Base.Caching.StackExchangeRedis" Version="$(HsnSoftFrameworkVersion)"/>
-        <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Swashbuckle\HsnSoft.Base.Swashbuckle.csproj"/>-->
-        <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.EventBus.RabbitMQ\HsnSoft.Base.EventBus.RabbitMQ.csproj" />-->
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Caching.StackExchangeRedis\HsnSoft.Base.Caching.StackExchangeRedis.csproj" />-->
     </ItemGroup>
 

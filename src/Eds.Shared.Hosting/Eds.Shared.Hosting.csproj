@@ -26,14 +26,18 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="HsnSoft.Base.Swashbuckle" Version="$(HsnSoftFrameworkVersion)"/>
         <PackageReference Include="HsnSoft.Base.AspNetCore.Authentication.JwtBearer" Version="$(HsnSoftFrameworkVersion)"/>
         <PackageReference Include="HsnSoft.Base.AspNetCore.Serilog" Version="$(HsnSoftFrameworkVersion)"/>
         <PackageReference Include="HsnSoft.Base.Data" Version="$(HsnSoftFrameworkVersion)"/>
         <PackageReference Include="HsnSoft.Base.Json" Version="$(HsnSoftFrameworkVersion)"/>
+        <PackageReference Include="HsnSoft.Base.EventBus.RabbitMQ" Version="$(HsnSoftFrameworkVersion)"/>
+        <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Swashbuckle\HsnSoft.Base.Swashbuckle.csproj"/>-->
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.AspNetCore.Authentication.JwtBearer\HsnSoft.Base.AspNetCore.Authentication.JwtBearer.csproj"/>-->
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.AspNetCore.Serilog\HsnSoft.Base.AspNetCore.Serilog.csproj"/>-->
-       <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Data\HsnSoft.Base.Data.csproj"/>-->
+        <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Data\HsnSoft.Base.Data.csproj"/>-->
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Json\HsnSoft.Base.Json.csproj"/>-->
+        <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.EventBus.RabbitMQ\HsnSoft.Base.EventBus.RabbitMQ.csproj" />-->
     </ItemGroup>
 
 </Project>
