@@ -2,7 +2,7 @@ using HsnSoft.Base;
 using HsnSoft.Base.Data;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Eds.Shared.Hosting.Microservices.Workers;
+namespace Eds.Shared.Hosting.Worker;
 
 public sealed class AppBasicLoader : IBasicLoader
 {
