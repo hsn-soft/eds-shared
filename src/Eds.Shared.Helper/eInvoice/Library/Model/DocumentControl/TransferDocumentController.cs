@@ -21,8 +21,8 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
         public DocumentControlResult TransferDocumentControl(string _TransferDocumentFileBase, string transferFilePath, byte transferDocumentDataType, byte transferModuleType, byte globalDocumentReferenceType, int transferYear,
             Guid transferUniqueId, string controlExtension = null)
         {
-            string _TempExtractEnvelopeDirectory = $"{_TransferDocumentFileBase}TempExtract/{transferUniqueId.ToString("N").ToUpper()}";
-            string transferFileFullPath = _TransferDocumentFileBase + transferFilePath;
+            string _TempExtractEnvelopeDirectory = $"{_TransferDocumentFileBase}/TempExtract/{transferUniqueId.ToString("N").ToUpper()}";
+            string transferFileFullPath = $"{_TransferDocumentFileBase}/{transferFilePath}";
             DocumentControlResult documentControlResult;
 
             KeyValuePair<bool, string> extractResult = ZipPackage.ExtractZipFileNew(transferFileFullPath, _TempExtractEnvelopeDirectory, false, controlExtension, false, transferUniqueId);
