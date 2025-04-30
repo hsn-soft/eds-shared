@@ -18,14 +18,14 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
 {
     public class TransferDocumentController
     {
-        public DocumentControlResult TransferDocumentControl(string _TransferDocumentFileBase, string transferFileFullPath, byte transferDocumentDataType, byte transferModuleType, byte globalDocumentReferenceType, int transferYear,
+        public DocumentControlResult TransferDocumentControl(string _TransferDocumentFileBase, string transferFilePath, byte transferDocumentDataType, byte transferModuleType, byte globalDocumentReferenceType, int transferYear,
             Guid transferUniqueId, string controlExtension = null)
         {
-            string _TempExtractEnvelopeDirectory = _TransferDocumentFileBase + string.Format("{0}\\TempExtract\\{1}\\", transferYear.ToString(), transferUniqueId.ToString().ToUpper());
-
+            string _TempExtractEnvelopeDirectory = $"{_TransferDocumentFileBase}TempExtract/{transferUniqueId.ToString("N").ToUpper()}";
+            string transferFileFullPath = _TransferDocumentFileBase + transferFilePath;
             DocumentControlResult documentControlResult;
 
-            KeyValuePair<bool, string> extractResult = ZipPackage.ExtractZipFileNew(transferFileFullPath, _TempExtractEnvelopeDirectory, false, controlExtension, /*ilker : geçici olarak true yapıldı*/true, transferUniqueId);
+            KeyValuePair<bool, string> extractResult = ZipPackage.ExtractZipFileNew(transferFileFullPath, _TempExtractEnvelopeDirectory, false, controlExtension, false, transferUniqueId);
             if (extractResult.Key)
             {
                 if (File.Exists(extractResult.Value))

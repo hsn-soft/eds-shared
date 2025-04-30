@@ -1,8 +1,7 @@
-﻿using Ionic.Zip;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO.Compression;
 using System.Text;
-using ZipFile = Ionic.Zip.ZipFile;
+using ZipFile = System.IO.Compression.ZipFile;
 
 namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
 {
@@ -10,317 +9,249 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
     {
         public static KeyValuePair<bool, string> CompressFiles(FileInfo[] fileList, string outputZipFileFullPath)
         {
-            KeyValuePair<bool, string> operationResult;
-
             try
             {
-                if (!string.IsNullOrEmpty(outputZipFileFullPath))
+                if (string.IsNullOrWhiteSpace(outputZipFileFullPath))
+                    throw new ArgumentException("Output path is empty.");
+
+                if (fileList == null || fileList.Length == 0)
+                    throw new ArgumentException("File list is empty.");
+
+                foreach (var file in fileList)
+                    if (!file.Exists)
+                        throw new FileNotFoundException($"File not found: {file.FullName}");
+
+                if (File.Exists(outputZipFileFullPath))
+                    File.Delete(outputZipFileFullPath);
+
+                using (var zipToOpen = new FileStream(outputZipFileFullPath, FileMode.Create))
+                using (var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
                 {
-                    if (File.Exists(outputZipFileFullPath))
+                    foreach (var file in fileList)
                     {
-                        File.Delete(outputZipFileFullPath);
-                    }
-                    if (File.Exists(outputZipFileFullPath))
-                        throw new ArgumentException("outputZipFileFullPath is already path");
-
-                    if (fileList != null && fileList.Length > 0)
-                    {
-                        bool existControl = true;
-                        foreach (var item in fileList)
+                        string entryName = file.Name;
+                        if (archive.Entries.Any(e => e.FullName.Equals(entryName, StringComparison.OrdinalIgnoreCase)))
                         {
-                            if (!item.Exists)
-                            {
-                                existControl = false;
-                                break;
-                            }
+                            entryName = $"{Guid.NewGuid()}_{file.Name}";
                         }
 
-                        if (existControl)
-                        {
-                            using (ZipFile zipFile = new ZipFile())
-                            {
-                                foreach (var file in fileList)
-                                {
-                                    if (zipFile.Entries.Any(x => x.FileName.ToUpper() == (file.Name).ToUpper()))
-                                    {
-                                        zipFile.AddEntry(Guid.NewGuid().ToString() + "_" + file.Name, File.ReadAllBytes(file.FullName));
-                                    }
-                                    else
-                                    {
-                                        zipFile.AddEntry(file.Name, File.ReadAllBytes(file.FullName));
-                                    }
-                                }
-
-                                zipFile.Save(outputZipFileFullPath);
-                            }
-
-                            if (File.Exists(outputZipFileFullPath))
-                            {
-                                return new KeyValuePair<bool, string>(true, outputZipFileFullPath);
-                            }
-                            else throw new ArgumentException("ZipFile create error");
-                        }
-                        else throw new ArgumentException("File not exist in fileList");
+                        archive.CreateEntryFromFile(file.FullName, entryName);
                     }
-                    else throw new ArgumentException("Can't be empty fileList");
                 }
-                else throw new ArgumentException("Can't be empty outputZipFileFullPath");
-            }
-            catch (Exception ex) { operationResult = new KeyValuePair<bool, string>(false, ex.Message); }
 
-            return operationResult;
+                return new KeyValuePair<bool, string>(true, outputZipFileFullPath);
+            }
+            catch (Exception ex)
+            {
+                return new KeyValuePair<bool, string>(false, ex.Message);
+            }
         }
 
-        public static List<KeyValuePair<string, byte[]>> GetCompressedByte(byte[] fileData)
+        public static List<KeyValuePair<string, byte[]>> GetCompressedByte(byte[] zipBytes)
         {
-            List<KeyValuePair<string, byte[]>> list = new List<KeyValuePair<string, byte[]>>();
+            List<KeyValuePair<string, byte[]>> files = new List<KeyValuePair<string, byte[]>>();
 
-            using (ZipFile z = ZipFile.Read(new MemoryStream(fileData)))
+            using (var memoryStream = new MemoryStream(zipBytes))
+            using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Read))
             {
-                foreach (var item in z.Entries.ToList())
+                foreach (var entry in archive.Entries)
                 {
-                    using (MemoryStream ms = new MemoryStream())
+                    using (var entryStream = entry.Open())
+                    using (var ms = new MemoryStream())
                     {
-                        item.Extract(ms);
-                        byte[] file = ms.ToArray();
-                        list.Add(new KeyValuePair<string, byte[]>(item.FileName, file));
+                        entryStream.CopyTo(ms);
+                        files.Add(new KeyValuePair<string, byte[]>(entry.FullName, ms.ToArray()));
                     }
                 }
             }
 
-            return list;
+            return files;
         }
 
-        public static KeyValuePair<bool, string> ExtractZipFileNew(string sourceZipFileFullPath, string extractDirectoryPath, bool ifExtractSuccessRemoveZipFile, string controlExtension = null, bool byPassControlFileName = false, Guid? zipFileNamePrefixUniqueId = null)
+        public static KeyValuePair<bool, string> ExtractZipFileNew(
+            string sourceZipFileFullPath,
+            string extractDirectoryPath,
+            bool ifExtractSuccessRemoveZipFile,
+            string controlExtension = null,
+            bool byPassControlFileName = false,
+            Guid? zipFileNamePrefixUniqueId = null)
         {
-            bool extractSuccess = false;
-            string extractErrorMessage = string.Empty;
-            string extractFileFullPath = string.Empty;
-
-            if (File.Exists(sourceZipFileFullPath))
+            try
             {
-                ZipFile zip = null;
-                try
+                if (!File.Exists(sourceZipFileFullPath))
+                    return new KeyValuePair<bool, string>(false, "ZIP DOSYASI BULUNAMADI");
+
+                string extractedFileFullPath = string.Empty;
+
+                using (var archive = ZipFile.OpenRead(sourceZipFileFullPath))
                 {
-                    zip = ZipFile.Read(sourceZipFileFullPath);
+                    if (archive.Entries.Count != 1)
+                        return new KeyValuePair<bool, string>(false, "ZIP ICERISINDE BIRDEN FAZLA DOSYA OLAMAZ");
 
-                    if (zip.Entries != null && zip.Entries.Count == 1)
+                    var entry = archive.Entries.First();
+
+                    if (entry.FullName.Contains("/") || entry.FullName.Contains("\\"))
+                        return new KeyValuePair<bool, string>(false, "ZIP ICERISINDE KLASOR OLAMAZ");
+
+                    string extractedFileName = entry.Name;
+
+                    if (!byPassControlFileName)
                     {
-                        ZipEntry entry = zip.Entries.First();
+                        string expectedFileName = Path.GetFileNameWithoutExtension(sourceZipFileFullPath);
+                        string actualFileName = Path.GetFileNameWithoutExtension(
+                            zipFileNamePrefixUniqueId.HasValue
+                                ? zipFileNamePrefixUniqueId.Value.ToString("N").ToUpper() + "_" + extractedFileName
+                                : extractedFileName
+                        );
 
-                        string[] filePathHierarchy = entry.FileName.Split('/');
-                        if (filePathHierarchy != null && filePathHierarchy.Length == 1)
+                        if (!string.Equals(expectedFileName, actualFileName, StringComparison.OrdinalIgnoreCase))
+                            return new KeyValuePair<bool, string>(false, "ZIP ICERISINDE OLAN DOSYA ADI ILE ZIP DOSYA ADI AYNI OLMALI");
+                    }
+
+                    if (!string.IsNullOrEmpty(controlExtension) &&
+                        !entry.Name.EndsWith("." + controlExtension, true, CultureInfo.InvariantCulture))
+                    {
+                        return new KeyValuePair<bool, string>(false, $"ZIP ICERISINDE OLAN DOSYA [ {controlExtension} ] DOSYASI DEGIL");
+                    }
+
+                    try
+                    {
+                        if (Directory.Exists(extractDirectoryPath))
                         {
-                            string controlEntryFileName = zipFileNamePrefixUniqueId.HasValue ? zipFileNamePrefixUniqueId.Value.ToString() + "_" + entry.FileName : entry.FileName;
-                            if (byPassControlFileName || (string.Equals(Path.GetFileNameWithoutExtension(controlEntryFileName).ToLower(new CultureInfo("en-US")), Path.GetFileNameWithoutExtension(sourceZipFileFullPath).ToLower(new CultureInfo("en-US")))))
-                            {
-                                bool extensionControl = true;
-                                if (!string.IsNullOrEmpty(controlExtension))
-                                {
-                                    extensionControl = (string.Equals(Path.GetExtension(entry.FileName).ToLower(new CultureInfo("en-US")), string.Format(".{0}", controlExtension.ToLower(new CultureInfo("en-US")))));
-                                    if (!extensionControl) extractErrorMessage = "ZIP ICERISINDE OLAN DOSYA [ " + controlExtension + " ] DOSYASI DEGIL";
-                                }
-
-                                if (extensionControl)
-                                {
-                                    if (!System.IO.Directory.Exists(extractDirectoryPath))
-                                        System.IO.Directory.CreateDirectory(extractDirectoryPath);
-
-                                    //EXTRACT FILE FROM ZIP FILE
-                                    entry.Extract(extractDirectoryPath, ExtractExistingFileAction.OverwriteSilently);
-
-                                    //CONTROL EXTRACT FILE
-                                    extractFileFullPath = Path.Combine(extractDirectoryPath, entry.FileName);
-                                    if (File.Exists(extractFileFullPath))
-                                    {
-                                        extractSuccess = true;
-                                    }
-                                    else extractErrorMessage = "ZIP ICERISINDEN DOSYA CIKARILAMADI";
-                                }
-                            }
-                            else extractErrorMessage = "ZIP ICERISINDE OLAN DOSYA ADI ILE ZIP DOSYA ADI AYNI OLMALI";
+                            Directory.Delete(extractDirectoryPath, true);
                         }
-                        else extractErrorMessage = "ZIP ICERISINDE KLASOR OLAMAZ (HİYERARŞİK KLASÖR YAPISI OLMAMALI)";
+
+                        Directory.CreateDirectory(extractDirectoryPath);
                     }
-                    else extractErrorMessage = "ZIP ICERISINDE BIRDEN FAZLA DOSYA OLAMAZ";
-                }
-                catch (Exception) { extractSuccess = false; extractErrorMessage = "ZIP ACILAMADI "; }
-                finally
-                {
-                    if (zip != null)
+                    catch (Exception)
                     {
-                        zip.Dispose();
+                        // ignored
                     }
 
-                    if (extractSuccess && ifExtractSuccessRemoveZipFile)
-                    {
-                        File.Delete(sourceZipFileFullPath);
-                    }
+                    extractedFileFullPath = Path.Combine(extractDirectoryPath, extractedFileName);
+                    entry.ExtractToFile(extractedFileFullPath, true);
                 }
+
+                if (ifExtractSuccessRemoveZipFile)
+                    File.Delete(sourceZipFileFullPath);
+
+                return new KeyValuePair<bool, string>(true, extractedFileFullPath);
             }
-            else extractErrorMessage = "ZIP DOSYASI BULUNAMADI";
-
-            if (extractSuccess)
-                return new KeyValuePair<bool, string>(true, extractFileFullPath);
-            else
-                return new KeyValuePair<bool, string>(false, extractErrorMessage);
+            catch (Exception ex)
+            {
+                return new KeyValuePair<bool, string>(false, $"ZIP ACILAMADI: {ex.Message}");
+            }
         }
     }
 
     public static class ZipManager
     {
-        public static byte[] ZipString(string documentString)
+        public static async Task<byte[]> ZipStringAsync(string input, CancellationToken cancellationToken)
         {
-            byte[] documentStringBytes = Encoding.UTF8.GetBytes(documentString);
-
-            return ZipString(documentStringBytes);
+            var inputBytes = Encoding.UTF8.GetBytes(input);
+            return await ZipBytesAsync(inputBytes, cancellationToken);
         }
-        public static byte[] ZipString(byte[] documentStringBytes)
+
+        public static async Task<byte[]> ZipBytesAsync(byte[] data, CancellationToken cancellationToken)
         {
-            using (MemoryStream memoryStreamInput = new MemoryStream(documentStringBytes))
-            using (MemoryStream memoryStreamOutput = new MemoryStream())
+            await using var output = new MemoryStream();
+            await using (var gzip = new GZipStream(output, CompressionMode.Compress, leaveOpen: true))
             {
-                using (GZipStream GZipStream = new GZipStream(memoryStreamOutput, CompressionMode.Compress))
+                await gzip.WriteAsync(data, 0, data.Length, cancellationToken);
+            }
+
+            return output.ToArray();
+        }
+
+        public static async Task<byte[]> UnzipBytesAsync(byte[] compressedData, CancellationToken cancellationToken)
+        {
+            await using var input = new MemoryStream(compressedData);
+            await using var output = new MemoryStream();
+            await using (var gzip = new GZipStream(input, CompressionMode.Decompress))
+            {
+                await gzip.CopyToAsync(output, cancellationToken);
+            }
+
+            return output.ToArray();
+        }
+
+        public static async Task WriteFileAsync(byte[] data, string path, CancellationToken cancellationToken)
+        {
+            await using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+            await fs.WriteAsync(data, 0, data.Length, cancellationToken);
+        }
+
+        public static async Task<byte[]> CreateZipFileAsync(string[] filePaths, CancellationToken cancellationToken)
+        {
+            await using var archiveStream = new MemoryStream();
+            using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: true))
+            {
+                foreach (var path in filePaths)
                 {
-                    //memoryStreamInput.CopyTo(GZipStream)
-                    CopyTo(memoryStreamInput, GZipStream);
+                    if (!File.Exists(path)) continue;
+
+                    var entry = archive.CreateEntry(Path.GetFileName(path));
+                    await using var entryStream = entry.Open();
+                    await using var fileStream = File.OpenRead(path);
+                    await fileStream.CopyToAsync(entryStream, cancellationToken);
                 }
-
-                return memoryStreamOutput.ToArray();
             }
+
+            return archiveStream.ToArray();
         }
 
-        public static byte[] UnzipString(byte[] zippedDocumentStringBytes)
+        public static async Task<byte[]> CreateAndSaveZipFileAsync(string[] filePaths, string zipFilePath, CancellationToken cancellationToken)
         {
-            using (MemoryStream memoryStreamInput = new MemoryStream(zippedDocumentStringBytes))
-            using (MemoryStream memoryStreamOutput = new MemoryStream())
-            {
-                using (GZipStream GZipStream = new GZipStream(memoryStreamInput, CompressionMode.Decompress))
-                {
-                    //GZipStream.CopyTo(memoryStreamOutput)
-                    CopyTo(GZipStream, memoryStreamOutput);
-                }
-
-                return memoryStreamOutput.ToArray();
-            }
+            var zipBytes = await CreateZipFileAsync(filePaths, cancellationToken);
+            await WriteFileAsync(zipBytes, zipFilePath, cancellationToken);
+            return zipBytes;
         }
 
-        public static void WriteFile(byte[] zippedDocumentStringBytes, string documentPath)
+        public static async Task<ExtractType> ExtractZipFileAsync(string zipFilePath, string extractDirectory, CancellationToken cancellationToken)
         {
-            using (FileStream file = new FileStream(documentPath, FileMode.Create))
-            {
-                file.Write(zippedDocumentStringBytes, 0, zippedDocumentStringBytes.Length);
-            }
-        }
-
-        public static void CopyTo(Stream sourceStream, Stream targetStream)
-        {
-            byte[] transferBuffer = new byte[4096];
-
-            int sourceReadBytesCount;
-
-            while ((sourceReadBytesCount = sourceStream.Read(transferBuffer, 0, transferBuffer.Length)) != 0)
-            {
-                targetStream.Write(transferBuffer, 0, sourceReadBytesCount);
-            }
-        }
-
-        public static byte[] CreateZipFile(string[] fileNames)
-        {
-            return CreateZipFile(fileNames, string.Empty);
-        }
-        public static byte[] CreateZipFile(string[] fileNames, string zipPassword)
-        {
-            using (MemoryStream memoryStreamOutput = new MemoryStream())
-            {
-                using (ZipFile zip = new ZipFile())
-                {
-                    if (!String.IsNullOrEmpty(zipPassword))
-                        zip.Password = zipPassword;
-
-                    foreach (string fileName in fileNames)
-                        zip.AddFile(fileName, string.Empty);
-
-                    zip.Save(memoryStreamOutput);  // SAVE MEMORY STREAM
-                }
-
-                return memoryStreamOutput.ToArray();
-            }
-        }
-
-        public static byte[] CreateAndSaveZipFile(string[] fileNames, string zipFileToCreate)
-        {
-            return CreateAndSaveZipFile(fileNames, zipFileToCreate, string.Empty);
-        }
-        public static byte[] CreateAndSaveZipFile(string[] fileNames, string zipFileToCreate, string zipPassword)
-        {
-            using (MemoryStream memoryStreamOutput = new MemoryStream())
-            {
-                using (ZipFile zip = new ZipFile())
-                {
-                    if (!String.IsNullOrEmpty(zipPassword))
-                        zip.Password = zipPassword;
-
-                    foreach (string fileName in fileNames)
-                        zip.AddFile(fileName, string.Empty);
-
-                    zip.Save(zipFileToCreate); // SAVE THE HARD DISK
-                }
-
-                return memoryStreamOutput.ToArray();
-            }
-        }
-
-        public static ExtractType ExtractZipFile(string zipFilePath, string extractDirectory)
-        {
-            ZipFile zip = null;
-            ExtractType type = ExtractType.None;
             try
             {
-                bool existFile = false;
+                if (!File.Exists(zipFilePath))
+                    return ExtractType.FileDoesNotExist;
 
-                zip = ZipFile.Read(zipFilePath);
+                using var archive = ZipFile.OpenRead(zipFilePath);
+                bool hasFiles = false;
 
-                foreach (ZipEntry e in zip)
+                foreach (var entry in archive.Entries)
                 {
-                    existFile = true;
+                    if (string.IsNullOrWhiteSpace(entry.Name))
+                        continue; // Skip directories
 
-                    FileInfo xmlFile = new FileInfo(e.FileName);
+                    hasFiles = true;
 
-                    if (xmlFile.Extension.ToLower() != ".xml")
-                    {
-                        type = ExtractType.XmlFileIsNot;
-                        break;
-                    }
-                    else
-                    {
-                        FileInfo info = new FileInfo(zipFilePath);
+                    if (Path.GetExtension(entry.Name).ToLowerInvariant() != ".xml")
+                        return ExtractType.XmlFileIsNot;
 
-                        string zipFileName = info.Name.Replace(info.Extension, string.Empty);
+                    string zipName = Path.GetFileNameWithoutExtension(zipFilePath);
+                    string fileName = Path.GetFileNameWithoutExtension(entry.Name);
 
-                        string xmlFileName = xmlFile.Name.Replace(xmlFile.Extension, string.Empty);
+                    if (!string.Equals(zipName, fileName, StringComparison.OrdinalIgnoreCase))
+                        return ExtractType.WrongFileName;
 
-                        if (xmlFileName != zipFileName)
-                        {
-                            type = ExtractType.WrongFileName;
-                            break;
-                        }
-                        else
-                            e.Extract(extractDirectory);
-                    }
+                    string destinationPath = Path.GetFullPath(Path.Combine(extractDirectory, entry.Name));
+
+                    // 🚫 ZIP SLIP Güvenlik Kontrolü
+                    if (!destinationPath.StartsWith(Path.GetFullPath(extractDirectory)))
+                        throw new UnauthorizedAccessException("Zip entry is trying to extract outside of the target directory.");
+
+                    Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+
+                    await using var outputStream = File.Create(destinationPath);
+                    await using var entryStream = entry.Open();
+                    await entryStream.CopyToAsync(outputStream, cancellationToken);
                 }
 
-                if (!existFile)
-                    type = ExtractType.FileDoesNotExist;
+                return hasFiles ? ExtractType.None : ExtractType.FileDoesNotExist;
             }
-            catch (Exception)
-            { type = ExtractType.Error; }
-            finally
+            catch
             {
-                zip.Dispose();
+                return ExtractType.Error;
             }
-
-            return type;
         }
     }
 

@@ -14,10 +14,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Ionic.Zip" Version="1.9.1.8" />
-    </ItemGroup>
-    
-    <ItemGroup>
         <ProjectReference Include="..\Eds.Shared.Localization\Eds.Shared.Localization.csproj"/>
     </ItemGroup>
 

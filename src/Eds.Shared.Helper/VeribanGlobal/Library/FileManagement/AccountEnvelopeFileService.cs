@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace Eds.Shared.Helper.VeribanGlobal.Library.FileManagement
 {
