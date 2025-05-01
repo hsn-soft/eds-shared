@@ -36,7 +36,7 @@
             //e -arşiv arşiv hizmeti                    archive_earchive    31      32      33          34
             //ebilet hizmeti                            eticket             41      42      43          44
             //İrsaliye hizmeti                          edespatch           51      52      53          54
-            //İrsaliye arşiv hizmeti                    archive_edespatch   61      62      63          64 
+            //İrsaliye arşiv hizmeti                    archive_edespatch   61      62      63          64
             //Serbest meslek makbuzu hizmeti            esevoucher          71      72      73          74
             //Serbest meslek makbuzu arşiv hizmeti      esevoucher_archive  91      92      93          94
             //Müsthasil makbuzu hizmeti                 epreceipt           81      82      83          84
@@ -119,7 +119,8 @@
 
         public enum TransferDocumentDataTypes
         {
-            XML_INZIP,
+            XML_UBLTR_INZIP,
+            XML_SAP_INZIP,
             TXT_INZIP,
             CSV_INZIP,
             XLS_INZIP,
@@ -183,13 +184,13 @@
             EARCHIVE_MANUFACTURED_RECEIPT = 62,
             EARCHIVE_SELF_EMPLOYMENT_RECEIPT = 63,
             EARCHIVE_OKC_OLD_DOCUMENT = 64,
-            EARCHIVE_EXCEL_TRANSFER_QUEUE = 65, //EXCEL DONWLOAD REPORT 
+            EARCHIVE_EXCEL_TRANSFER_QUEUE = 65, //EXCEL DONWLOAD REPORT
             EARCHIVE_EXCEL_SALES_INVOICE = 66, //EXCEL DONWLOAD REPORT
             EARCHIVE_EXCEL_MANUFACTURED_RECEIPT = 67, //EXCEL DONWLOAD REPORT
             EARCHIVE_EXCEL_SELF_EMPLOYMENT_RECEIPT = 68, //EXCEL DONWLOAD REPORT
-            EARCHIVE_EXCEL_OKC_DOCUMENT = 69, //EXCEL DONWLOAD REPORT 
-            EARCHIVE_EXCEL_REPORT_PACKAGE = 161, //EXCEL DONWLOAD REPORT 
-            EARCHIVE_EXCEL_REPORT_PACKAGE_DETAIL = 162, //EXCEL DONWLOAD REPORT 
+            EARCHIVE_EXCEL_OKC_DOCUMENT = 69, //EXCEL DONWLOAD REPORT
+            EARCHIVE_EXCEL_REPORT_PACKAGE = 161, //EXCEL DONWLOAD REPORT
+            EARCHIVE_EXCEL_REPORT_PACKAGE_DETAIL = 162, //EXCEL DONWLOAD REPORT
             //EARCHIVE_SALES_INVOICE_ARCHIVE = 163,
             EARCHIVE_OKC_NEW_DOCUMENT = 164,
             EARCHIVE_OKC_INVOICE = 165,
@@ -201,20 +202,20 @@
             EBOOK_LEDGER_BOOK = 75,
             EBOOK_LEDGER_PATENT = 76,
             EBOOK_LEDGER_GIB_PATENT = 77,
-            EBOOK_EXCEL_TRANSFER_QUEUE = 78, //EXCEL DONWLOAD REPORT 
-            EBOOK_EXCEL_JOURNAL = 79, //EXCEL DONWLOAD REPORT 
-            EBOOK_EXCEL_LEDGER = 80, //EXCEL DONWLOAD REPORT 
+            EBOOK_EXCEL_TRANSFER_QUEUE = 78, //EXCEL DONWLOAD REPORT
+            EBOOK_EXCEL_JOURNAL = 79, //EXCEL DONWLOAD REPORT
+            EBOOK_EXCEL_LEDGER = 80, //EXCEL DONWLOAD REPORT
 
             ETICKET_HIGHWAYS_TICKET = 81,
             ETICKET_PASSENGERSHEET = 82,
             ETICKET_SEAWAYS_TICKET = 83,
             ETICKET_ACTIVITY_TICKET = 84,
             ETICKET_AIRLINES_TICKET = 85,
-            ETICKET_EXCEL_TICKET = 86, //EXCEL DONWLOAD REPORT 
-            ETICKET_EXCEL_PASSENGERSHEET = 87, //EXCEL DONWLOAD REPORT 
-            ETICKET_EXCEL_TRANSFER_QUEUE = 88, //EXCEL DONWLOAD REPORT 
-            ETICKET_EXCEL_REPORT_PACKAGE = 89, //EXCEL DONWLOAD REPORT 
-            ETICKET_EXCEL_REPORT_PACKAGE_DETAIL = 90, //EXCEL DONWLOAD REPORT 
+            ETICKET_EXCEL_TICKET = 86, //EXCEL DONWLOAD REPORT
+            ETICKET_EXCEL_PASSENGERSHEET = 87, //EXCEL DONWLOAD REPORT
+            ETICKET_EXCEL_TRANSFER_QUEUE = 88, //EXCEL DONWLOAD REPORT
+            ETICKET_EXCEL_REPORT_PACKAGE = 89, //EXCEL DONWLOAD REPORT
+            ETICKET_EXCEL_REPORT_PACKAGE_DETAIL = 90, //EXCEL DONWLOAD REPORT
 
             FAKTORING_INVOICE = 91,
             FAKTORING_EXCEL_INVOICE = 92, //EXCEL DONWLOAD REPORT
@@ -365,17 +366,12 @@
         {
             DocumentAddedToQueue = 10,
 
-            ProcessingTypeControl = 21,
-            ProcessingDocument = 22,
+            ErrorDocumentControl = 41,
+            ErrorDocumentPrepared = 42,
+            ErrorDocumentProcessFailed = 43,
 
-            ErrorDocumentTypeControl = 41,
-            ErrorDocumentProcess = 42,
-
-            DebugTest = 61,
-            DebugTest2 = 62,
-
-            DocumentTypeControlled = 91,
-
+            DocumentControlled = 91,
+            DocumentPrepared = 92,
             DocumentSuccessfullyProcessed = 99,
         }
 
@@ -747,11 +743,11 @@
             Processing_QueryFromGib = 26,
 
             //RED
-            Error_CreateFile = 42,//32,// 
-            Error_SendToGib = 44,//34,// 
+            Error_CreateFile = 42,//32,//
+            Error_SendToGib = 44,//34,//
 
-            Fail_EnvelopeErrorOnGIB = 51,//41,// 
-            Fail_EnvelopeErrorOnReceiver = 52,//42,// 
+            Fail_EnvelopeErrorOnGIB = 51,//41,//
+            Fail_EnvelopeErrorOnReceiver = 52,//42,//
 
             //YELLOW
             Processing_DebugTest = 61,

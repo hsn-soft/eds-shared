@@ -18,38 +18,46 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
 {
     public class TransferDocumentController
     {
-        public DocumentControlResult TransferDocumentControl(string _TransferDocumentFileBase, string transferFilePath, byte transferDocumentDataType, byte transferModuleType, byte globalDocumentReferenceType, int transferYear,
+        public DocumentControlResult TransferDocumentControl(string _TransferDocumentFileBase, string transferFilePath, byte transferDocumentDataType, byte globalDocumentReferenceType, int transferYear,
             Guid transferUniqueId, string controlExtension = null)
         {
-            string _TempExtractEnvelopeDirectory = $"{_TransferDocumentFileBase}/TempExtract/{transferUniqueId.ToString("N").ToUpper()}";
+            string tempExtractEnvelopeDirectory = $"{_TransferDocumentFileBase}/TempExtract/{transferUniqueId.ToString("N").ToUpper()}";
             string transferFileFullPath = $"{_TransferDocumentFileBase}/{transferFilePath}";
             DocumentControlResult documentControlResult;
 
-            KeyValuePair<bool, string> extractResult = ZipPackage.ExtractZipFileNew(transferFileFullPath, _TempExtractEnvelopeDirectory, false, controlExtension, false, transferUniqueId);
+            KeyValuePair<bool, string> extractResult = ZipPackage.ExtractZipFileNew(transferFileFullPath, tempExtractEnvelopeDirectory, false, controlExtension, false, transferUniqueId);
             if (extractResult.Key)
             {
                 if (File.Exists(extractResult.Value))
                 {
-                    documentControlResult = CreateDocumentModelFromFile(extractResult.Value, transferDocumentDataType, transferModuleType, globalDocumentReferenceType);
+                    documentControlResult = CreateDocumentModelFromFile(extractResult.Value, transferDocumentDataType, globalDocumentReferenceType);
 
                     //DELETE EXTRACT FILE AND EXTRACT FILE TEMP GUID DIRECTORY
-                    try
+                    int counter = 10;
+                    do
                     {
-                        FileInfo fi = new FileInfo(extractResult.Value);
-                        fi.Delete();
-                        fi.Directory.Delete(true);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine(ex.Message);
-                    }
+                        if (counter != 10) Thread.Sleep(200);
+
+                        try
+                        {
+                            Directory.Delete(tempExtractEnvelopeDirectory, true);
+                        }
+                        catch (Exception)
+                        {
+                            // ignored
+                        }
+                        finally
+                        {
+                            counter++;
+                        }
+                    } while (Directory.Exists(tempExtractEnvelopeDirectory) && counter > 0);
                 }
                 else
                 {
                     documentControlResult = new DocumentControlResult()
                     {
                         ResultStatus = false,
-                        ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentProcess,
+                        ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentPrepared,
                         ResultErrorStateDesc = string.Format("{0}:{1}", "ZIP EXTRACT ERROR", "MODEL DOSYASI BULUNAMADI"),
                         ResultDocumentReferenceNumber = null,
                     };
@@ -60,7 +68,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                 documentControlResult = new DocumentControlResult()
                 {
                     ResultStatus = false,
-                    ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentProcess,
+                    ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentPrepared,
                     ResultErrorStateDesc = string.Format("{0}:{1}", "ZIP EXTRACT ERROR", extractResult.Value),
                     ResultDocumentReferenceNumber = null,
                 };
@@ -69,7 +77,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
             return documentControlResult;
         }
 
-        private DocumentControlResult CreateDocumentModelFromFile(string modelFileFullPath, byte modelDocumentDataType, byte transferModuleType, byte globalDocumentReferenceType)
+        private DocumentControlResult CreateDocumentModelFromFile(string modelFileFullPath, byte modelDocumentDataType, byte globalDocumentReferenceType)
         {
             bool modelCreateSuccess = false;
             string modelCreateErrorMessage = string.Empty;
@@ -81,7 +89,8 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
             {
                 switch (modelDocumentDataType)
                 {
-                    case (byte)GlobalEnums.TransferDocumentDataTypes.XML_INZIP:
+                    case (byte)GlobalEnums.TransferDocumentDataTypes.XML_UBLTR_INZIP:
+                    case (byte)GlobalEnums.TransferDocumentDataTypes.XML_SAP_INZIP:
                         {
                             KeyValuePair<bool, List<string>> controlData = new KeyValuePair<bool, List<string>>(false, null);
                             List<object> tmpTransferDocumentDataModelList = null;
@@ -91,7 +100,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                 case (byte)GlobalEnums.GlobalDocumentReferenceTypes.EINVOICE_SALES_INVOICE:
                                     {
                                         string xmlContent = null;
-                                        if (transferModuleType == (byte)EInvoiceEnums.TransferModuleTypes.Transfer_SAP_Xml)
+                                        if (modelDocumentDataType == (byte)GlobalEnums.TransferDocumentDataTypes.XML_SAP_INZIP)
                                         {
                                             //SAP XML CONVERT TO INVOICE UBL-TR XML
                                             if (!SAPDocumentInvoiceToUBLTRXmlContent(File.ReadAllText(modelFileFullPath), out xmlContent))
@@ -193,7 +202,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                 case (byte)GlobalEnums.GlobalDocumentReferenceTypes.EINVOICE_SALES_DESPATCHE:
                                     {
                                         string xmlContent = null;
-                                        if (transferModuleType == (byte)EInvoiceEnums.TransferModuleTypes.Transfer_SAP_Xml)
+                                        if (modelDocumentDataType == (byte)GlobalEnums.TransferDocumentDataTypes.XML_SAP_INZIP)
                                         {
                                             //SAP XML CONVERT TO DESPATCH UBL-TR XML
                                             if (!SAPDocumentToDespatchUBLTRXmlContent(File.ReadAllText(modelFileFullPath), out xmlContent))
@@ -396,7 +405,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                 return new DocumentControlResult()
                 {
                     ResultStatus = false,
-                    ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentProcess,
+                    ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentPrepared,
                     ResultErrorStateDesc = string.Format("{0}:{1}", "MODEL CREATE ERROR", modelCreateErrorMessage),
                     TransferDataHeaderInfo = null,
                     TransferDataModelList = null,
