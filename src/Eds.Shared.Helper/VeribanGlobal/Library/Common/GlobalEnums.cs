@@ -119,7 +119,8 @@
 
         public enum TransferDocumentDataTypes
         {
-            XML_INZIP,
+            XML_UBLTR_INZIP,
+            XML_SAP_INZIP,
             TXT_INZIP,
             CSV_INZIP,
             XLS_INZIP,
