@@ -693,7 +693,8 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
         public static GlobalStateClass GetGlobalTransferQueueProcessState(int transferQueueState)
         {
             if (transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.DocumentAddedToQueue
-                || transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.DocumentTypeControlled)
+                || transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.DocumentControlled
+                || transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.DocumentPrepared)
             {
                 return new GlobalStateClass()
                 {
@@ -709,19 +710,9 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
                     Description = "BASARIYLA ISLENDI"
                 };
             }
-            else if (transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.ProcessingTypeControl
-                || transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.ProcessingDocument
-                || transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.DebugTest
-                || transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.DebugTest2)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Processing,
-                    Description = "ISLENIYOR"
-                };
-            }
-            else if (transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentTypeControl
-                || transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentProcess)
+            else if (transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentControl
+                || transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentPrepared
+                || transferQueueState == (int)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentProcessFailed)
             {
                 return new GlobalStateClass()
                 {

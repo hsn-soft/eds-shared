@@ -49,7 +49,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                     documentControlResult = new DocumentControlResult()
                     {
                         ResultStatus = false,
-                        ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentProcess,
+                        ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentPrepared,
                         ResultErrorStateDesc = string.Format("{0}:{1}", "ZIP EXTRACT ERROR", "MODEL DOSYASI BULUNAMADI"),
                         ResultDocumentReferenceNumber = null,
                     };
@@ -60,7 +60,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                 documentControlResult = new DocumentControlResult()
                 {
                     ResultStatus = false,
-                    ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentProcess,
+                    ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentPrepared,
                     ResultErrorStateDesc = string.Format("{0}:{1}", "ZIP EXTRACT ERROR", extractResult.Value),
                     ResultDocumentReferenceNumber = null,
                 };
@@ -396,7 +396,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                 return new DocumentControlResult()
                 {
                     ResultStatus = false,
-                    ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentProcess,
+                    ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentPrepared,
                     ResultErrorStateDesc = string.Format("{0}:{1}", "MODEL CREATE ERROR", modelCreateErrorMessage),
                     TransferDataHeaderInfo = null,
                     TransferDataModelList = null,
