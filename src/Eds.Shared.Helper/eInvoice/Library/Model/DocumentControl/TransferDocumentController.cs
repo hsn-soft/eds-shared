@@ -59,7 +59,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                         ResultStatus = false,
                         ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentPrepared,
                         ResultErrorStateDesc = string.Format("{0}:{1}", "ZIP EXTRACT ERROR", "MODEL DOSYASI BULUNAMADI"),
-                        ResultDocumentReferenceNumber = null,
+                        ResultDocumentReferenceNumber = null
                     };
                 }
             }
@@ -70,7 +70,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                     ResultStatus = false,
                     ResultErrorState = (byte)GlobalEnums.NewTransferQueueProcessState.ErrorDocumentPrepared,
                     ResultErrorStateDesc = string.Format("{0}:{1}", "ZIP EXTRACT ERROR", extractResult.Value),
-                    ResultDocumentReferenceNumber = null,
+                    ResultDocumentReferenceNumber = null
                 };
             }
 
@@ -397,7 +397,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                     ResultErrorStateDesc = "Model listesi oluşturuldu",
                     TransferDataHeaderInfo = transferDocumentDataHeaderInfoObject,
                     TransferDataModelList = transferDocumentDataModelObjectList,
-                    ResultDocumentReferenceNumber = documentReferenceNumber,
+                    ResultDocumentReferenceNumber = documentReferenceNumber
                 };
             }
             else
@@ -409,7 +409,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                     ResultErrorStateDesc = string.Format("{0}:{1}", "MODEL CREATE ERROR", modelCreateErrorMessage),
                     TransferDataHeaderInfo = null,
                     TransferDataModelList = null,
-                    ResultDocumentReferenceNumber = documentReferenceNumber,
+                    ResultDocumentReferenceNumber = documentReferenceNumber
                 };
             }
         }
@@ -804,7 +804,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                                         TaxCategory = new TaxCategory() { TaxScheme = new TaxScheme() { Name = "KDV", TaxTypeCode = "0015" } }
                                                     }
                                                 }
-                                            },
+                                            }
                                         };
 
                                         xlsInvoice.InvoiceLines.Add(invoiceLine);
@@ -926,7 +926,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                         {
                                             Value = Convert.ToDecimal(dt.Rows[payableAmountLineNumber][24].ToString().Replace(".", ",")),
                                             CurrencyID = xlsInvoice.DocumentCurrencyCode.Name == UblTr2HandlerEInvoice.TrlCurrency ? UblTr2HandlerEInvoice.TryCurrency : xlsInvoice.DocumentCurrencyCode.Name
-                                        },
+                                        }
                                     };
                                     xlsInvoice.LegalMonetaryTotal.TaxExclusiveAmount = new UblBaseCurrency()
                                     {
@@ -1123,7 +1123,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                     },
                                     WebSiteURI = null,
                                     Contact = new Contact() { Telephone = null, Telefax = null, ElectronicMail = null },
-                                    PartyTaxScheme = new PartyTaxScheme() { TaxScheme = new TaxScheme() { Name = "Ulus" } },
+                                    PartyTaxScheme = new PartyTaxScheme() { TaxScheme = new TaxScheme() { Name = "Ulus" } }
                                 }
                             };
 
@@ -1511,7 +1511,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                         {
                                             Value = Convert.ToDecimal(dt.Rows[payableAmountLineNumber][24].ToString().Replace(".", ",")),
                                             CurrencyID = xlsInvoice.DocumentCurrencyCode.Name == UblTr2HandlerEInvoice.TrlCurrency ? UblTr2HandlerEInvoice.TryCurrency : xlsInvoice.DocumentCurrencyCode.Name
-                                        },
+                                        }
                                     };
                                     xlsInvoice.LegalMonetaryTotal.TaxExclusiveAmount = new UblBaseCurrency()
                                     {
@@ -1591,7 +1591,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                     ElectronicMail = string.IsNullOrEmpty(dt.Rows[adresIndex + 5][3].ToString()) ? null : dt.Rows[adresIndex + 5][3].ToString()
                 },
                 PartyTaxScheme = new PartyTaxScheme() { TaxScheme = new TaxScheme() { Name = string.IsNullOrEmpty(dt.Rows[adresIndex + 6][3].ToString()) ? null : dt.Rows[adresIndex + 6][3].ToString() } },
-                Person = new Person { FirstName = firstName, FamilyName = familyName },
+                Person = new Person { FirstName = firstName, FamilyName = familyName }
             };
 
             return party;
@@ -1614,7 +1614,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                     {
                         PARTY = new VeribanGlobal.Library.Model.SapDocument.Party()
                         {
-                            PARTY_IDFICATION = new VeribanGlobal.Library.Model.SapDocument.PartyIdfication() { SCHMID = "VKN", ID = "1460415308", },
+                            PARTY_IDFICATION = new VeribanGlobal.Library.Model.SapDocument.PartyIdfication() { SCHMID = "VKN", ID = "1460415308" },
                             PARTY_NAME = new VeribanGlobal.Library.Model.SapDocument.PartyName() { NAME = "Gümrük ve Ticaret Bakanlığı" },
                             POST_ADDR = new VeribanGlobal.Library.Model.SapDocument.PostAddr()
                             {
@@ -1624,7 +1624,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                 CITY_NAME = "Ankara",
                                 COUNTRY = new VeribanGlobal.Library.Model.SapDocument.Country() { COUNTRY_NAME = "Türkiye" }
                             },
-                            PARTY_TXSCHM = new VeribanGlobal.Library.Model.SapDocument.PartyTxschm() { TXSCHM_NAME = new VeribanGlobal.Library.Model.SapDocument.TxschmName() { NAME = "Ulus" } },
+                            PARTY_TXSCHM = new VeribanGlobal.Library.Model.SapDocument.PartyTxschm() { TXSCHM_NAME = new VeribanGlobal.Library.Model.SapDocument.TxschmName() { NAME = "Ulus" } }
                         }
                     };
 
@@ -1752,7 +1752,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                 if (sapInvoice.ASP.PARTY.PARTY_IDFICATION.SCHMID == "TCKN")
                                 {
                                     //PERSON ALANI XML UZERINDE OLMADIĞI İÇİN TITLE VERISININ AYNISI BASILIYOR.
-                                    tempInvoice.AccountingSupplierParty.Party.Person = new Person() { FamilyName = ".", FirstName = sapInvoice.ASP.PARTY.PARTY_NAME.NAME, };
+                                    tempInvoice.AccountingSupplierParty.Party.Person = new Person() { FamilyName = ".", FirstName = sapInvoice.ASP.PARTY.PARTY_NAME.NAME };
                                 }
                                 else
                                 {
@@ -1892,7 +1892,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                             if (sapInvoice.ACP.PARTY.PARTY_IDFICATION.SCHMID == "TCKN")
                             {
                                 //PERSON ALANI XML UZERINDE OLMADIĞI İÇİN TITLE VERISININ AYNISI BASILIYOR.
-                                tempInvoice.AccountingCustomerParty.Party.Person = new Person() { FamilyName = ".", FirstName = sapInvoice.ACP.PARTY.PARTY_NAME.NAME, };
+                                tempInvoice.AccountingCustomerParty.Party.Person = new Person() { FamilyName = ".", FirstName = sapInvoice.ACP.PARTY.PARTY_NAME.NAME };
                             }
                             else
                             {
@@ -2031,7 +2031,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                             if (sapInvoice.BCP.PARTY.PARTY_IDFICATION.SCHMID == "TCKN")
                             {
                                 //PERSON ALANI XML UZERINDE OLMADIĞI İÇİN TITLE VERISININ AYNISI BASILIYOR.
-                                tempInvoice.BuyerCustomerParty.Party.Person = new Person() { FamilyName = ".", FirstName = sapInvoice.BCP.PARTY.PARTY_NAME.NAME, };
+                                tempInvoice.BuyerCustomerParty.Party.Person = new Person() { FamilyName = ".", FirstName = sapInvoice.BCP.PARTY.PARTY_NAME.NAME };
                             }
                             else
                             {
@@ -2145,7 +2145,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
 
                         tempInvoice.BuyerCustomerParty.Party.PartyLegalEntities = new List<PartyLegalEntity>()
                         {
-                            new PartyLegalEntity() { CompanyID = sapInvoice.BCP.PARTYLEGALENTITY.COMPANYID, RegistrationName = sapInvoice.BCP.PARTYLEGALENTITY.REGISTRATIONNAME, }
+                            new PartyLegalEntity() { CompanyID = sapInvoice.BCP.PARTYLEGALENTITY.COMPANYID, RegistrationName = sapInvoice.BCP.PARTYLEGALENTITY.REGISTRATIONNAME }
                         };
                     }
                 }
@@ -2620,7 +2620,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
 
                         invoiceLine.Item = new Item()
                         {
-                            Name = line.ITEM.NAME, Description = line.ITEM.DESCRIPTION, BrandName = line.ITEM.BRAND_NAME, ModelName = line.ITEM.MODELL_NAME,
+                            Name = line.ITEM.NAME, Description = line.ITEM.DESCRIPTION, BrandName = line.ITEM.BRAND_NAME, ModelName = line.ITEM.MODELL_NAME
                         };
 
                         if (line.PRICE != null && line.PRICE.PRICE_AMNT != null)
@@ -2741,7 +2741,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                 if (sapDespatch.ASP.PARTY.PARTY_IDFICATION.SCHMID == "TCKN")
                                 {
                                     //PERSON ALANI XML UZERINDE OLMADIĞI İÇİN TITLE VERISININ AYNISI BASILIYOR.
-                                    tempDespatchAdviceModel.DespatchSupplierParty.Party.Person = new Person() { FamilyName = ".", FirstName = sapDespatch.ASP.PARTY.PARTY_NAME.NAME, };
+                                    tempDespatchAdviceModel.DespatchSupplierParty.Party.Person = new Person() { FamilyName = ".", FirstName = sapDespatch.ASP.PARTY.PARTY_NAME.NAME };
                                 }
                                 else
                                 {
@@ -2881,7 +2881,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                             if (sapDespatch.ACP.PARTY.PARTY_IDFICATION.SCHMID == "TCKN")
                             {
                                 //PERSON ALANI XML UZERINDE OLMADIĞI İÇİN TITLE VERISININ AYNISI BASILIYOR.
-                                tempDespatchAdviceModel.DeliveryCustomerParty.Party.Person = new Person() { FamilyName = ".", FirstName = sapDespatch.ACP.PARTY.PARTY_NAME.NAME, };
+                                tempDespatchAdviceModel.DeliveryCustomerParty.Party.Person = new Person() { FamilyName = ".", FirstName = sapDespatch.ACP.PARTY.PARTY_NAME.NAME };
                             }
                             else
                             {

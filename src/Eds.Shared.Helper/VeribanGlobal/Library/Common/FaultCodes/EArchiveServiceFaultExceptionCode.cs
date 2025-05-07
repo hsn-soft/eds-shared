@@ -40,7 +40,7 @@
                 new EArchiveServiceSendFaultExceptionCode("007", "GIB I/O ERROR", "IO Error"),
                 new EArchiveServiceSendFaultExceptionCode("008", "GIB ERROR", "Error"),
                 new EArchiveServiceSendFaultExceptionCode("009", "DOSYA ISMI HATALI", "Dosya ismi 36 + .zip 40 karakter olmalıdır"),
-                new EArchiveServiceSendFaultExceptionCode("010", "DOSYA ISMI UZANTISI HATALI", "Dosya ismi zip uzantılı olmalıdır"),
+                new EArchiveServiceSendFaultExceptionCode("010", "DOSYA ISMI UZANTISI HATALI", "Dosya ismi zip uzantılı olmalıdır")
             };
 
             return _CodeList.FirstOrDefault(o => o._Code == code);
@@ -107,7 +107,7 @@
                 new EArchiveServiceQueryFaultExceptionCode("166", "SOAP ILE PAKET IMZASI UYUSMUYOR", "İstek imzası ve paket imzası uyuşmuyor",true),
                 new EArchiveServiceQueryFaultExceptionCode("167", "IMZA SAHIBI ILE RAPORTOR KIMLIGI FARKLI", "İmza sahibi ile hazırlayan VKN/TCKN uyuşmuyor",true),
                 new EArchiveServiceQueryFaultExceptionCode("168", "GONDERICI BU MUKELLEFE AIT YETKISI YOK", "Göndericinin bu mükellefin serbest meslek raporunu işletme yetkisi yok.",true),
-                new EArchiveServiceQueryFaultExceptionCode("169", "RAPOR VERI UYUMSUZLUĞU (ESKI VE YENI)", "Yeni nesil ÖKC mali rapor bilgileri eski nesil rapor alanında (mRapor) gönderilemez.",true),
+                new EArchiveServiceQueryFaultExceptionCode("169", "RAPOR VERI UYUMSUZLUĞU (ESKI VE YENI)", "Yeni nesil ÖKC mali rapor bilgileri eski nesil rapor alanında (mRapor) gönderilemez.",true)
             };
 
             return _CodeList.FirstOrDefault(o => o._Code == code);

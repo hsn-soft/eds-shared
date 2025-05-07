@@ -167,7 +167,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         NOTE = 0x001C,
         SXEXT = 0x00DC,
         VERTICALPAGEBREAKS = 0x001A,
-        XCT = 0x0059,
+        XCT = 0x0059
 
     }
 
@@ -179,7 +179,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         REF = 0x17,     // #REF!
         NAME = 0x1D,    // #NAME?
         NUM = 0x24,     // #NUM!
-        NA = 0x2A,      // #N/A
+        NA = 0x2A // #N/A
     }
 
     [Serializable]
@@ -1502,7 +1502,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         {
             MultiByte = 0x01,
             HasExtendedString = 0x04,
-            HasFormatting = 0x08,
+            HasFormatting = 0x08
         }
 
         public XlsFormattedUnicodeString(byte[] bytes, uint offset)

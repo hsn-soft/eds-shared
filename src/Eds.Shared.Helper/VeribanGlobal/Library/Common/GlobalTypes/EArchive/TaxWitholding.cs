@@ -81,7 +81,7 @@
             TaxWitholdingType_616 .GetCode(),TaxWitholdingType_617 .GetCode(),TaxWitholdingType_618 .GetCode(),TaxWitholdingType_619 .GetCode(),TaxWitholdingType_620 .GetCode(),
             TaxWitholdingType_621 .GetCode(),TaxWitholdingType_622 .GetCode(),TaxWitholdingType_623 .GetCode(),TaxWitholdingType_650 .GetCode(),
 
-            TaxWitholdingType_701 .GetCode(),TaxWitholdingType_702 .GetCode(),
+            TaxWitholdingType_701 .GetCode(),TaxWitholdingType_702 .GetCode()
         };
 
 

@@ -1,19 +1,17 @@
 using HsnSoft.Base.Domain.Entities.Events;
 using JetBrains.Annotations;
 
-namespace Eds.Shared.Contracts.Events;
+namespace Eds.Shared.Contracts.Events.EInvoice;
 
-public sealed record IntegrationPurchaseInvoiceAnswerResultEto(
-    Guid ReceivedQueueId,
+public sealed record SignPurchaseInvoiceAnswerResultEto(
+    Guid PurchaseInvoiceAnswerId,
     bool IsOperationSuccess,
     [CanBeNull] string OperationDescription,
-    Guid? PurchaseInvoiceAnswerId,
     Guid PurchaseInvoiceAnswerUuid
 ) : IIntegrationEventMessage
 {
-    public Guid ReceivedQueueId { get; } = ReceivedQueueId;
+    public Guid PurchaseInvoiceAnswerId { get; } = PurchaseInvoiceAnswerId;
     public bool IsOperationSuccess { get; } = IsOperationSuccess;
     [CanBeNull] public string OperationDescription { get; } = OperationDescription;
-    public Guid? PurchaseInvoiceAnswerId { get; } = PurchaseInvoiceAnswerId;
     public Guid PurchaseInvoiceAnswerUuid { get; } = PurchaseInvoiceAnswerUuid;
 }

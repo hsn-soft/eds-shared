@@ -35,7 +35,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model
                 new CreditNoteLine()
                 {
                     ID = ""
-                },
+                }
             };
         }
 

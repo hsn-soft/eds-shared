@@ -8,12 +8,12 @@ public sealed record IntegrationPurchaseInvoiceAnswerEnvelopeResultEto(
     bool IsOperationSuccess,
     [CanBeNull] string OperationDescription,
     Guid? PurchaseInvoiceAnswerEnvelopeId,
-    Guid? PurchaseInvoiceAnswerEnvelopeUuid
+    Guid PurchaseInvoiceAnswerEnvelopeUuid
 ) : IIntegrationEventMessage
 {
     public Guid ReceivedQueueId { get; } = ReceivedQueueId;
     public bool IsOperationSuccess { get; } = IsOperationSuccess;
     [CanBeNull] public string OperationDescription { get; } = OperationDescription;
     public Guid? PurchaseInvoiceAnswerEnvelopeId { get; } = PurchaseInvoiceAnswerEnvelopeId;
-    public Guid? PurchaseInvoiceAnswerEnvelopeUuid { get; } = PurchaseInvoiceAnswerEnvelopeUuid;
+    public Guid PurchaseInvoiceAnswerEnvelopeUuid { get; } = PurchaseInvoiceAnswerEnvelopeUuid;
 }

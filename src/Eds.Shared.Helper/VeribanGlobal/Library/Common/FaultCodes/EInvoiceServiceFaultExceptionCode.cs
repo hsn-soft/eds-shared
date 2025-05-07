@@ -59,7 +59,7 @@
                 ZARF_ID_BULUNAMADI,
                 GIB_SISTEM_HATASI,
                 GECERSIZ_ZARF_ADI,
-                GIB_ISLEM_YETKINIZ_YOK,
+                GIB_ISLEM_YETKINIZ_YOK
             };
 
             var result = _CodeList.FirstOrDefault(o => o._Code == code);
