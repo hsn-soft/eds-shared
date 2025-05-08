@@ -151,7 +151,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.FileManagement
 
             string fileSaveFullPath = Path.Combine(destinationPath, contentFileName);
 
-            using (StreamWriter sw = (File.Exists(fileSaveFullPath)) ? File.AppendText(fileSaveFullPath) : File.CreateText(fileSaveFullPath))
+            using (StreamWriter sw = File.Exists(fileSaveFullPath) ? File.AppendText(fileSaveFullPath) : File.CreateText(fileSaveFullPath))
             {
                 sw.WriteLine(errorMessageLine);
             }

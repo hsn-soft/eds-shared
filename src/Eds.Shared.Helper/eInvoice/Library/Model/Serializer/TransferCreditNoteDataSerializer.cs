@@ -20,7 +20,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Serializer
             }
 
             //CLEAR XMLNS
-            creditNoteModel.xmlns = (new CreditNoteModel().xmlns);
+            creditNoteModel.xmlns = new CreditNoteModel().xmlns;
 
             return SerializeAndGetXmlContentBase(new List<CreditNoteModel>() { creditNoteModel }, !clearXmlDocumentHeaderTag);
         }

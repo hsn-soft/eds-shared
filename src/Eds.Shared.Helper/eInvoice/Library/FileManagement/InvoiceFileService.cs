@@ -17,10 +17,10 @@ namespace Eds.Shared.Helper.eInvoice.Library.FileManagement
         public InvoiceFileService(IConfiguration configuration)
         {
             string edsVolumePath = configuration.GetValue<string>("EDS_Volume_Path") ?? throw new ArgumentNullException("EDS_Volume_Path");
-            _EInvoiceOutboxFileDirPath = edsVolumePath + (configuration.GetValue<string>("EINVOICE_InvoiceOutboxFileBase") ?? throw new ArgumentNullException("EINVOICE_InvoiceOutboxFileBase"));
-            _EInvoiceInboxFileDirPath = edsVolumePath + (configuration.GetValue<string>("EINVOICE_InvoiceInboxFileBase") ?? throw new ArgumentNullException("EINVOICE_InvoiceInboxFileBase"));
-            _AccountXsltFileDirPath = edsVolumePath + (configuration.GetValue<string>("GLOBAL_AccountXsltFileBase") ?? throw new ArgumentNullException("GLOBAL_AccountXsltFileBase"));
-            _EMailTemplateFileDirPath = edsVolumePath + (configuration.GetValue<string>("GLOBAL_EMailTemplateFileBase") ?? throw new ArgumentNullException("GLOBAL_EMailTemplateFileBase"));
+            _EInvoiceOutboxFileDirPath = edsVolumePath + configuration.GetValue<string>("EINVOICE_InvoiceOutboxFileBase");
+            _EInvoiceInboxFileDirPath = edsVolumePath + configuration.GetValue<string>("EINVOICE_InvoiceInboxFileBase");
+            _AccountXsltFileDirPath = edsVolumePath + configuration.GetValue<string>("GLOBAL_AccountXsltFileBase");
+            _EMailTemplateFileDirPath = edsVolumePath + configuration.GetValue<string>("GLOBAL_EMailTemplateFileBase");
 
             _fmFile = new FMFile();
         }
@@ -116,7 +116,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.FileManagement
                 processFileName = string.Format("EInvoice_InvoiceAnswer_{0}.XSLT", registerName);
             }
 
-            string xsltFileFullPath = Path.Combine(_AccountXsltFileDirPath+"/", processFileName);
+            string xsltFileFullPath = Path.Combine(_AccountXsltFileDirPath + "/", processFileName);
 
             if (!File.Exists(xsltFileFullPath))
             {
@@ -192,7 +192,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.FileManagement
                     }
             }
 
-            string htmlFileFullPath = Path.Combine(_EMailTemplateFileDirPath+"/", processFileName);
+            string htmlFileFullPath = Path.Combine(_EMailTemplateFileDirPath + "/", processFileName);
 
             return _fmFile.GetXmlFileContent(htmlFileFullPath);
         }

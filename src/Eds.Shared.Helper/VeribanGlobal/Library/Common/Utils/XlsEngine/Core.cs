@@ -248,7 +248,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public bool IsSignatureValid
         {
-            get { return (Signature == 0xE11AB1A1E011CFD0); }
+            get { return Signature == 0xE11AB1A1E011CFD0; }
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public int SectorSize
         {
-            get { return (1 << BitConverter.ToUInt16(m_bytes, 0x1E)); }
+            get { return 1 << BitConverter.ToUInt16(m_bytes, 0x1E); }
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public int MiniSectorSize
         {
-            get { return (1 << BitConverter.ToUInt16(m_bytes, 0x20)); }
+            get { return 1 << BitConverter.ToUInt16(m_bytes, 0x20); }
         }
 
         /// <summary>
@@ -404,7 +404,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
                         while (difCount > 0)
                         {
                             sectors.Capacity += 128;
-                            if (prevSector == 0 || (difSector - prevSector) != 1)
+                            if (prevSector == 0 || difSector - prevSector != 1)
                                 m_file.Seek((difSector + 1) * sectorSize, SeekOrigin.Begin);
                             prevSector = difSector;
                             m_file.Read(buff, 0, sectorSize);
@@ -419,7 +419,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
                             value = BitConverter.ToUInt32(buff, 508);
                             if (value == (uint)FatMarkers.FAT_FreeSpace)
                                 break;
-                            if ((difCount--) > 1)
+                            if (difCount-- > 1)
                                 difSector = value;
                             else
                                 sectors.Add(value);
@@ -464,7 +464,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
                     for (int i = 0; i < sectors.Count; i++)
                     {
                         sector = sectors[i];
-                        if (prevSector == 0 || (sector - prevSector) != 1)
+                        if (prevSector == 0 || sector - prevSector != 1)
                             file.Seek((sector + 1) * sectorSize, SeekOrigin.Begin);
                         prevSector = sector;
                         file.Read(buff, 0, sectorSize);
@@ -556,7 +556,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public uint BaseSector
         {
-            get { return (m_startSector); }
+            get { return m_startSector; }
         }
 
         /// <summary>
@@ -574,7 +574,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
                 {
                     do
                     {
-                        if (prevSector == 0 || (sector - prevSector) != 1)
+                        if (prevSector == 0 || sector - prevSector != 1)
                             m_file.Seek((sector + 1) * sectorSize, SeekOrigin.Begin);
                         prevSector = sector;
                         m_file.Read(buff, 0, sectorSize);
@@ -1275,7 +1275,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public uint FirstRow
         {
-            get { return (IsV8) ? base.ReadUInt32(0x0) : base.ReadUInt16(0x0); }
+            get { return IsV8 ? base.ReadUInt32(0x0) : base.ReadUInt16(0x0); }
         }
 
         /// <summary>
@@ -1283,7 +1283,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public uint LastRow
         {
-            get { return (IsV8) ? base.ReadUInt32(0x4) : base.ReadUInt16(0x2); }
+            get { return IsV8 ? base.ReadUInt32(0x4) : base.ReadUInt16(0x2); }
         }
 
         /// <summary>
@@ -1291,7 +1291,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public ushort FirstColumn
         {
-            get { return (IsV8) ? base.ReadUInt16(0x8) : base.ReadUInt16(0x4); }
+            get { return IsV8 ? base.ReadUInt16(0x8) : base.ReadUInt16(0x4); }
         }
 
 
@@ -1303,7 +1303,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         {
             get
             {
-                return (IsV8) ? base.ReadUInt16(0xA) : base.ReadUInt16(0x6);
+                return IsV8 ? base.ReadUInt16(0xA) : base.ReadUInt16(0x6);
             }
         }
 
@@ -1324,7 +1324,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public uint FirstExistingRow
         {
-            get { return (IsV8) ? base.ReadUInt32(0x4) : base.ReadUInt16(0x4); }
+            get { return IsV8 ? base.ReadUInt32(0x4) : base.ReadUInt16(0x4); }
         }
 
         /// <summary>
@@ -1332,7 +1332,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public uint LastExistingRow
         {
-            get { return (IsV8) ? base.ReadUInt32(0x8) : base.ReadUInt16(0x6); }
+            get { return IsV8 ? base.ReadUInt32(0x8) : base.ReadUInt16(0x6); }
         }
 
         /// <summary>
@@ -1343,7 +1343,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
             get
             {
                 int size = RecordSize;
-                int firstIdx = (IsV8) ? 16 : 12;
+                int firstIdx = IsV8 ? 16 : 12;
                 if (size <= firstIdx)
                     return new uint[0];
                 List<uint> cells = new List<uint>((size - firstIdx) / 4);
@@ -1401,7 +1401,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
                 uint prefix = str.HeadSize;
                 uint postfix = str.TailSize;
                 uint len = str.CharacterCount;
-                uint size = prefix + postfix + len + ((str.IsMultiByte) ? len : 0);
+                uint size = prefix + postfix + len + (str.IsMultiByte ? len : 0);
                 if (offset + size > last)
                 {
                     if (lastcontinue >= continues.Count)
@@ -1423,7 +1423,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
                     }
                     else if (encoding == 1 && !str.IsMultiByte)
                     {
-                        len -= (last - offset - prefix);
+                        len -= last - offset - prefix;
                         string temp = Encoding.Unicode.GetString(m_bytes,
                                                                 (int)contoffset + 5,
                                                                 (int)(len + len));
@@ -1540,7 +1540,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public bool HasFormatting
         {
-            get { return ((Flags & FormattedUnicodes.HasFormatting) == FormattedUnicodes.HasFormatting); }
+            get { return (Flags & FormattedUnicodes.HasFormatting) == FormattedUnicodes.HasFormatting; }
         }
 
         /// <summary>
@@ -1548,7 +1548,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public bool IsMultiByte
         {
-            get { return ((Flags & FormattedUnicodes.MultiByte) == FormattedUnicodes.MultiByte); }
+            get { return (Flags & FormattedUnicodes.MultiByte) == FormattedUnicodes.MultiByte; }
         }
 
         /// <summary>
@@ -1556,7 +1556,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         private uint ByteCount
         {
-            get { return (uint)(CharacterCount * ((IsMultiByte) ? 2 : 1)); }
+            get { return (uint)(CharacterCount * (IsMultiByte ? 2 : 1)); }
         }
 
         /// <summary>
@@ -1566,7 +1566,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         {
             get
             {
-                return (HasFormatting) ? BitConverter.ToUInt16(m_bytes, (int)m_offset + 3) : (ushort)0;
+                return HasFormatting ? BitConverter.ToUInt16(m_bytes, (int)m_offset + 3) : (ushort)0;
             }
         }
 
@@ -1579,7 +1579,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
             {
                 if (HasExtString)
                 {
-                    return (uint)BitConverter.ToUInt16(m_bytes, (int)m_offset + ((HasFormatting) ? 5 : 3));
+                    return (uint)BitConverter.ToUInt16(m_bytes, (int)m_offset + (HasFormatting ? 5 : 3));
                 }
                 else return 0;
             }
@@ -1590,7 +1590,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public uint HeadSize
         {
-            get { return (uint)((HasFormatting) ? 2 : 0) + (uint)((HasExtString) ? 4 : 0) + 3; }
+            get { return (uint)(HasFormatting ? 2 : 0) + (uint)(HasExtString ? 4 : 0) + 3; }
         }
 
         /// <summary>
@@ -1598,7 +1598,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public uint TailSize
         {
-            get { return (uint)((HasFormatting) ? 4 * FormatCount : 0) + (HasExtString ? ExtendedStringSize : 0); }
+            get { return (uint)(HasFormatting ? 4 * FormatCount : 0) + (HasExtString ? ExtendedStringSize : 0); }
         }
 
         /// <summary>
@@ -1608,7 +1608,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         {
             get
             {
-                uint extraSize = (uint)((HasFormatting) ? (2 + FormatCount * 4) : 0) + (HasExtString ? (4 + ExtendedStringSize) : 0) + 3;
+                uint extraSize = (uint)(HasFormatting ? 2 + FormatCount * 4 : 0) + (HasExtString ? 4 + ExtendedStringSize : 0) + 3;
                 if (!IsMultiByte)
                     return extraSize + CharacterCount;
                 return extraSize + (uint)CharacterCount * 2;
@@ -1711,7 +1711,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public int RowAddress
         {
-            get { return (this.Offset - base.ReadInt32(0x0)); }
+            get { return this.Offset - base.ReadInt32(0x0); }
         }
 
         /// <summary>
@@ -1856,7 +1856,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public string Value
         {
-            get { return UseEncoding.GetString(base.ReadArray(0x8, Length * ((UseEncoding.IsSingleByte) ? 1 : 2))); }
+            get { return UseEncoding.GetString(base.ReadArray(0x8, Length * (UseEncoding.IsSingleByte ? 1 : 2))); }
         }
 
     }
@@ -1892,7 +1892,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
             else
             {
                 // hi words of IEEE num
-                num = BitConverter.Int64BitsToDouble(((long)(rk & 0xfffffffc) << 32));
+                num = BitConverter.Int64BitsToDouble((long)(rk & 0xfffffffc) << 32);
             }
             if ((rk & 0x1) == 0x1)
                 num /= 100; // divide by 100
@@ -2033,12 +2033,12 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
             get
             {
                 ushort len = Length;
-                int size = ((UseEncoding.IsSingleByte) ? 1 : 2);
+                int size = UseEncoding.IsSingleByte ? 1 : 2;
                 int offset = m_readoffset + size;
                 byte flags = m_bytes[offset++];
-                bool ccompr = ((flags & 0x01) != 0x01);
-                bool richtext = ((flags & 0x08) == 0x08);
-                bool phonetic = ((flags & 0x04) == 0x04);
+                bool ccompr = (flags & 0x01) != 0x01;
+                bool richtext = (flags & 0x08) == 0x08;
+                bool phonetic = (flags & 0x04) == 0x04;
                 if (richtext) offset += 2;
                 if (phonetic) offset += 4;
                 if (size == 2 && ccompr) // compressed unicode
@@ -2082,7 +2082,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
         /// </summary>
         public Formulas Flags
         {
-            get { return (Formulas)(base.ReadUInt16(0xE)); }
+            get { return (Formulas)base.ReadUInt16(0xE); }
         }
 
         /// <summary>
@@ -2290,7 +2290,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
                     if (base.ReadByte(0x7) == 0)
                         return Encoding.Default.GetString(m_bytes, m_readoffset + start, len);
                     else
-                        return UseEncoding.GetString(m_bytes, m_readoffset + start, (UseEncoding.IsSingleByte) ? len : len * 2);
+                        return UseEncoding.GetString(m_bytes, m_readoffset + start, UseEncoding.IsSingleByte ? len : len * 2);
                 else
                     return Encoding.Default.GetString(m_bytes, m_readoffset + start - 1, len);
             }

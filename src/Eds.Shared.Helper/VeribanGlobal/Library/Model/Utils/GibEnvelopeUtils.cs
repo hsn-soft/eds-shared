@@ -270,7 +270,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Model.Utils
                         //ORJINAL ZARF IÇERIĞI TEXT DEGISTIRILMEMELI
                         int appStartIndex = originalEnvelopeXmlContent.IndexOf("<ElementList>");
                         int appEndIndex = originalEnvelopeXmlContent.IndexOf("</ElementList>", appStartIndex);
-                        string originalElementListContent = originalEnvelopeXmlContent.Substring(appStartIndex + ("<ElementList>").Length, appEndIndex - appStartIndex - ("</ElementList>").Length + 1);
+                        string originalElementListContent = originalEnvelopeXmlContent.Substring(appStartIndex + "<ElementList>".Length, appEndIndex - appStartIndex - "</ElementList>".Length + 1);
 
                         //ZARF ICERISINDEKI DOKUMANLAR AYRISTIRILIYOR
                         List<string> packageElementContentList = SplitPackageElementList(envelopeHeaderInfo.EnvelopeDocumentType, envelopeHeaderInfo.EnvelopeElementCount, originalElementListContent);
@@ -387,7 +387,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Model.Utils
                     {
                         int tagIndex = packageElementLinesTemp.IndexOf("<");
                         int invoiceIndex = packageElementLinesTemp.IndexOf(searchTag);
-                        string strPrefix = packageElementLinesTemp.Substring((tagIndex + 1), invoiceIndex - (tagIndex + 1));
+                        string strPrefix = packageElementLinesTemp.Substring(tagIndex + 1, invoiceIndex - (tagIndex + 1));
 
                         searchTag = strPrefix + searchTag;
                         appStartIndex = packageElementLinesTemp.IndexOf("<" + searchTag);
@@ -982,7 +982,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Model.Utils
             {
                 int tagIndex = baseXmlContent.IndexOf("<");
                 int documentIndex = baseXmlContent.IndexOf(searchTag);
-                string strPrefix = baseXmlContent.Substring((tagIndex + 1), documentIndex - (tagIndex + 1));
+                string strPrefix = baseXmlContent.Substring(tagIndex + 1, documentIndex - (tagIndex + 1));
 
                 searchTag = strPrefix + searchTag;
                 xmlTagStartIndex = baseXmlContent.IndexOf("<" + searchTag);
@@ -1006,7 +1006,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Model.Utils
                 if (xmlTagStartIndex >= 0)
                     xmlTagEndIndex = tempXmlContent.IndexOf(">", xmlTagStartIndex);
                 if (xmlTagStartIndex >= 0 && xmlTagEndIndex >= 0)
-                    xmlContentWithoutHeader = tempXmlContent.Substring(xmlTagEndIndex + ("<").Length, tempXmlContent.Length - (xmlTagEndIndex + ("<").Length));
+                    xmlContentWithoutHeader = tempXmlContent.Substring(xmlTagEndIndex + "<".Length, tempXmlContent.Length - (xmlTagEndIndex + "<".Length));
 
                 if (!string.IsNullOrEmpty(xmlContentWithoutHeader))
                 {

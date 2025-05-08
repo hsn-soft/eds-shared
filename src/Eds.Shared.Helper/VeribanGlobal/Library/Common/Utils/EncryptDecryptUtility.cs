@@ -67,7 +67,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
         #region Helper
         private static string FixPadding(string base64)
         {
-            var paddingLength = (4 - (base64.Length % 4)) % 4;
+            var paddingLength = (4 - base64.Length % 4) % 4;
             return base64.PadRight(base64.Length + paddingLength, '=');
         }
 

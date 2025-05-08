@@ -280,7 +280,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Model.Serializer
 
             for (int i = 0; i < digits.Length; i++)
             {
-                if (((int)digits[i]) < 48 || ((int)digits[i]) > 57)
+                if ((int)digits[i] < 48 || (int)digits[i] > 57)
                 {
                     errorMessage = "must be numeric";
                     return false;
