@@ -34,7 +34,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Serializer
             invoiceModel = InvoiceAppendGibTag(invoiceModel);
 
             //CLEAR XMLNS
-            invoiceModel.xmlns = (new InvoiceModel().xmlns);
+            invoiceModel.xmlns = new InvoiceModel().xmlns;
 
             return SerializeAndGetXmlContentBase(new List<InvoiceModel>() { invoiceModel }, !clearXmlDocumentHeaderTag);
         }

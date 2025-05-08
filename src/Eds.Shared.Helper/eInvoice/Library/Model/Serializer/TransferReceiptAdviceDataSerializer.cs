@@ -27,7 +27,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Serializer
             receiptAdviceModel = ReceiptAdviceAppendGibTag(receiptAdviceModel);
 
             //CLEAR XMLNS
-            receiptAdviceModel.xmlns = (new ReceiptAdviceModel().xmlns);
+            receiptAdviceModel.xmlns = new ReceiptAdviceModel().xmlns;
 
             return SerializeAndGetXmlContentBase(new List<ReceiptAdviceModel>() { receiptAdviceModel }, !clearXmlDocumentHeaderTag);
         }

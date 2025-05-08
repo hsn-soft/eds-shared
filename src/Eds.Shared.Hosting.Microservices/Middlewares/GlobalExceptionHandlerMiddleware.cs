@@ -75,7 +75,7 @@ public sealed class GlobalExceptionHandlerMiddleware : IMiddleware
         }
 
         // When client has not access ActionLayer, will be response Json error response
-        if (!hasException && ((response.StatusCode is 415) || (response.ContentLength == null && response.StatusCode is >= 400 and < 600)))
+        if (!hasException && (response.StatusCode is 415 || (response.ContentLength == null && response.StatusCode is >= 400 and < 600)))
         {
             _logger.LogError("GlobalExceptionHandlerMiddleware -> Client Access Error Status: {ErrorStatus} | {ErrorMessage}"
                 , response.StatusCode.ToString()

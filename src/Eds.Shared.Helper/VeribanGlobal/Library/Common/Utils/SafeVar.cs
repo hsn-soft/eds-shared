@@ -67,7 +67,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
                 {
                     Int32 maxOrMin;
                     Int32.TryParse(Int32.MinValue.ToString() + String.Empty, out maxOrMin);
-                    if (maxOrMin == retValue) return (isRetValueNotNegative ? 0 : Int32.MinValue);
+                    if (maxOrMin == retValue) return isRetValueNotNegative ? 0 : Int32.MinValue;
 
                     Int32.TryParse(Int32.MaxValue.ToString() + String.Empty, out maxOrMin);
                     if (maxOrMin == retValue) return Int32.MaxValue;
@@ -77,9 +77,9 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
                     //may be decimal number
                     Decimal decimalValue = GetDecimal(value);
                     if (decimalValue > 0)
-                        retValue = (isMathCeiling) ? (Int32)Math.Ceiling(decimalValue) : (Int32)Math.Floor(decimalValue);
+                        retValue = isMathCeiling ? (Int32)Math.Ceiling(decimalValue) : (Int32)Math.Floor(decimalValue);
                     else
-                        retValue = (isRetValueNotNegative ? 0 : Int32.MinValue);
+                        retValue = isRetValueNotNegative ? 0 : Int32.MinValue;
                 }
                 return retValue;
             }
@@ -103,14 +103,14 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
                 {
                     float maxOrMin;
                     float.TryParse(float.MinValue.ToString().Replace('.', ',') + String.Empty, out maxOrMin);
-                    if (maxOrMin == retValue) return (isRetValueNotNegative ? 0 : float.MinValue);
+                    if (maxOrMin == retValue) return isRetValueNotNegative ? 0 : float.MinValue;
 
                     float.TryParse(float.MaxValue.ToString().Replace('.', ',') + String.Empty, out maxOrMin);
                     if (maxOrMin == retValue) return float.MaxValue;
 
                     return retValue;
                 }
-                else return (isRetValueNotNegative ? 0 : float.MinValue);
+                else return isRetValueNotNegative ? 0 : float.MinValue;
             }
             catch { return isRetValueNotNegative ? 0 : float.MinValue; }
         }
@@ -132,14 +132,14 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
                 {
                     Decimal maxOrMin;
                     Decimal.TryParse(Decimal.MinValue.ToString().Replace('.', ',') + String.Empty, out maxOrMin);
-                    if (maxOrMin == retValue) return (isRetValueNotNegative ? 0 : Decimal.MinValue);
+                    if (maxOrMin == retValue) return isRetValueNotNegative ? 0 : Decimal.MinValue;
 
                     Decimal.TryParse(Decimal.MaxValue.ToString().Replace('.', ',') + String.Empty, out maxOrMin);
                     if (maxOrMin == retValue) return Decimal.MaxValue;
 
                     return retValue;
                 }
-                else return (isRetValueNotNegative ? 0 : Decimal.MinValue);
+                else return isRetValueNotNegative ? 0 : Decimal.MinValue;
             }
             catch { return isRetValueNotNegative ? 0 : Decimal.MinValue; }
         }
@@ -152,7 +152,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
             DateTime retValue;
             try
             {
-                return (DateTime.TryParse(value.ToString() + String.Empty, out retValue)) ? retValue : DateTime.MinValue;
+                return DateTime.TryParse(value.ToString() + String.Empty, out retValue) ? retValue : DateTime.MinValue;
             }
             catch { return DateTime.MinValue; }
         }
@@ -235,10 +235,10 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
                     return a.Count > 0;
                 case "System.Data.DataTable":
                     DataTable dt = (DataTable)o;
-                    return (dt.Rows.Count > 0);
+                    return dt.Rows.Count > 0;
                 case "System.Data.DataRow[]":
                     DataRow[] drCollection = (DataRow[])o;
-                    return (drCollection.Length > 0);
+                    return drCollection.Length > 0;
                     //can be add more types later
             }
 

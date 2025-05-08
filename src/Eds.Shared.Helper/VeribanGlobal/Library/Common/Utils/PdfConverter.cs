@@ -186,7 +186,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
     {
         public static string GetProgramFilesx86Path()
         {
-            if (8 == IntPtr.Size || (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"))))
+            if (8 == IntPtr.Size || !String.IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432")))
             {
                 return Environment.GetEnvironmentVariable("ProgramFiles(x86)");
             }

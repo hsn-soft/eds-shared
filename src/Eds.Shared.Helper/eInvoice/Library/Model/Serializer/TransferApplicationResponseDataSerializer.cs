@@ -25,7 +25,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Serializer
             }
 
             //CLEAR XMLNS
-            applicationResponseModel.xmlns = (new ApplicationResponseModel().xmlns);
+            applicationResponseModel.xmlns = new ApplicationResponseModel().xmlns;
 
             return SerializeAndGetXmlContentBase(new List<ApplicationResponseModel>() { applicationResponseModel }, !clearXmlDocumentHeaderTag);
         }

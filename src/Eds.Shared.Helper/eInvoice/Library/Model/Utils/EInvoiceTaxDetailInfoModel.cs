@@ -57,13 +57,13 @@
                             this.KDV0M = KDVTaxList.Where(x => x.Percent == 0 && x.TaxableAmount != null).Sum(s => s.TaxableAmount.Value);
 
                             this.KDV1 = KDVTaxList.Where(x => x.Percent == 1).Sum(s => s.TaxAmount.Value);
-                            this.KDV1M = (this.KDV1 * 100) / 1;
+                            this.KDV1M = this.KDV1 * 100 / 1;
 
                             this.KDV8 = KDVTaxList.Where(x => x.Percent == 8).Sum(s => s.TaxAmount.Value);
-                            this.KDV8M = (this.KDV8 * 100) / 8;
+                            this.KDV8M = this.KDV8 * 100 / 8;
 
                             this.KDV18 = KDVTaxList.Where(x => x.Percent == 18).Sum(s => s.TaxAmount.Value);
-                            this.KDV18M = (this.KDV18 * 100) / 18;
+                            this.KDV18M = this.KDV18 * 100 / 18;
                         }
                         else
                         {
@@ -152,13 +152,13 @@
                             this.KDV0M = KDVTaxList.Where(x => x.Percent == 0 && x.TaxableAmount != null).Sum(s => s.TaxableAmount.Value);
 
                             this.KDV1 = KDVTaxList.Where(x => x.Percent == 1).Sum(s => s.TaxAmount.Value);
-                            this.KDV1M = (this.KDV1 * 100) / 1;
+                            this.KDV1M = this.KDV1 * 100 / 1;
 
                             this.KDV8 = KDVTaxList.Where(x => x.Percent == 8).Sum(s => s.TaxAmount.Value);
-                            this.KDV8M = (this.KDV8 * 100) / 8;
+                            this.KDV8M = this.KDV8 * 100 / 8;
 
                             this.KDV18 = KDVTaxList.Where(x => x.Percent == 18).Sum(s => s.TaxAmount.Value);
-                            this.KDV18M = (this.KDV18 * 100) / 18;
+                            this.KDV18M = this.KDV18 * 100 / 18;
                         }
                         else
                         {

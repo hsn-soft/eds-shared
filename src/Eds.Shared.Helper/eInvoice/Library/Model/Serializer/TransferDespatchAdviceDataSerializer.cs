@@ -28,7 +28,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Serializer
             despatchAdviceModel = DespatchAdviceAppendGibTag(despatchAdviceModel);
 
             //CLEAR XMLNS
-            despatchAdviceModel.xmlns = (new DespatchAdviceModel().xmlns);
+            despatchAdviceModel.xmlns = new DespatchAdviceModel().xmlns;
 
             return SerializeAndGetXmlContentBase(new List<DespatchAdviceModel>() { despatchAdviceModel }, !clearXmlDocumentHeaderTag);
         }

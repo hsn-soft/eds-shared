@@ -106,7 +106,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
                 userName = userName.TrimAllString(true);
 
                 //ALPHABET CHARACTER CONTROL
-                string checkName = Regex.Replace((userName ?? string.Empty), @"[^\u0030-\u0039|\u0041-\u005A]+", "_").Replace("|", "_");
+                string checkName = Regex.Replace(userName ?? string.Empty, @"[^\u0030-\u0039|\u0041-\u005A]+", "_").Replace("|", "_");
 
                 return checkName;
             }
@@ -121,7 +121,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
                     downloadCheckName = CustomSubString(downloadCheckName, 120);
 
                 //ALPHABET CHARACTER CONTROL
-                string checkName = Regex.Replace((downloadCheckName ?? string.Empty), @"[^\u0041-\u005A|\u0061-\u007A|ÇĞİÖŞÜçğıöşü]+", "_").Replace("|", "_");
+                string checkName = Regex.Replace(downloadCheckName ?? string.Empty, @"[^\u0041-\u005A|\u0061-\u007A|ÇĞİÖŞÜçğıöşü]+", "_").Replace("|", "_");
                 //TURKISH CHARACTERS
                 checkName = checkName.TurkishCharReplace().ToUpper(new CultureInfo("en-US"));
 

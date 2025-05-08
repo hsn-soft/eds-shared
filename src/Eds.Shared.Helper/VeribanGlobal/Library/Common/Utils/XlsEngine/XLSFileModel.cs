@@ -109,7 +109,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
                 throw new InvalidDataException("Stream has invalid data");
             m_version = bof.Version;
             m_encoding = Encoding.Unicode;
-            bool isV8 = (m_version >= 0x600);
+            bool isV8 = m_version >= 0x600;
             bool sst = false;
             while ((rec = m_stream.Read()) != null)
             {
@@ -185,7 +185,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils.XlsEngine
             if (bof == null || bof.Type != BiffType.Worksheet)
                 return false;
             XlsBiffIndex idx = m_stream.Read() as XlsBiffIndex;
-            bool isV8 = (m_version >= 0x600);
+            bool isV8 = m_version >= 0x600;
             if (idx != null)
             {
                 idx.IsV8 = isV8;
