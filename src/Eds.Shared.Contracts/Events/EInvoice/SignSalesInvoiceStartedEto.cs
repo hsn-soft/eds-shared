@@ -8,11 +8,11 @@ public sealed record SignSalesInvoiceStartedEto(
     Guid SalesInvoiceId,
     [NotNull] string UnsignedFilePath,
     [NotNull] string UnsignedFileName,
-    Guid SalesInvoiceUuid
+    [NotNull] string SalesInvoiceIdentifier
 ) : IIntegrationEventMessage
 {
     public Guid SalesInvoiceId { get; } = SalesInvoiceId;
     [NotNull] public string UnsignedFilePath { get; } = UnsignedFilePath;
     [NotNull] public string UnsignedFileName { get; } = UnsignedFileName;
-    public Guid SalesInvoiceUuid { get; } = SalesInvoiceUuid;
+    [NotNull] public string SalesInvoiceIdentifier { get; } = SalesInvoiceIdentifier;
 }

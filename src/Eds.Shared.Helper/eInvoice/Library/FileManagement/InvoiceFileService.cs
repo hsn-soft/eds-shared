@@ -6,21 +6,21 @@ namespace Eds.Shared.Helper.eInvoice.Library.FileManagement
 {
     public class InvoiceFileService
     {
-        private readonly string _EInvoiceOutboxFileBase;
-        private readonly string _EInvoiceInboxFileBase;
+        private readonly string _EInvoiceOutboxFileDirPath;
+        private readonly string _EInvoiceInboxFileDirPath;
 
-        private readonly string _AccountXsltFileBase;
-        private readonly string _EMailTemplateFileBase;
+        private readonly string _AccountXsltFileDirPath;
+        private readonly string _EMailTemplateFileDirPath;
 
         private readonly FMFile _fmFile = null;
 
-        public InvoiceFileService()
+        public InvoiceFileService(IConfiguration configuration)
         {
-            this._EInvoiceOutboxFileBase =new ConfigurationManager()["EINVOICE_InvoiceOutboxFileBase"];
-            this._EInvoiceInboxFileBase =new ConfigurationManager()["EINVOICE_InvoiceInboxFileBase"];
-
-            this._AccountXsltFileBase =new ConfigurationManager()["GLOBAL_AccountXsltFileBase"];
-            this._EMailTemplateFileBase =new ConfigurationManager()["GLOBAL_EMailTemplateFileBase"];
+            string edsVolumePath = configuration.GetValue<string>("EDS_Volume_Path") ?? throw new ArgumentNullException("EDS_Volume_Path");
+            _EInvoiceOutboxFileDirPath = edsVolumePath + (configuration.GetValue<string>("EINVOICE_InvoiceOutboxFileBase") ?? throw new ArgumentNullException("EINVOICE_InvoiceOutboxFileBase"));
+            _EInvoiceInboxFileDirPath = edsVolumePath + (configuration.GetValue<string>("EINVOICE_InvoiceInboxFileBase") ?? throw new ArgumentNullException("EINVOICE_InvoiceInboxFileBase"));
+            _AccountXsltFileDirPath = edsVolumePath + (configuration.GetValue<string>("GLOBAL_AccountXsltFileBase") ?? throw new ArgumentNullException("GLOBAL_AccountXsltFileBase"));
+            _EMailTemplateFileDirPath = edsVolumePath + (configuration.GetValue<string>("GLOBAL_EMailTemplateFileBase") ?? throw new ArgumentNullException("GLOBAL_EMailTemplateFileBase"));
 
             _fmFile = new FMFile();
         }
@@ -34,8 +34,8 @@ namespace Eds.Shared.Helper.eInvoice.Library.FileManagement
             if (string.IsNullOrEmpty(invoiceIdentifier)) return new KeyValuePair<bool, string>(false, "invoiceIdentifier unknown");
             if (invoiceIdentifier.Length != 36) return new KeyValuePair<bool, string>(false, "invoiceIdentifier must be 36 character");
 
-            string destinationPath = string.Format("{0}\\{1}\\{2}{3}\\", accountParameter, Year.ToString(), Month.ToString().PadLeft(2, '0'), Day.ToString().PadLeft(2, '0'));
-            destinationPath = _EInvoiceOutboxFileBase + destinationPath;
+            string destinationPath = string.Format("/{0}/{1}/{2}{3}/", accountParameter, Year.ToString(), Month.ToString().PadLeft(2, '0'), Day.ToString().PadLeft(2, '0'));
+            destinationPath = _EInvoiceOutboxFileDirPath + destinationPath;
 
             string xmlFileNameWithoutExtension = string.Format("{0}", invoiceIdentifier);
 
@@ -51,8 +51,8 @@ namespace Eds.Shared.Helper.eInvoice.Library.FileManagement
             if (string.IsNullOrEmpty(invoiceIdentifier)) return new KeyValuePair<bool, string>(false, "invoiceIdentifier unknown");
             if (invoiceIdentifier.Length != 36) return new KeyValuePair<bool, string>(false, "invoiceIdentifier must be 36 character");
 
-            string destinationPath = string.Format("{0}\\{1}\\{2}{3}\\", accountParameter, Year.ToString(), Month.ToString().PadLeft(2, '0'), Day.ToString().PadLeft(2, '0'));
-            destinationPath = _EInvoiceInboxFileBase + destinationPath;
+            string destinationPath = string.Format("/{0}/{1}/{2}{3}/", accountParameter, Year.ToString(), Month.ToString().PadLeft(2, '0'), Day.ToString().PadLeft(2, '0'));
+            destinationPath = _EInvoiceInboxFileDirPath + destinationPath;
 
             string xmlFileNameWithoutExtension = string.Format("{0}", invoiceIdentifier);
 
@@ -111,12 +111,12 @@ namespace Eds.Shared.Helper.eInvoice.Library.FileManagement
                 processFileName = string.Format("EInvoice_Invoice_{0}.XSLT", registerName);
             }
             else if (globalDocumentReferenceType == GlobalEnums.GlobalDocumentReferenceTypes.EINVOICE_SALES_INVOICE_ANSWER
-                || globalDocumentReferenceType == GlobalEnums.GlobalDocumentReferenceTypes.EINVOICE_PURCHASE_INVOICE_ANSWER)
+                     || globalDocumentReferenceType == GlobalEnums.GlobalDocumentReferenceTypes.EINVOICE_PURCHASE_INVOICE_ANSWER)
             {
                 processFileName = string.Format("EInvoice_InvoiceAnswer_{0}.XSLT", registerName);
             }
 
-            string xsltFileFullPath = Path.Combine(_AccountXsltFileBase, processFileName);
+            string xsltFileFullPath = Path.Combine(_AccountXsltFileDirPath+"/", processFileName);
 
             if (!File.Exists(xsltFileFullPath))
             {
@@ -192,7 +192,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.FileManagement
                     }
             }
 
-            string htmlFileFullPath = Path.Combine(_EMailTemplateFileBase, processFileName);
+            string htmlFileFullPath = Path.Combine(_EMailTemplateFileDirPath+"/", processFileName);
 
             return _fmFile.GetXmlFileContent(htmlFileFullPath);
         }

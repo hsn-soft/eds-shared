@@ -9,9 +9,9 @@ public sealed record IntegrationPurchaseInvoiceAnswerEnvelopePreparedEto(
     Guid ClientId,
     [NotNull] string PreparedFilePath,
     [NotNull] string PreparedFileName,
-    Guid PurchaseInvoiceAnswerEnvelopeUuid,
+[NotNull] string PurchaseInvoiceAnswerEnvelopeIdentifier,
     bool SendWithoutApprove,
-    [CanBeNull] string ClientOutboxAlias,
+    [CanBeNull] string CustomerPkAlias,
     [CanBeNull] string UniqueIntegrationCode
 ) : IIntegrationEventMessage
 {
@@ -20,8 +20,8 @@ public sealed record IntegrationPurchaseInvoiceAnswerEnvelopePreparedEto(
     public Guid ClientId { get; } = ClientId;
     [NotNull] public string PreparedFilePath { get; } = PreparedFilePath;
     [NotNull] public string PreparedFileName { get; } = PreparedFileName;
-    public Guid PurchaseInvoiceAnswerEnvelopeUuid { get; } = PurchaseInvoiceAnswerEnvelopeUuid;
+    [NotNull] public string PurchaseInvoiceAnswerEnvelopeIdentifier { get; } = PurchaseInvoiceAnswerEnvelopeIdentifier;
     public bool SendWithoutApprove { get; } = SendWithoutApprove;
-    [CanBeNull] public string ClientOutboxAlias { get; } = ClientOutboxAlias;
+    [CanBeNull] public string CustomerPkAlias { get; } = CustomerPkAlias;
     [CanBeNull] public string UniqueIntegrationCode { get; } = UniqueIntegrationCode;
 }

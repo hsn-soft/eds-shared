@@ -8,11 +8,11 @@ public sealed record SignPurchaseInvoiceAnswerStartedEto(
     Guid PurchaseInvoiceAnswerId,
     [NotNull] string UnsignedFilePath,
     [NotNull] string UnsignedFileName,
-    Guid PurchaseInvoiceAnswerUuid
+    [NotNull] string PurchaseInvoiceAnswerIdentifier
 ) : IIntegrationEventMessage
 {
     public Guid PurchaseInvoiceAnswerId { get; } = PurchaseInvoiceAnswerId;
     [NotNull] public string UnsignedFilePath { get; } = UnsignedFilePath;
     [NotNull] public string UnsignedFileName { get; } = UnsignedFileName;
-    public Guid PurchaseInvoiceAnswerUuid { get; } = PurchaseInvoiceAnswerUuid;
+    [NotNull] public string PurchaseInvoiceAnswerIdentifier { get; } = PurchaseInvoiceAnswerIdentifier;
 }
