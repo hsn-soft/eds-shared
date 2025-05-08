@@ -42,7 +42,7 @@
                 new ETicketServiceSendFaultExceptionCode("410", "GIB VERITABANI HATASI", "Veritabanı hatası. "),
                 new ETicketServiceSendFaultExceptionCode("411", "PAKET DAHA ONCEDEN YUKLENMIS", "Paket sisteme daha önce yüklenmiş."),
                 new ETicketServiceSendFaultExceptionCode("412", "GIB DISK HATASI", "Disk hatası. "),
-                new ETicketServiceSendFaultExceptionCode("413", "GIB ISLEM KUYRUGU HATASI", "İşlem kuyruğu hatası. "),
+                new ETicketServiceSendFaultExceptionCode("413", "GIB ISLEM KUYRUGU HATASI", "İşlem kuyruğu hatası. ")
             };
 
             return _CodeList.FirstOrDefault(o => o._Code == code);
@@ -89,7 +89,7 @@
                 new ETicketServiceQueryFaultExceptionCode("503", "GIB VERITABANI HATASI", "Veritabanı hatası."),
                 new ETicketServiceQueryFaultExceptionCode("504", "PAKET ADI GECERLI DEGIL", "Paket adı geçerli değil.",true),
                 new ETicketServiceQueryFaultExceptionCode("505", "PAKET SORGULAMA YETKISI YOK", "Paket bulundu fakat, VERİBAN özel entegratörün bu firma için paket durumunu sorgulama yetkisi yoktur.",true),
-                new ETicketServiceQueryFaultExceptionCode("506", "PAKET BULUNAMADI", "Paket bulunamadı.",true),
+                new ETicketServiceQueryFaultExceptionCode("506", "PAKET BULUNAMADI", "Paket bulunamadı.",true)
             };
 
             return _CodeList.FirstOrDefault(o => o._Code == code);

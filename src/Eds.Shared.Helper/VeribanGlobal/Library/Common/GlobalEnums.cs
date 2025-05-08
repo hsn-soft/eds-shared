@@ -67,7 +67,7 @@
             WEBSITE = 1,
             WEBSERVICE = 2,
             WINSERVICE = 3,
-            VERIBANWINAPP = 4,
+            VERIBANWINAPP = 4
         }
 
         public enum EInvoicePlatforms
@@ -78,7 +78,7 @@
             WEBSERVICE_AppConnectWebService = 22,
             WEBSERVICE_IntegrationWebService = 23,
             WEBSERVICE_LogoWebService = 24,
-            WEBSERVICE_NetsisWebService = 25,
+            WEBSERVICE_NetsisWebService = 25
         }
 
         public enum EArchivePlatforms
@@ -87,7 +87,7 @@
             WEBPORTAL = 1,
             //WEBSERVICE_OldWebService = 21,
             WEBSERVICE_AppConnectWebService = 22,
-            WEBSERVICE_IntegrationWebService = 23,
+            WEBSERVICE_IntegrationWebService = 23
         }
         public enum EBookPlatforms
         {
@@ -96,7 +96,7 @@
             WEBSERVICE_OldWebService = 21,
             WEBSERVICE_AppConnectWebService = 22,
             WEBSERVICE_IntegrationWebService = 23,
-            WEBSERVICE_AppSignerWebService = 24,
+            WEBSERVICE_AppSignerWebService = 24
         }
         public enum ETicketPlatforms
         {
@@ -108,13 +108,13 @@
             WEBSERVICE_HighWaysIntegrationWebService = 31,
             WEBSERVICE_SeaWaysIntegrationWebService = 32,
             WEBSERVICE_AirLinesIntegrationWebService = 33,
-            WEBSERVICE_ActivityIntegrationWebService = 34,
+            WEBSERVICE_ActivityIntegrationWebService = 34
         }
         public enum FaktoringPlatforms
         {
             NONE = 0,
             WEBPORTAL = 1,
-            WEBSERVICE_BankService = 21,
+            WEBSERVICE_BankService = 21
         }
 
         public enum TransferDocumentDataTypes
@@ -123,7 +123,7 @@
             XML_SAP_INZIP,
             TXT_INZIP,
             CSV_INZIP,
-            XLS_INZIP,
+            XLS_INZIP
         }
 
         public enum DownloadDocumentStates
@@ -131,7 +131,7 @@
             UNKNOWN = 0,
             CREATING = 1,
             CREATED = 11,
-            REMOVED = 12,
+            REMOVED = 12
         }
 
         public enum DownloadOperationTypes
@@ -150,7 +150,7 @@
 
             REPORT_TEXT_FILE = 21,
             REPORT_CSV_FILE = 22,
-            REPORT_EXCEL_FILE = 23,
+            REPORT_EXCEL_FILE = 23
         }
 
         public enum GlobalDocumentReferenceTypes
@@ -224,7 +224,7 @@
             EMUTABAKAT_SENDED_MUTABAKAT_CARI = 101,
             EMUTABAKAT_RECEIVED_MUTABAKAT_CARI = 102,
             EMUTABAKAT_SENDED_MUTABAKAT_BA_BS = 103,
-            EMUTABAKAT_RECEIVED_MUTABAKAT_BA_BS = 104,
+            EMUTABAKAT_RECEIVED_MUTABAKAT_BA_BS = 104
         }
 
         public enum UserProfilePermissionTypes
@@ -235,7 +235,7 @@
 
             MENU_VIEW_ACCESS = 2, //Block permission, exm: Only received invoice operations
 
-            RECORD_MANUPULATE_ACCESS = 3, //page list permission filter,spesific record modify OR remove permission
+            RECORD_MANUPULATE_ACCESS = 3 //page list permission filter,spesific record modify OR remove permission
         }
 
         public enum ContactInfoTypes
@@ -243,7 +243,7 @@
             NONE = 0,
             GENERAL = 1,
             MALI_MUSAVIR = 2,
-            YEMINLI_MM = 3,
+            YEMINLI_MM = 3
         }
 
         public enum GlobalUIStates
@@ -252,7 +252,7 @@
             Wait = 2,
             Processing = 3,
             Error = 4,
-            Success = 5,
+            Success = 5
         }
 
         public enum NewAccountEnvelopeStatus
@@ -267,7 +267,7 @@
             QueryError = 33,
             GIBDocumentError = 34,
 
-            GIBDocumentCompleted = 64,
+            GIBDocumentCompleted = 64
         }
 
         public enum NewAccountEnvelopeType
@@ -280,14 +280,14 @@
         {
             None = 0,
             PublicSector = 1,
-            PrivateSector = 2,
+            PrivateSector = 2
         }
 
         public enum RegisterNumberType
         {
             None = 0,
             Commercial = 1,
-            Person = 2,
+            Person = 2
         }
 
         public enum RegisterAliasAccessType
@@ -313,18 +313,18 @@
         {
             None = 0,
             StandartAccount = 1,
-            ArchiveEInvoice = 2,
+            ArchiveEInvoice = 2
         }
         public enum EArchiveAccountProcessType
         {
             None = 0,
-            StandartAccount = 1,
+            StandartAccount = 1
         }
         public enum EBookAccountProcessType
         {
             None = 0,
             StandartAccount = 1,
-            BookArchiver = 2,
+            BookArchiver = 2
         }
         public enum ETicketAccountProcessType
         {
@@ -332,12 +332,12 @@
             Highways = 1,
             Seaways = 2,
             AirLines = 3,
-            Activity = 4,
+            Activity = 4
         }
         public enum FaktoringAccountProcessType
         {
             None = 0,
-            StandartAccount = 1,
+            StandartAccount = 1
         }
 
         public enum DownloadDocumentDataTypes
@@ -345,7 +345,7 @@
             XML_INZIP,
             HTML_INZIP,
             IMAGE_INZIP,
-            PDF_INZIP,
+            PDF_INZIP
         }
 
         public enum TransferServiceBase
@@ -359,7 +359,7 @@
 
             SignedByOwner = 1,
 
-            SignedByPfx = 2,
+            SignedByPfx = 2
         }
 
         public enum NewTransferQueueProcessState
@@ -372,7 +372,7 @@
 
             DocumentControlled = 91,
             DocumentPrepared = 92,
-            DocumentSuccessfullyProcessed = 99,
+            DocumentSuccessfullyProcessed = 99
         }
 
         public enum NewFormProcessStatus
@@ -390,7 +390,7 @@
             Error_DocumentCreate = 31,
             Error_DocumentSign = 32,
             //GREEN
-            State_SuccessDocumentSigned = 99,
+            State_SuccessDocumentSigned = 99
         }
 
         public enum NewFormMailStatus
@@ -419,7 +419,7 @@
             Error_CallBack = 33,
 
             //GREEN
-            State_SuccessCallBack = 99,
+            State_SuccessCallBack = 99
         }
 
         public enum MutabakatAnswerState
@@ -449,7 +449,7 @@
             Error_ReportPrepare = 31,
 
             //GREEN
-            State_SuccessReported = 99,
+            State_SuccessReported = 99
         }
 
         public enum NewFormFaktoringStatus
@@ -467,14 +467,14 @@
             //RED
             Error_TransferToPool = 31,
             //GREEN
-            State_SuccessTransferToPool = 99,
+            State_SuccessTransferToPool = 99
         }
 
         public enum FaktoringInvoiceStatus
         {
             Unknown = 0,
             State_Offerable = 1,
-            State_Offered = 2,
+            State_Offered = 2
         }
 
         public enum FaktoringHeaderStatus
@@ -482,7 +482,7 @@
             Unknown = 0,
             State_WaitForResult = 21,
             Error_FaktoringFailed = 31,
-            State_FaktoringSuccess = 99,
+            State_FaktoringSuccess = 99
         }
 
         public enum FaktoringDetailStatus
@@ -499,7 +499,7 @@
             //RED
             Error_FaktoringFailed = 31,
             //GREEN
-            State_FaktoringSuccess = 99,
+            State_FaktoringSuccess = 99
         }
 
         public enum GibReportPackageStatus
@@ -525,7 +525,7 @@
 
             GIBDocumentCompleted = 64,
 
-            DebugTest = 61,
+            DebugTest = 61
         }
 
         public enum CreditTypes
@@ -536,7 +536,7 @@
             B_EARCHIVE_EMM = 2,
             C_ETICKET_ESMM = 3,
             D_EBOOK = 4,
-            E_OTHER = 5,
+            E_OTHER = 5
         }
 
         public enum CreditProcessTypes
@@ -559,7 +559,7 @@
 
             EBOOK_DOCUMENT = 41,
 
-            EOKC_DOCUMENT = 51,
+            EOKC_DOCUMENT = 51
         }
 
 
@@ -567,7 +567,7 @@
         {
             None = 0,
             RefDownload = 1,
-            GeneratePdf = 2,
+            GeneratePdf = 2
         }
 
         public enum EmailOperationTypes
@@ -597,7 +597,7 @@
             EARCHIVE_SALES_INVOICE_REPORT_SUCCESS = 31,
             EARCHIVE_SALES_INVOICE_SINGLE_CUSTOMER = 32,
             EARCHIVE_OKC_INVOICE_REPORT_SUCCESS = 33,
-            EARCHIVE_OKC_INVOICE_SINGLE_CUSTOMER = 34,
+            EARCHIVE_OKC_INVOICE_SINGLE_CUSTOMER = 34
 
             //EMM_SALES_INVOICE_REPORT_SUCCESS = 41,
             //EMM_SALES_INVOICE_SINGLE_CUSTOMER = 42,
@@ -615,7 +615,7 @@
             Info = 12,
             Warning = 13,
             Error = 14,
-            Success = 15,
+            Success = 15
         }
         public enum HistoryDocumentTypes
         {
@@ -687,7 +687,7 @@
             UserDocument = 63,
             UserSeri = 64,
             CustomerCrud = 65,
-            UserDocumentMailReport = 66,
+            UserDocumentMailReport = 66
         }
 
     }
@@ -704,7 +704,7 @@
             SalesInvoiceAnswerEnvelope = 133,
             SalesDespatchAnswerEnvelope = 134,
 
-            SystemResponse = 151,
+            SystemResponse = 151
         }
 
         public enum SendGibQueueEnvelopeDocumentType
@@ -722,7 +722,7 @@
 
             SystemResponseReceivedGibQueueError = 152,
             SystemResponseReceivedEnvelopeSeller = 153,
-            SystemResponseReceivedEnvelopeBuyerAnswer = 154,
+            SystemResponseReceivedEnvelopeBuyerAnswer = 154
         }
 
         public enum SendGibEnvelopeProcessState
@@ -754,7 +754,7 @@
             Processing_ErrorAnalyzing = 62,
 
             //GREEN
-            State_EnvelopeSuccessfullySend = 99,
+            State_EnvelopeSuccessfullySend = 99
         }
 
         public enum ReceivedGibEnvelopeProcessState
@@ -776,7 +776,7 @@
             Processing_DebugTest = 61,
             Processing_ErrorAnalyzing = 62,
 
-            State_EnvelopeSuccessfullySend = 99,
+            State_EnvelopeSuccessfullySend = 99
         }
 
         public enum GibTransferStatus
@@ -819,7 +819,7 @@
             /// <summary>
             /// Fatura Tamamlandı
             /// </summary>
-            Completed = 64,
+            Completed = 64
         }
 
         public enum NewGibDocumentProcessStatus
@@ -843,7 +843,7 @@
             Debug_Test = 61,
 
             //GREEN
-            State_SuccessDocumentSigned = 99,
+            State_SuccessDocumentSigned = 99
         }
         public enum NewGibDocumentEnvelopingStatus
         {
@@ -877,7 +877,7 @@
             Processing_ErrorAnalyzing = 62,
 
             //GREEN
-            State_EnvelopeSuccessfullySend = 99,
+            State_EnvelopeSuccessfullySend = 99
         }
 
         public enum TransferModuleTypes
@@ -928,7 +928,7 @@
             PartiallyAccepted = 3,
 
             //Tam ret
-            CompletelyRejected = 4,
+            CompletelyRejected = 4
 
         }
 
@@ -979,7 +979,7 @@
         {
             NONE = 0,
             ELEKTRONIK = 1,
-            KAGIT = 2,
+            KAGIT = 2
         }
 
         public enum SerieStatusType
@@ -1015,7 +1015,7 @@
         public enum TicketDocumentType
         {
             SATIS,
-            IADE,
+            IADE
         }
 
         public enum TicketPaymentType
@@ -1034,7 +1034,7 @@
 
             //AirLinePaymentTypes
             MIL,
-            COKLU,
+            COKLU
         }
 
         public enum TicketServiceType
@@ -1045,7 +1045,7 @@
             IPTALDEGISIKLIKTAZMINATI,
             YEMEK,
             KOLTUKSECIMI,
-            DIGER,
+            DIGER
         }
     }
 
@@ -1062,7 +1062,7 @@
             STANDART_FISCAL = 0,
             SPECIAL_FISCAL = 1,
             HALF_FISCAL = 2,
-            CANCEL_PERIOD = 3,
+            CANCEL_PERIOD = 3
         }
     }
 
@@ -1086,7 +1086,7 @@
             Error_SendMail = 32,
 
             //GREEN
-            State_SuccessCallBack = 99,
+            State_SuccessCallBack = 99
         }
 
         public enum ContractFormProcessStatus
@@ -1106,7 +1106,7 @@
             Error_PDFCreate = 31,
             Error_PDFSign = 32,
             //GREEN
-            Success_PDFSigned = 99,
+            Success_PDFSigned = 99
         }
     }
 }

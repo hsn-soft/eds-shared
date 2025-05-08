@@ -87,6 +87,6 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Model.GibUser
     public enum GibAliasDocumentTypes
     {
         Invoice,
-        DespatchAdvice,
+        DespatchAdvice
     }
 }

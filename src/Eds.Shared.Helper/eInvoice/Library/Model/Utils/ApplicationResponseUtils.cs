@@ -176,7 +176,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Utils
                                 {
                                     //ZARF ID
                                     ID = new CombineId() { Id= refEnvelopeIdentifier },
-                                    IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort),
+                                    IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort)
                                 }
                             },
                             Response = new Response()
@@ -184,10 +184,10 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Utils
                                 ReferenceID = Guid.NewGuid().ToString(),
                                 ResponseCode = responseCode,
                                 Description = responseDesc
-                            },
+                            }
 
                         }
-                    },
+                    }
                 }
                 #endregion
             };
