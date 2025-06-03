@@ -59,106 +59,107 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
             {
                 #region ENVELOPING STATE
 
-                if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_WaitForSignedDocument
-                    || documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_PreparedWaitForRefDocument)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Default,
-                        Description = "Referans döküman bekleniyor"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_WaitForPrepareEnvelope)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Default,
-                        Description = "Zarf bağlantısı bekleniyor"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_PrepareEnvelope
-                    || documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_DebugTest
-                    || documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_ErrorAnalyzing)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Processing,
-                        Description = "Zarf bağlantısı yapılıyor"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_PrepareEnvelope)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Error,
-                        Description = "Zarf bağlantısı yapılamadı"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_PreparedWaitForCreateFile)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Wait,
-                        Description = "Zarf dosyası bekleniyor"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_CreateFile)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Error,
-                        Description = "Zarf dosyası hata aldı"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_CreatedFileWaitForSendToGib)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Wait,
-                        Description = "Gönderilmeyi bekliyor"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_SendToGib)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Error,
-                        Description = "Zarf gönderilemedi"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_TransferredWaitForQueryFromGib)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Wait,
-                        Description = "Alındı yanıtı bekliyor"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Fail_EnvelopeErrorOnGIB)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Error,
-                        Description = "Zarf merkezde hata aldı"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Fail_EnvelopeErrorOnReceiver)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Error,
-                        Description = "Zarf alıcıda hata aldı"
-                    };
-                }
-                else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_EnvelopeSuccessfullySend)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Success,
-                        Description = "Başarıyla alıcıya iletildi"
-                    };
-                }
-                else return new GlobalStateClass()
+                // if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_WaitForSignedDocument
+                //     || documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_PreparedWaitForRefDocument)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Default,
+                //         Description = "Referans döküman bekleniyor"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_WaitForPrepareEnvelope)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Default,
+                //         Description = "Zarf bağlantısı bekleniyor"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_PrepareEnvelope
+                //     || documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_DebugTest
+                //     || documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_ErrorAnalyzing)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Processing,
+                //         Description = "Zarf bağlantısı yapılıyor"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_PrepareEnvelope)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Error,
+                //         Description = "Zarf bağlantısı yapılamadı"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_PreparedWaitForCreateFile)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Wait,
+                //         Description = "Zarf dosyası bekleniyor"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_CreateFile)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Error,
+                //         Description = "Zarf dosyası hata aldı"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_CreatedFileWaitForSendToGib)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Wait,
+                //         Description = "Gönderilmeyi bekliyor"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_SendToGib)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Error,
+                //         Description = "Zarf gönderilemedi"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_TransferredWaitForQueryFromGib)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Wait,
+                //         Description = "Alındı yanıtı bekliyor"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Fail_EnvelopeErrorOnGIB)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Error,
+                //         Description = "Zarf merkezde hata aldı"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Fail_EnvelopeErrorOnReceiver)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Error,
+                //         Description = "Zarf alıcıda hata aldı"
+                //     };
+                // }
+                // else if (documentEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_EnvelopeSuccessfullySend)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Success,
+                //         Description = "Başarıyla alıcıya iletildi"
+                //     };
+                // }
+                // else
+                return new GlobalStateClass()
                 {
                     State = GlobalEnums.GlobalUIStates.Default,
                     Description = "Bilinmiyor"
@@ -242,112 +243,113 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
             else if (documentAnswerState == (byte)EInvoiceEnums.NewGibDocumentProcessStatus.State_SuccessDocumentSigned)
             {
                 #region ENVELOPING STATE
-
-                if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_WaitForSignedDocument
-                    || documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_PreparedWaitForRefDocument)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Default,
-                        Description = "Referans döküman bekleniyor"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_WaitForPrepareEnvelope)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Default,
-                        Description = "Zarf bağlantısı bekleniyor"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_PrepareEnvelope
-                    || documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_DebugTest
-                    || documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_ErrorAnalyzing)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Processing,
-                        Description = "Zarf bağlantısı yapılıyor"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_PrepareEnvelope)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Error,
-                        Description = "Zarf bağlantısı yapılamadı"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_PreparedWaitForCreateFile)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Wait,
-                        Description = "Zarf dosyası bekleniyor"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_CreateFile)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Error,
-                        Description = "Zarf dosyası hata aldı"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_CreatedFileWaitForSendToGib)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Wait,
-                        Description = "Gönderilmeyi bekliyor"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_SendToGib)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Error,
-                        Description = "Zarf gönderilemedi"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_TransferredWaitForQueryFromGib)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Wait,
-                        Description = "Alındı yanıtı bekliyor"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Fail_EnvelopeErrorOnGIB)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Error,
-                        Description = "Zarf merkezde hata aldı"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Fail_EnvelopeErrorOnReceiver)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Error,
-                        Description = "Zarf alıcıda hata aldı"
-                    };
-                }
-                else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_EnvelopeSuccessfullySend)
-                {
-                    return new GlobalStateClass()
-                    {
-                        State = GlobalEnums.GlobalUIStates.Success,
-                        Description = "Başarıyla alıcıya iletildi"
-                    };
-                }
-                else return new GlobalStateClass()
+                //
+                // if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_WaitForSignedDocument
+                //     || documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_PreparedWaitForRefDocument)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Default,
+                //         Description = "Referans döküman bekleniyor"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_WaitForPrepareEnvelope)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Default,
+                //         Description = "Zarf bağlantısı bekleniyor"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_PrepareEnvelope
+                //     || documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_DebugTest
+                //     || documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Processing_ErrorAnalyzing)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Processing,
+                //         Description = "Zarf bağlantısı yapılıyor"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_PrepareEnvelope)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Error,
+                //         Description = "Zarf bağlantısı yapılamadı"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_PreparedWaitForCreateFile)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Wait,
+                //         Description = "Zarf dosyası bekleniyor"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_CreateFile)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Error,
+                //         Description = "Zarf dosyası hata aldı"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_CreatedFileWaitForSendToGib)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Wait,
+                //         Description = "Gönderilmeyi bekliyor"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Error_SendToGib)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Error,
+                //         Description = "Zarf gönderilemedi"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_TransferredWaitForQueryFromGib)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Wait,
+                //         Description = "Alındı yanıtı bekliyor"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Fail_EnvelopeErrorOnGIB)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Error,
+                //         Description = "Zarf merkezde hata aldı"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.Fail_EnvelopeErrorOnReceiver)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Error,
+                //         Description = "Zarf alıcıda hata aldı"
+                //     };
+                // }
+                // else if (documentAnswerEnvelopingState == (byte)EInvoiceEnums.NewGibDocumentEnvelopingStatus.State_EnvelopeSuccessfullySend)
+                // {
+                //     return new GlobalStateClass()
+                //     {
+                //         State = GlobalEnums.GlobalUIStates.Success,
+                //         Description = "Başarıyla alıcıya iletildi"
+                //     };
+                // }
+                // else
+                return new GlobalStateClass()
                 {
                     State = GlobalEnums.GlobalUIStates.Default,
                     Description = "Bilinmiyor"
                 };
-
+                //
                 #endregion
             }
             else return new GlobalStateClass()
@@ -429,119 +431,119 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
             };
         }
 
-        public static GlobalStateClass GetGibSendEnvelopeProcessStatus(byte envelopeProcessState)
-        {
-            if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.State_PreparedWaitForRefDocument)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Default,
-                    Description = "Referans döküman bekleniyor"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.State_PreparedWaitForCreateFile)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Wait,
-                    Description = "Zarf dosyası bekleniyor"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Processing_CreateFile)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Processing,
-                    Description = "Zarf dosyası hazırlanıyor"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Error_CreateFile)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Error,
-                    Description = "Zarf dosyası hata aldı"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.State_CreatedFileWaitForSendToGib)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Wait,
-                    Description = "Gönderilmeyi bekliyor"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Processing_SendToGib)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Processing,
-                    Description = "Zarf dosyası gönderiliyor"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Error_SendToGib)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Error,
-                    Description = "Zarf gönderilemedi"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.State_TransferredWaitForQueryFromGib)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Wait,
-                    Description = "Alındı yanıtı bekliyor"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Processing_QueryFromGib)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Processing,
-                    Description = "Zarf sorgulanıyor"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Fail_EnvelopeErrorOnGIB)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Error,
-                    Description = "Zarf merkezde hata aldı"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Fail_EnvelopeErrorOnReceiver)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Error,
-                    Description = "Zarf alıcıda hata aldı"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.State_EnvelopeSuccessfullySend)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Success,
-                    Description = "Başarıyla alıcıya iletildi"
-                };
-            }
-            else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Processing_DebugTest
-                || envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Processing_ErrorAnalyzing)
-            {
-                return new GlobalStateClass()
-                {
-                    State = GlobalEnums.GlobalUIStates.Processing,
-                    Description = "Zarf işlem yapılıyor"
-                };
-            }
-            else return new GlobalStateClass()
-            {
-                State = GlobalEnums.GlobalUIStates.Default,
-                Description = "Bilinmiyor"
-            };
-        }
+        // public static GlobalStateClass GetGibSendEnvelopeProcessStatus(byte envelopeProcessState)
+        // {
+        //     if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.State_PreparedWaitForRefDocument)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Default,
+        //             Description = "Referans döküman bekleniyor"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.State_PreparedWaitForCreateFile)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Wait,
+        //             Description = "Zarf dosyası bekleniyor"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Processing_CreateFile)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Processing,
+        //             Description = "Zarf dosyası hazırlanıyor"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Error_CreateFile)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Error,
+        //             Description = "Zarf dosyası hata aldı"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.State_CreatedFileWaitForSendToGib)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Wait,
+        //             Description = "Gönderilmeyi bekliyor"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Processing_SendToGib)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Processing,
+        //             Description = "Zarf dosyası gönderiliyor"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Error_SendToGib)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Error,
+        //             Description = "Zarf gönderilemedi"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.State_TransferredWaitForQueryFromGib)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Wait,
+        //             Description = "Alındı yanıtı bekliyor"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Processing_QueryFromGib)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Processing,
+        //             Description = "Zarf sorgulanıyor"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Fail_EnvelopeErrorOnGIB)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Error,
+        //             Description = "Zarf merkezde hata aldı"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Fail_EnvelopeErrorOnReceiver)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Error,
+        //             Description = "Zarf alıcıda hata aldı"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.State_EnvelopeSuccessfullySend)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Success,
+        //             Description = "Başarıyla alıcıya iletildi"
+        //         };
+        //     }
+        //     else if (envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Processing_DebugTest
+        //         || envelopeProcessState == (byte)EInvoiceEnums.SendGibEnvelopeProcessState.Processing_ErrorAnalyzing)
+        //     {
+        //         return new GlobalStateClass()
+        //         {
+        //             State = GlobalEnums.GlobalUIStates.Processing,
+        //             Description = "Zarf işlem yapılıyor"
+        //         };
+        //     }
+        //     else return new GlobalStateClass()
+        //     {
+        //         State = GlobalEnums.GlobalUIStates.Default,
+        //         Description = "Bilinmiyor"
+        //     };
+        // }
     }
 
     public static class VeribanContractGlobalStateUtil

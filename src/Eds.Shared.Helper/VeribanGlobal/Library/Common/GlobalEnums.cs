@@ -18,6 +18,7 @@
             EARCHIVE = 12,
             EBOOK = 13,
             ETICKET = 14,
+
             //FAKTORING = 15,
             EMUTABAKAT = 16,
             EDESPATCH = 17,
@@ -85,10 +86,12 @@
         {
             NONE = 0,
             WEBPORTAL = 1,
+
             //WEBSERVICE_OldWebService = 21,
             WEBSERVICE_AppConnectWebService = 22,
             WEBSERVICE_IntegrationWebService = 23
         }
+
         public enum EBookPlatforms
         {
             NONE = 0,
@@ -98,6 +101,7 @@
             WEBSERVICE_IntegrationWebService = 23,
             WEBSERVICE_AppSignerWebService = 24
         }
+
         public enum ETicketPlatforms
         {
             NONE = 0,
@@ -110,6 +114,7 @@
             WEBSERVICE_AirLinesIntegrationWebService = 33,
             WEBSERVICE_ActivityIntegrationWebService = 34
         }
+
         public enum FaktoringPlatforms
         {
             NONE = 0,
@@ -191,6 +196,7 @@
             EARCHIVE_EXCEL_OKC_DOCUMENT = 69, //EXCEL DONWLOAD REPORT
             EARCHIVE_EXCEL_REPORT_PACKAGE = 161, //EXCEL DONWLOAD REPORT
             EARCHIVE_EXCEL_REPORT_PACKAGE_DETAIL = 162, //EXCEL DONWLOAD REPORT
+
             //EARCHIVE_SALES_INVOICE_ARCHIVE = 163,
             EARCHIVE_OKC_NEW_DOCUMENT = 164,
             EARCHIVE_OKC_INVOICE = 165,
@@ -315,17 +321,20 @@
             StandartAccount = 1,
             ArchiveEInvoice = 2
         }
+
         public enum EArchiveAccountProcessType
         {
             None = 0,
             StandartAccount = 1
         }
+
         public enum EBookAccountProcessType
         {
             None = 0,
             StandartAccount = 1,
             BookArchiver = 2
         }
+
         public enum ETicketAccountProcessType
         {
             None = 0,
@@ -334,6 +343,7 @@
             AirLines = 3,
             Activity = 4
         }
+
         public enum FaktoringAccountProcessType
         {
             None = 0,
@@ -353,6 +363,7 @@
             WS_DraftFileTransfer = 1,
             WEB_Upload = 2
         }
+
         public enum SignatureStatus
         {
             None = 0,
@@ -381,14 +392,18 @@
             Unknown = 0,
             State_WaitForApproved = 1,
             State_WaitForDocumentCreate = 11,
+
             //BLUE
             State_WaitForDocumentSign = 12,
+
             //YELLOW
             Process_DocumentCreating = 21,
             Process_DocumentSigning = 22,
+
             //RED
             Error_DocumentCreate = 31,
             Error_DocumentSign = 32,
+
             //GREEN
             State_SuccessDocumentSigned = 99
         }
@@ -460,12 +475,16 @@
             State_WaitForSignedDocument = 2,
             State_WaitForReportedDocument = 3,
             State_WaitForApprovedFactoring = 5,
+
             //BLUE
             State_WaitForTransferToPool = 11,
+
             //YELLOW
             Process_TransferringToPool = 21,
+
             //RED
             Error_TransferToPool = 31,
+
             //GREEN
             State_SuccessTransferToPool = 99
         }
@@ -490,14 +509,18 @@
             //GRAY
             Unknown = 0,
             State_OfferCreated = 1,
+
             //BLUE
             State_OfferAccepted = 11,
             State_FaktoringApproved = 12,
+
             //YELLOW
             State_OfferRejected = 21,
             State_FaktoringCancelled = 22,
+
             //RED
             Error_FaktoringFailed = 31,
+
             //GREEN
             State_FaktoringSuccess = 99
         }
@@ -578,8 +601,10 @@
             EINVOICE_SALES_INVOICE_SINGLE_CUSTOMER = 12,
             EINVOICE_PURCHASE_INVOICE_REPORT_SUCCESS = 13,
             EINVOICE_SALES_INVOICE_REPORT_REJECTED = 14,
+
             //EINVOICE_SALES_INVOICE_REPORT_FAILED = 15,
             EINVOICE_PURCHASE_INVOICE_REPORT_REJECTED = 16,
+
             //EINVOICE_PURCHASE_INVOICE_REPORT_FAILED = 17,
             EINVOICE_SALES_INVOICE_SINGLE_ACCOUNT = 18,
             EINVOICE_PURCHASE_INVOICE_SINGLE_ACCOUNT = 19,
@@ -588,8 +613,10 @@
             EDESPATCH_SALES_DESPATCH_SINGLE_CUSTOMER = 22,
             EDESPATCH_PURCHASE_DESPATCH_REPORT_SUCCESS = 23,
             EDESPATCH_SALES_DESPATCH_REPORT_REJECTED = 24,
+
             //EDESPATCH_SALES_DESPATCH_REPORT_FAILED = 25,
             EDESPATCH_PURCHASE_DESPATCH_REPORT_REJECTED = 26,
+
             //EDESPATCH_PURCHASE_DESPATCH_REPORT_FAILED = 27,
             EDESPATCH_SALES_DESPATCH_SINGLE_ACCOUNT = 28,
             EDESPATCH_PURCHASE_DESPATCH_SINGLE_ACCOUNT = 29,
@@ -617,6 +644,7 @@
             Error = 14,
             Success = 15
         }
+
         public enum HistoryDocumentTypes
         {
             Unknown = 0,
@@ -689,7 +717,6 @@
             CustomerCrud = 65,
             UserDocumentMailReport = 66
         }
-
     }
 
     public class EInvoiceEnums
@@ -725,59 +752,116 @@
             SystemResponseReceivedEnvelopeBuyerAnswer = 154
         }
 
-        public enum SendGibEnvelopeProcessState
+        public enum GibDocumentEnvelopingState
         {
             //GRAY
             Unknown = 0,
+            State_NoEnvelopeOperation = 1,
+            State_WaitForSignedDocument = 2,
+            State_WaitForPrepareEnvelope = 3,
 
-            State_PreparedWaitForRefDocument = 10,//LOGO vs. direct transfer
+            State_PreparedWaitForRefDocument = 10, //LOGO vs. direct transfer
 
             //BLUE
             State_PreparedWaitForCreateFile = 12,
             State_CreatedFileWaitForSendToGib = 14,
             State_TransferredWaitForQueryFromGib = 16,
 
-            //YELLOW
-            Processing_CreateFile = 22,
-            Processing_SendToGib = 24,
-            Processing_QueryFromGib = 26,
-
             //RED
-            Error_CreateFile = 42,//32,//
-            Error_SendToGib = 44,//34,//
-
-            Fail_EnvelopeErrorOnGIB = 51,//41,//
-            Fail_EnvelopeErrorOnReceiver = 52,//42,//
+            Error_PrepareEnvelope = 41,
+            Error_CreateFile = 42,
+            Error_SendToGib = 44,
+            Error_QueryFromGib = 46,
 
             //YELLOW
-            Processing_DebugTest = 61,
-            Processing_ErrorAnalyzing = 62,
+            Fail_EnvelopeErrorOnGIB = 51,
+            Fail_EnvelopeErrorOnReceiver = 52,
 
             //GREEN
             State_EnvelopeSuccessfullySend = 99
         }
 
-        public enum ReceivedGibEnvelopeProcessState
+        public enum GibEnvelopeProcessState
         {
             //GRAY
             Unknown = 0,
 
-            //BLUE
-            State_TransferredWaitForQueryFromGib = 16,
+            State_PreparedWaitForRefDocument = 10, //LOGO vs. direct transfer
 
-            //YELLOW
-            Processing_QueryFromGib = 26,
+            //BLUE
+            State_PreparedWaitForCreateFile = 12,
+            State_CreatedFileWaitForSendToGib = 14,
+            State_CreatedFileWaitForReSendToGib = 15,
+            State_TransferredWaitForQueryFromGib = 16,
+            State_TransferredWaitForReQueryFromGib = 17,
 
             //RED
-            Fail_EnvelopeErrorOnGIB = 51,// 41,//
-            Fail_EnvelopeErrorOnReceiver = 52,// 42,//
+            Error_CreateFile = 42,
+            Error_SendToGib = 44,
+            Error_QueryFromGib = 46,
 
             //YELLOW
-            Processing_DebugTest = 61,
-            Processing_ErrorAnalyzing = 62,
+            Fail_EnvelopeErrorOnGIB = 51,
+            Fail_EnvelopeErrorOnReceiver = 52,
 
+            //GREEN
             State_EnvelopeSuccessfullySend = 99
         }
+
+
+        // public enum SendGibEnvelopeProcessState
+        // {
+        //     //GRAY
+        //     Unknown = 0,
+        //
+        //     State_PreparedWaitForRefDocument = 10,//LOGO vs. direct transfer
+        //
+        //     //BLUE
+        //     State_PreparedWaitForCreateFile = 12,
+        //     State_CreatedFileWaitForSendToGib = 14,
+        //     State_TransferredWaitForQueryFromGib = 16,
+        //
+        //     //YELLOW
+        //     Processing_CreateFile = 22,
+        //     Processing_SendToGib = 24,
+        //     Processing_QueryFromGib = 26,
+        //
+        //     //RED
+        //     Error_CreateFile = 42,//32,//
+        //     Error_SendToGib = 44,//34,//
+        //
+        //     Fail_EnvelopeErrorOnGIB = 51,//41,//
+        //     Fail_EnvelopeErrorOnReceiver = 52,//42,//
+        //
+        //     //YELLOW
+        //     Processing_DebugTest = 61,
+        //     Processing_ErrorAnalyzing = 62,
+        //
+        //     //GREEN
+        //     State_EnvelopeSuccessfullySend = 99
+        // }
+
+        // public enum ReceivedGibEnvelopeProcessState
+        // {
+        //     //GRAY
+        //     Unknown = 0,
+        //
+        //     //BLUE
+        //     State_TransferredWaitForQueryFromGib = 16,
+        //
+        //     //YELLOW
+        //     Processing_QueryFromGib = 26,
+        //
+        //     //RED
+        //     Fail_EnvelopeErrorOnGIB = 51,// 41,//
+        //     Fail_EnvelopeErrorOnReceiver = 52,// 42,//
+        //
+        //     //YELLOW
+        //     Processing_DebugTest = 61,
+        //     Processing_ErrorAnalyzing = 62,
+        //
+        //     State_EnvelopeSuccessfullySend = 99
+        // }
 
         public enum GibTransferStatus
         {
@@ -845,44 +929,48 @@
             //GREEN
             State_SuccessDocumentSigned = 99
         }
-        public enum NewGibDocumentEnvelopingStatus
-        {
-            //GRAY
-            Unknown = 0,
-            State_NoEnvelopeOperation = 1,
-            State_WaitForSignedDocument = 2,
-
-            State_PreparedWaitForRefDocument = 10,//LOGO vs. direct transfer
-
-            State_WaitForPrepareEnvelope = 11,
-
-            //BLUE
-            State_PreparedWaitForCreateFile = 12,
-            State_CreatedFileWaitForSendToGib = 14,
-            State_TransferredWaitForQueryFromGib = 16,
-
-            //YELLOW
-            Processing_PrepareEnvelope = 21,
-
-            //RED
-            Error_PrepareEnvelope = 41,
-            Error_CreateFile = 42,
-            Error_SendToGib = 44,
-
-            Fail_EnvelopeErrorOnGIB = 51,
-            Fail_EnvelopeErrorOnReceiver = 52,
-
-            //YELLOW
-            Processing_DebugTest = 61,
-            Processing_ErrorAnalyzing = 62,
-
-            //GREEN
-            State_EnvelopeSuccessfullySend = 99
-        }
+        // public enum NewGibDocumentEnvelopingStatus
+        // {
+        //     //GRAY
+        //     Unknown = 0,
+        //     State_NoEnvelopeOperation = 1,
+        //     State_WaitForSignedDocument = 2,
+        //
+        //     State_PreparedWaitForRefDocument = 10,//LOGO vs. direct transfer
+        //
+        //     State_WaitForPrepareEnvelope = 11,
+        //
+        //     //BLUE
+        //     State_PreparedWaitForCreateFile = 12,
+        //     State_CreatedFileWaitForSendToGib = 14,
+        //     State_CreatedFileWaitForReSendToGib = 15,
+        //     State_TransferredWaitForQueryFromGib = 16,
+        //     State_TransferredWaitForReQueryFromGib = 17,
+        //
+        //     //YELLOW
+        //     Processing_PrepareEnvelope = 21,
+        //
+        //     //RED
+        //     Error_PrepareEnvelope = 41,
+        //     Error_CreateFile = 42,
+        //     Error_SendToGib = 44,
+        //     Error_QueryFromGib = 45,
+        //
+        //     Fail_EnvelopeErrorOnGIB = 51,
+        //     Fail_EnvelopeErrorOnReceiver = 52,
+        //
+        //     //YELLOW
+        //     Processing_DebugTest = 61,
+        //     Processing_ErrorAnalyzing = 62,
+        //
+        //     //GREEN
+        //     State_EnvelopeSuccessfullySend = 99
+        // }
 
         public enum TransferModuleTypes
         {
             Transfer_UblTr_Xml = 0,
+
             //Transfer_Veriban_Xml = 4,
             //Transfer_Mikro_Xml = 5,
             Transfer_SAP_Xml = 8
@@ -929,7 +1017,6 @@
 
             //Tam ret
             CompletelyRejected = 4
-
         }
 
         public enum GibInvoiceType
@@ -941,6 +1028,7 @@
         public enum InstutePositionType
         {
             None = 0,
+
             /// <summary>
             /// Alıcı (account'un kestigi faturalardaki adresler icin)
             /// </summary>
@@ -999,14 +1087,13 @@
         public enum TransferModuleTypes
         {
             Transfer_UblTr_Xml = 0,
+
             //Transfer_Veriban_Xml = 4,
             //Transfer_Mikro_Xml = 5,
             Transfer_SAP_Xml = 8,
             Transfer_OKC_INVOICE_Xml = 9,
             Transfer_MM_Xml = 10,
             Transfer_SMM_Xml = 11
-
-
         }
     }
 
@@ -1093,18 +1180,22 @@
         {
             //GRAY
             Unknown = 0,
-            State_DraftFileCreatedWaitForApproveDraft = 1,          //taslak oluşturuldu, taslak onayı bekliyor.
-            State_DraftApprovedWaitForMailSendCompleted = 2,        //taslak onaylandı, mail gönderimi bekliyor
-            State_MailSendCompletedWaitForCustomerSendToVeriban = 3,//mail müşteriye ulaştı, müşterinin veribana xml i göndermesi bekleniyor.
+            State_DraftFileCreatedWaitForApproveDraft = 1, //taslak oluşturuldu, taslak onayı bekliyor.
+            State_DraftApprovedWaitForMailSendCompleted = 2, //taslak onaylandı, mail gönderimi bekliyor
+            State_MailSendCompletedWaitForCustomerSendToVeriban = 3, //mail müşteriye ulaştı, müşterinin veribana xml i göndermesi bekleniyor.
+
             //BLUE
-            State_CustomerSentFileWaitForPDFCreate = 11,            //müşteri xml i gönderdi, pdf oluşması bekleniyor.
-            State_PDFCreatedWaitForPDFSign = 12,                    //pdf oluştu, imzalanması bekleniyor.
+            State_CustomerSentFileWaitForPDFCreate = 11, //müşteri xml i gönderdi, pdf oluşması bekleniyor.
+            State_PDFCreatedWaitForPDFSign = 12, //pdf oluştu, imzalanması bekleniyor.
+
             //YELLOW
             Process_PDFCreating = 21,
             Process_PDFSigning = 22,
+
             //RED
             Error_PDFCreate = 31,
             Error_PDFSign = 32,
+
             //GREEN
             Success_PDFSigned = 99
         }
