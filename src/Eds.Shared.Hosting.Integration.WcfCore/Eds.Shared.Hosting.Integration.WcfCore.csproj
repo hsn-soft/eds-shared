@@ -14,11 +14,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CoreWCF.Primitives" Version="1.*"/>
-        <PackageReference Include="CoreWCF.Http" Version="1.*"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj"/>
     </ItemGroup>
 
