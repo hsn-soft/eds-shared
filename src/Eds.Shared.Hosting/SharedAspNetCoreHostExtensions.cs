@@ -41,6 +41,7 @@ public static class SharedAspNetCoreHostExtensions
         services.AddEndpointsApiExplorer();
 
         services.AddHttpContextAccessor();
+        services.AddSingleton<ICurrentPrincipalAccessor, HttpContextCurrentPrincipalAccessor>();
         services.AddScoped<IActionContextAccessor, ActionContextAccessor>();
 
         services.AddSingleton<IBaseLogger, BaseLogger>();
