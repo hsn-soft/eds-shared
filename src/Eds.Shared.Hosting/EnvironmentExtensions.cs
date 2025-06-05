@@ -4,7 +4,7 @@ namespace Eds.Shared.Hosting;
 
 public static class EnvironmentExtensions
 {
-    public static bool IsHhsProduction(this IHostEnvironment hostEnvironment)
+    public static bool IsHostProduction(this IHostEnvironment hostEnvironment)
     {
         if (hostEnvironment == null) throw new ArgumentNullException(nameof(hostEnvironment));
 

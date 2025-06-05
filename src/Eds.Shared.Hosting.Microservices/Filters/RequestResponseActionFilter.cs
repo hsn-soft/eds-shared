@@ -61,7 +61,7 @@ public sealed class RequestResponseActionFilterAttribute : Attribute, IActionFil
 
         var messages = new List<string> { _localizer["InvalidModelStateErrorMessage"] };
 
-        if (!_env.IsHhsProduction())
+        if (!_env.IsHostProduction())
         {
             var errorsInModelState = context.ModelState
                 .Where(x => x.Value?.Errors.Count > 0)

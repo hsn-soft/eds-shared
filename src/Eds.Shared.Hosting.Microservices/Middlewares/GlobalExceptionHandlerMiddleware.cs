@@ -85,7 +85,7 @@ public sealed class GlobalExceptionHandlerMiddleware : IMiddleware
             {
                 #region When Controller -> ConfigureApiBehaviorOptions -> SuppressModelStateInvalidFilter => false, will be run this code block!
 
-                if (!_env.IsHhsProduction())
+                if (!_env.IsHostProduction())
                 {
                     response.Body.Seek(0, SeekOrigin.Begin);
                     var errorBodyText = await new StreamReader(response.Body).ReadToEndAsync();
@@ -108,7 +108,7 @@ public sealed class GlobalExceptionHandlerMiddleware : IMiddleware
             }, _serializerSettings));
         }
 
-        if (!_env.IsHhsProduction() && response.StatusCode >= 400)
+        if (!_env.IsHostProduction() && response.StatusCode >= 400)
         {
             response.Body.Seek(0, SeekOrigin.Begin);
             var responseBodyText = await new StreamReader(response.Body).ReadToEndAsync();

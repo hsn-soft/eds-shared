@@ -108,14 +108,14 @@ public static class SharedAspNetCoreHostExtensions
 
                 var asymmetricPublicKey = services.BuildServiceProvider().GetRequiredService<RsaSecurityKey>();
 
-                options.RequireHttpsMetadata = env.IsHhsProduction() && Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+                options.RequireHttpsMetadata = env.IsHostProduction() && Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
                 options.Audience = audience; // Api audience
-                options.IncludeErrorDetails = !env.IsHhsProduction();
+                options.IncludeErrorDetails = !env.IsHostProduction();
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = true, // JWTs are required to have "aud" property set for Api audience
 
-                    ValidateIssuer = env.IsHhsProduction(),
+                    ValidateIssuer = env.IsHostProduction(),
                     ValidIssuer = configuration["AuthServer:Authority"],
 
                     RequireExpirationTime = true, // JWTs are required to have "exp" property set
