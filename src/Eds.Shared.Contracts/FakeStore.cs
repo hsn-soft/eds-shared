@@ -53,12 +53,12 @@ public static class FakeStore
             BranchCode = "0001",
             ParentFirmUniqueId = null,
             ProfileDomain = "AAA-Merkez",
-            Title = "AAA Merkez Client",
+            Title = "AAA Firması Ankara",
             RegisterSectorType = (byte)GlobalEnums.RegisterSectorType.PrivateSector,
             RegisterType = (byte)GlobalEnums.RegisterNumberType.Commercial,
             RegisterNumber = "9205121120",
-            FirmGBAlias = "urn:mail:defaultgb@aaa.com",
-            FirmPKAlias = "urn:mail:defaultpk@aaa.com",
+            FirmGBAlias = "urn:mail:ankara_sube_gb@aaa.com.tr",
+            FirmPKAlias = "urn:mail:ankara_sube_pk@aaa.com.tr",
         },
         new Firm
         {
@@ -68,12 +68,12 @@ public static class FakeStore
             BranchCode = "0002",
             ParentFirmUniqueId = FakeClientIds.AAACenterClientId,
             ProfileDomain = "AAA-DEF",
-            Title = "AAA Def Client",
+            Title = "AAA Firması Istanbul",
             RegisterSectorType = (byte)GlobalEnums.RegisterSectorType.PrivateSector,
             RegisterType = (byte)GlobalEnums.RegisterNumberType.Commercial,
             RegisterNumber = "9205121120",
-            FirmGBAlias = "urn:mail:def-gb@aaa.com",
-            FirmPKAlias = "urn:mail:def-pk@aaa.com",
+            FirmGBAlias = "urn:mail:istanbul_sube_gb@aaa.com.tr",
+            FirmPKAlias = "urn:mail:istanbul_sube_pk@aaa.com.tr",
         },
         new Firm
         {
@@ -83,12 +83,12 @@ public static class FakeStore
             BranchCode = null,
             ParentFirmUniqueId = null,
             ProfileDomain = "ZZZ",
-            Title = "ZZZ Client",
+            Title = "ZZZ Firması",
             RegisterSectorType = (byte)GlobalEnums.RegisterSectorType.PrivateSector,
             RegisterType = (byte)GlobalEnums.RegisterNumberType.Commercial,
             RegisterNumber = "1288331521",
-            FirmGBAlias = "urn:mail:defaultgb@zzz.com",
-            FirmPKAlias = "urn:mail:defaultpk@zzz.com",
+            FirmGBAlias = "urn:mail:defaultgb@zzz.com.tr",
+            FirmPKAlias = "urn:mail:defaultpk@zzz.com.tr",
         }
     };
 }
