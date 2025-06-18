@@ -26,20 +26,21 @@ public static class FakeStore
 
     public static IEnumerable<Tenant> Tenants => new[]
     {
-        new Tenant { Id = FakeTenantIds.TenantAAAId, TenantTitle = "AAA Tenant", TenantShortName = "TenantAAA" }, new Tenant { Id = FakeTenantIds.TenantZZZId, TenantTitle = "ZZZ Tenant", TenantShortName = "TenantZZZ" }
+        new Tenant { Id = FakeTenantIds.TenantAAAId, TenantTitle = "AAA Tenant", TenantShortName = "TenantAAA" },
+        new Tenant { Id = FakeTenantIds.TenantZZZId, TenantTitle = "ZZZ Tenant", TenantShortName = "TenantZZZ" }
     };
 
     public static IEnumerable<GIBUserAccount> GIBUserAccounts => new[]
     {
-        new GIBUserAccount { Identifier = "9205121120", DocumentType = nameof(GibAliasDocumentTypes.Invoice), AliasName = "urn:mail:defaultpk@aaa.com", AliasCreationTime = DateTime.UtcNow },
-        new GIBUserAccount { Identifier = "9205121120", DocumentType = nameof(GibAliasDocumentTypes.Invoice), AliasName = "urn:mail:def-pk@aaa.com", AliasCreationTime = DateTime.UtcNow },
-        new GIBUserAccount { Identifier = "1288331521", DocumentType = nameof(GibAliasDocumentTypes.Invoice), AliasName = "urn:mail:defaultpk@zzz.com", AliasCreationTime = DateTime.UtcNow }
+        new GIBUserAccount { Identifier = "9205121120", DocumentType = nameof(GibAliasDocumentTypes.Invoice), AliasName = "urn:mail:ankara_sube_pk@aaa.com.tr", AliasCreationTime = DateTime.UtcNow },
+        new GIBUserAccount { Identifier = "9205121120", DocumentType = nameof(GibAliasDocumentTypes.Invoice), AliasName = "urn:mail:istanbul_sube_pk@aaa.com.tr", AliasCreationTime = DateTime.UtcNow },
+        new GIBUserAccount { Identifier = "1288331521", DocumentType = nameof(GibAliasDocumentTypes.Invoice), AliasName = "urn:mail:defaultpk@zzz.com.tr", AliasCreationTime = DateTime.UtcNow }
     };
 
     public static IEnumerable<FirmConfigSystem> FirmConfigSystems => new[]
     {
-        new FirmConfigSystem { FirmId = FakeClientIds.AAACenterClientId, EdsSystemType = (byte)GlobalEnums.VeribanSystemType.EINVOICE, IsActive = 1 },
-        new FirmConfigSystem { FirmId = FakeClientIds.AAAdefClientId, EdsSystemType = (byte)GlobalEnums.VeribanSystemType.EINVOICE, IsActive = 1 },
+        new FirmConfigSystem { FirmId = FakeClientIds.AAAAnkaraClientId, EdsSystemType = (byte)GlobalEnums.VeribanSystemType.EINVOICE, IsActive = 1 },
+        new FirmConfigSystem { FirmId = FakeClientIds.AAAIstanbulClientId, EdsSystemType = (byte)GlobalEnums.VeribanSystemType.EINVOICE, IsActive = 1 },
         new FirmConfigSystem { FirmId = FakeClientIds.ZZZClientId, EdsSystemType = (byte)GlobalEnums.VeribanSystemType.EINVOICE, IsActive = 1 }
     };
 
@@ -47,33 +48,33 @@ public static class FakeStore
     {
         new Firm
         {
-            Id = FakeClientIds.AAACenterClientId,
+            Id = FakeClientIds.AAAAnkaraClientId,
             TenantId = FakeTenantIds.TenantAAAId,
             IsBranchFirm = true,
             BranchCode = "0001",
             ParentFirmUniqueId = null,
-            ProfileDomain = "AAA-Merkez",
-            Title = "AAA Merkez Client",
+            ProfileDomain = "AAA-Ankara",
+            Title = "AAA Firması Ankara",
             RegisterSectorType = (byte)GlobalEnums.RegisterSectorType.PrivateSector,
             RegisterType = (byte)GlobalEnums.RegisterNumberType.Commercial,
             RegisterNumber = "9205121120",
-            FirmGBAlias = "urn:mail:defaultgb@aaa.com",
-            FirmPKAlias = "urn:mail:defaultpk@aaa.com",
+            FirmGBAlias = "urn:mail:ankara_sube_gb@aaa.com.tr",
+            FirmPKAlias = "urn:mail:ankara_sube_pk@aaa.com.tr",
         },
         new Firm
         {
-            Id = FakeClientIds.AAAdefClientId,
+            Id = FakeClientIds.AAAIstanbulClientId,
             TenantId = FakeTenantIds.TenantAAAId,
             IsBranchFirm = true,
             BranchCode = "0002",
-            ParentFirmUniqueId = FakeClientIds.AAACenterClientId,
-            ProfileDomain = "AAA-DEF",
-            Title = "AAA Def Client",
+            ParentFirmUniqueId = FakeClientIds.AAAAnkaraClientId,
+            ProfileDomain = "AAA-Istanbul",
+            Title = "AAA Firması Istanbul",
             RegisterSectorType = (byte)GlobalEnums.RegisterSectorType.PrivateSector,
             RegisterType = (byte)GlobalEnums.RegisterNumberType.Commercial,
             RegisterNumber = "9205121120",
-            FirmGBAlias = "urn:mail:def-gb@aaa.com",
-            FirmPKAlias = "urn:mail:def-pk@aaa.com",
+            FirmGBAlias = "urn:mail:istanbul_sube_gb@aaa.com.tr",
+            FirmPKAlias = "urn:mail:istanbul_sube_pk@aaa.com.tr",
         },
         new Firm
         {
@@ -83,12 +84,12 @@ public static class FakeStore
             BranchCode = null,
             ParentFirmUniqueId = null,
             ProfileDomain = "ZZZ",
-            Title = "ZZZ Client",
+            Title = "ZZZ Firması",
             RegisterSectorType = (byte)GlobalEnums.RegisterSectorType.PrivateSector,
             RegisterType = (byte)GlobalEnums.RegisterNumberType.Commercial,
             RegisterNumber = "1288331521",
-            FirmGBAlias = "urn:mail:defaultgb@zzz.com",
-            FirmPKAlias = "urn:mail:defaultpk@zzz.com",
+            FirmGBAlias = "urn:mail:defaultgb@zzz.com.tr",
+            FirmPKAlias = "urn:mail:defaultpk@zzz.com.tr",
         }
     };
 }
@@ -133,8 +134,8 @@ public static class FakeTenantIds
 
 public static class FakeClientIds
 {
-    public static readonly Guid AAACenterClientId = Guid.Parse("4fe789ab-0652-4e7b-bd35-07019058081d");
-    public static readonly Guid AAAdefClientId = Guid.Parse("54a50c2d-3ad0-41f2-99a2-3df95f508395");
+    public static readonly Guid AAAAnkaraClientId = Guid.Parse("4fe789ab-0652-4e7b-bd35-07019058081d");
+    public static readonly Guid AAAIstanbulClientId = Guid.Parse("54a50c2d-3ad0-41f2-99a2-3df95f508395");
     public static readonly Guid ZZZClientId = Guid.Parse("e8265c9c-e52c-4daa-8dbe-30874e5fc02c");
 }
 
