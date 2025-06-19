@@ -27,7 +27,7 @@ public sealed record IntegrationSysResEnvelopeReceivedEto(
     public bool IsCenterSystemResponse { get; } = IsCenterSystemResponse;
     [NotNull] public string ReferenceEnvelopeIdentifier { get; } = ReferenceEnvelopeIdentifier;
     [NotNull] public string ReferenceDocumentType { get; } = ReferenceDocumentType;
-    [NotNull] string ReferenceGibStatusCode { get; } = ReferenceGibStatusCode;
+    [NotNull] public string ReferenceGibStatusCode { get; } = ReferenceGibStatusCode;
     [NotNull] public string ReferenceGibStatusDescription { get; } = ReferenceGibStatusDescription;
     [CanBeNull] public string ReferenceGTBRefNumber { get; } = ReferenceGTBRefNumber;
 }
