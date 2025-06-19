@@ -10,9 +10,10 @@ public sealed record IntegrationSysResEnvelopeReceivedEto(
     [NotNull] string SystemResponseEnvelopeIdentifier,
     DateTime SystemResponseEnvelopeCreationTime,
     [NotNull] string SystemResponseDocumentIdentifier,
+    bool IsCenterSystemResponse,
     [NotNull] string ReferenceEnvelopeIdentifier,
     [NotNull] string ReferenceDocumentType,
-    int ReferenceGibStatusCode,
+    [NotNull] string ReferenceGibStatusCode,
     [NotNull] string ReferenceGibStatusDescription,
     [CanBeNull] string ReferenceGTBRefNumber
 ) : IIntegrationEventMessage
@@ -23,9 +24,10 @@ public sealed record IntegrationSysResEnvelopeReceivedEto(
     [NotNull] public string SystemResponseEnvelopeIdentifier { get; } = SystemResponseEnvelopeIdentifier;
     public DateTime SystemResponseEnvelopeCreationTime { get; } = SystemResponseEnvelopeCreationTime;
     [NotNull] public string SystemResponseDocumentIdentifier { get; } = SystemResponseDocumentIdentifier;
+    public bool IsCenterSystemResponse { get; } = IsCenterSystemResponse;
     [NotNull] public string ReferenceEnvelopeIdentifier { get; } = ReferenceEnvelopeIdentifier;
     [NotNull] public string ReferenceDocumentType { get; } = ReferenceDocumentType;
-    public int ReferenceGibStatusCode { get; } = ReferenceGibStatusCode;
+    [NotNull] string ReferenceGibStatusCode { get; } = ReferenceGibStatusCode;
     [NotNull] public string ReferenceGibStatusDescription { get; } = ReferenceGibStatusDescription;
     [CanBeNull] public string ReferenceGTBRefNumber { get; } = ReferenceGTBRefNumber;
 }
