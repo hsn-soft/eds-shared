@@ -1,15 +1,15 @@
 using HsnSoft.Base.Domain.Entities.Events;
 using JetBrains.Annotations;
 
-namespace Eds.Shared.Contracts.Events;
+namespace Eds.Shared.Contracts.Events.FirmInvoice;
 
-public sealed record IntegrationPurchaseInvoiceAnswerPreparedEto(
+public sealed record IntegrationSalesInvoicePreparedEto(
     Guid ReceivedQueueId,
     Guid TenantId,
     Guid ClientId,
     [NotNull] string PreparedFilePath,
     [NotNull] string PreparedFileName,
-    [NotNull] string  PurchaseInvoiceAnswerIdentifier,
+    [NotNull] string  SalesInvoiceIdentifier,
     bool SendWithoutApprove,
     [CanBeNull] string CustomerPkAlias,
     [CanBeNull] string UniqueIntegrationCode
@@ -20,7 +20,7 @@ public sealed record IntegrationPurchaseInvoiceAnswerPreparedEto(
     public Guid ClientId { get; } = ClientId;
     [NotNull] public string PreparedFilePath { get; } = PreparedFilePath;
     [NotNull] public string PreparedFileName { get; } = PreparedFileName;
-    [NotNull] public string PurchaseInvoiceAnswerIdentifier { get; } = PurchaseInvoiceAnswerIdentifier;
+    [NotNull] public string SalesInvoiceIdentifier { get; } = SalesInvoiceIdentifier;
     public bool SendWithoutApprove { get; } = SendWithoutApprove;
     [CanBeNull] public string CustomerPkAlias { get; } = CustomerPkAlias;
     [CanBeNull] public string UniqueIntegrationCode { get; } = UniqueIntegrationCode;

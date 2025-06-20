@@ -1,14 +1,14 @@
 using HsnSoft.Base.Domain.Entities.Events;
 using JetBrains.Annotations;
 
-namespace Eds.Shared.Contracts.Events;
+namespace Eds.Shared.Contracts.Events.FirmInvoice;
 
-public sealed record IntegrationSalesInvoiceResultEto(
+public sealed record IntegrationPurchaseInvoiceAnswerResultEto(
     Guid ReceivedQueueId,
     bool IsOperationSuccess,
     [CanBeNull] string OperationDescription,
-    Guid? SalesInvoiceId,
-    [NotNull] string SalesInvoiceIdentifier,
+    Guid? PurchaseInvoiceAnswerId,
+    [NotNull] string  PurchaseInvoiceAnswerIdentifier,
     [CanBeNull] string CustomerRegisterNumber,
     [CanBeNull] string CustomerPkAlias
 ) : IIntegrationEventMessage
@@ -16,8 +16,8 @@ public sealed record IntegrationSalesInvoiceResultEto(
     public Guid ReceivedQueueId { get; } = ReceivedQueueId;
     public bool IsOperationSuccess { get; } = IsOperationSuccess;
     [CanBeNull] public string OperationDescription { get; } = OperationDescription;
-    public Guid? SalesInvoiceId { get; } = SalesInvoiceId;
-    [NotNull] public string SalesInvoiceIdentifier { get; } = SalesInvoiceIdentifier;
+    public Guid? PurchaseInvoiceAnswerId { get; } = PurchaseInvoiceAnswerId;
+    [NotNull] public string PurchaseInvoiceAnswerIdentifier { get; } = PurchaseInvoiceAnswerIdentifier;
     [CanBeNull] public string CustomerRegisterNumber { get; } = CustomerRegisterNumber;
     [CanBeNull] public string CustomerPkAlias { get; } = CustomerPkAlias;
 }

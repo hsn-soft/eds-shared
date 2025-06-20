@@ -1,8 +1,7 @@
-using System.ComponentModel.DataAnnotations;
 using HsnSoft.Base.Domain.Entities.Events;
 using JetBrains.Annotations;
 
-namespace Eds.Shared.Contracts.Events.EInvoice;
+namespace Eds.Shared.Contracts.Events.SignInvoice;
 
 public sealed record SignPurchaseInvoiceAnswerStartedEto(
     Guid PurchaseInvoiceAnswerId,

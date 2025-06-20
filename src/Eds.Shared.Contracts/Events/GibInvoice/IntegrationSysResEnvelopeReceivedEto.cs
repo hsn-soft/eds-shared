@@ -1,7 +1,7 @@
 using HsnSoft.Base.Domain.Entities.Events;
 using JetBrains.Annotations;
 
-namespace Eds.Shared.Contracts.Events;
+namespace Eds.Shared.Contracts.Events.GibInvoice;
 
 public sealed record IntegrationSysResEnvelopeReceivedEto(
     Guid ReceivedGibSysQueueId,
