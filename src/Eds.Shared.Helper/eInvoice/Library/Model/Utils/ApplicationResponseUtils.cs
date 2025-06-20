@@ -10,89 +10,56 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Utils
 {
     public static class ApplicationResponseUtils
     {
-        public static string CreateGIBQueryResponseEnvelopeDocumentContent(string refEnvelopeIdentifier, string documentTypeCode
+        public static string CreateGIBQueryResponseEnvelopeDocumentContent(string refEnvelopeIdentifier, EnvelopeDocumentIdentificationType documentTypeCode
             , string receiverTaxNo, string receiverTitle, int responseCode, string description)
         {
             ApplicationResponseModel appResponse = new ApplicationResponseModel()
             {
                 #region APPLICATION RESPONSE MODEL
+
                 ProfileID = "TICARIFATURA",
                 ID = Guid.NewGuid().ToString(),
                 UUID = Guid.NewGuid().ToString(),
                 IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort),
                 IssueTime = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatTime),
-                SenderParty = new Party()
-                {
-                    PartyIdentification = new List<PartyIdentification>()
+                SenderParty =
+                    new Party()
                     {
-                        new PartyIdentification()
-                        {
-                            ID=new CombineId() { Id = SpecialIntegratorInfo.SEALER_TAX_NO, SchemeId = "VKN" }
-                        }
+                        PartyIdentification = new List<PartyIdentification>() { new PartyIdentification() { ID = new CombineId() { Id = SpecialIntegratorInfo.SEALER_TAX_NO, SchemeId = "VKN" } } },
+                        PartyName = new PartyName() { Name = SpecialIntegratorInfo.SEALER_TITLE },
+                        PostalAddress = new Address() { StreetName = "Atakan Sk. No:14 ", CitySubdivisionName = "Mecidiyeköy/Şişli", CityName = "ISTANBUL", Country = new Country() { IdentificationCode = "TR", Name = "Türkiye" } }
                     },
-                    PartyName = new PartyName() { Name = SpecialIntegratorInfo.SEALER_TITLE },
-                    PostalAddress = new Address()
+                ReceiverParty =
+                    new Party()
                     {
-                        StreetName = "Atakan Sk. No:14 ",
-                        CitySubdivisionName = "Mecidiyeköy/Şişli",
-                        CityName = "ISTANBUL",
-                        Country = new Country() { IdentificationCode = "TR", Name = "Türkiye" }
-                    }
-                },
-                ReceiverParty = new Party()
-                {
-                    PartyIdentification = new List<PartyIdentification>()
-                    {
-                        new PartyIdentification()
-                        {
-                            ID = new CombineId() { Id = receiverTaxNo, SchemeId = "VKN" }
-                        }
+                        PartyIdentification = new List<PartyIdentification>() { new PartyIdentification() { ID = new CombineId() { Id = receiverTaxNo, SchemeId = "VKN" } } },
+                        PartyName = new PartyName() { Name = receiverTitle },
+                        PostalAddress = new Address() { CitySubdivisionName = string.Empty, CityName = string.Empty, Country = new Country() { IdentificationCode = "TR", Name = "Türkiye" } }
                     },
-                    PartyName = new PartyName() { Name = receiverTitle },
-                    PostalAddress = new Address()
-                    {
-                        CitySubdivisionName = string.Empty,
-                        CityName = string.Empty,
-                        Country = new Country() { IdentificationCode = "TR", Name = "Türkiye" }
-                    }
-                },
                 DocumentResponse = new DocumentResponse()
                 {
-                    Response = new Response()
-                    {
-                        ReferenceID = Guid.NewGuid().ToString(),
-                        ResponseCode = "S_APR",
-                        Description = "APPLICATIONRESPONSE"
-                    },
-                    DocumentReference = new DocumentReference()
-                    {
-                        ID = new CombineId() { Id = refEnvelopeIdentifier },
-                        IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort),
-                        DocumentTypeCode = documentTypeCode,
-                        DocumentType = documentTypeCode
-                    },
+                    Response = new Response() { ReferenceID = Guid.NewGuid().ToString(), ResponseCode = DocumentResponseCodeType.S_APR.ToString(), Description = EnvelopePackageElementType.APPLICATIONRESPONSE.ToString() },
+                    DocumentReference =
+                        new DocumentReference()
+                        {
+                            ID = new CombineId() { Id = refEnvelopeIdentifier },
+                            IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort),
+                            DocumentTypeCode = documentTypeCode.ToString(),
+                            DocumentType = documentTypeCode.ToString()
+                        },
                     LineResponses = new List<LineResponse>()
                     {
                         new LineResponse()
                         {
                             LineReference = new LineReference()
                             {
-                                LineID = "0",
-                                DocumentReference = new DocumentReference()
-                                {
-                                    ID = new CombineId() { Id = refEnvelopeIdentifier },
-                                    IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort)
-                                }
+                                LineID = "0", DocumentReference = new DocumentReference() { ID = new CombineId() { Id = refEnvelopeIdentifier }, IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort) }
                             },
-                            Response = new Response()
-                            {
-                                ReferenceID = Guid.NewGuid().ToString(),
-                                ResponseCode = responseCode.ToString(),
-                                Description = description
-                            }
+                            Response = new Response() { ReferenceID = Guid.NewGuid().ToString(), ResponseCode = responseCode.ToString(), Description = description }
                         }
                     }
                 }
+
                 #endregion
             };
 
@@ -113,7 +80,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Utils
         }
 
         public static string CreateGIBSystemResponseEnvelopeDocumentContent(DateTime envelopeCreationTime, string envelopeNumber
-            , string refEnvelopeIdentifier, string responseCode, string responseDesc
+            , string refEnvelopeIdentifier, EnvelopeDocumentIdentificationType refEnvelopeTypeCode, string responseCode, string responseDesc
             , string senderAlias, CombineId senderRegisterNumber, string senderTitle
             , string receiverAlias, CombineId receiverRegisterNumber, string receiverTitle)
         {
@@ -123,47 +90,33 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Utils
             ApplicationResponseModel appResponse = new ApplicationResponseModel()
             {
                 #region APPLICATION RESPONSE MODEL
+
                 ProfileID = "UBL-TR-PROFILE-1",
                 ID = "APR" + appResponseID,
                 UUID = Guid.NewGuid().ToString(),
                 IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort),
                 IssueTime = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatTime),
-                SenderParty = new Party()
-                {
-                    PartyIdentification = new List<PartyIdentification>() { new PartyIdentification() { ID = senderRegisterNumber } },
-                    PostalAddress = new Address()
+                SenderParty =
+                    new Party()
                     {
-                        StreetName = "Atakan Sk. No:14 ",
-                        CitySubdivisionName = "Mecidiyeköy/Şişli",
-                        CityName = "ISTANBUL",
-                        Country = new Country() { IdentificationCode = "TR", Name = "Türkiye" }
-                    }
-                },
+                        PartyIdentification = new List<PartyIdentification>() { new PartyIdentification() { ID = senderRegisterNumber } },
+                        PostalAddress = new Address() { StreetName = "Atakan Sk. No:14 ", CitySubdivisionName = "Mecidiyeköy/Şişli", CityName = "ISTANBUL", Country = new Country() { IdentificationCode = "TR", Name = "Türkiye" } }
+                    },
                 ReceiverParty = new Party()
                 {
                     PartyIdentification = new List<PartyIdentification>() { new PartyIdentification() { ID = receiverRegisterNumber } },
-                    PostalAddress = new Address()
-                    {
-                        CitySubdivisionName = string.Empty,
-                        CityName = string.Empty,
-                        Country = new Country() { IdentificationCode = "TR", Name = "Türkiye" }
-                    }
+                    PostalAddress = new Address() { CitySubdivisionName = string.Empty, CityName = string.Empty, Country = new Country() { IdentificationCode = "TR", Name = "Türkiye" } }
                 },
                 DocumentResponse = new DocumentResponse()
                 {
-                    Response = new Response()
-                    {
-                        ReferenceID = Guid.NewGuid().ToString(),
-                        ResponseCode = DocumentResponseCodeType.S_APR.ToString(),
-                        Description = "APPLICATIONRESPONSE"
-                    },
+                    Response = new Response() { ReferenceID = Guid.NewGuid().ToString(), ResponseCode = DocumentResponseCodeType.S_APR.ToString(), Description = EnvelopePackageElementType.APPLICATIONRESPONSE.ToString() },
                     DocumentReference = new DocumentReference()
                     {
                         //ZARF ID
                         ID = new CombineId() { Id = refEnvelopeIdentifier },
                         IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort),
-                        DocumentTypeCode = EnvelopeDocumentIdentificationType.SENDERENVELOPE.ToString(),
-                        DocumentType = EnvelopeDocumentIdentificationType.SENDERENVELOPE.ToString()
+                        DocumentTypeCode = refEnvelopeTypeCode.ToString(),
+                        DocumentType = refEnvelopeTypeCode.ToString()
                     },
                     LineResponses = new List<LineResponse>()
                     {
@@ -175,20 +128,14 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Utils
                                 DocumentReference = new DocumentReference()
                                 {
                                     //ZARF ID
-                                    ID = new CombineId() { Id= refEnvelopeIdentifier },
-                                    IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort)
+                                    ID = new CombineId() { Id = refEnvelopeIdentifier }, IssueDate = DateTime.Now.ToString(DateFormats.DateTimeGIBFormatShort)
                                 }
                             },
-                            Response = new Response()
-                            {
-                                ReferenceID = Guid.NewGuid().ToString(),
-                                ResponseCode = responseCode,
-                                Description = responseDesc
-                            }
-
+                            Response = new Response() { ReferenceID = Guid.NewGuid().ToString(), ResponseCode = responseCode, Description = responseDesc }
                         }
                     }
                 }
+
                 #endregion
             };
 
