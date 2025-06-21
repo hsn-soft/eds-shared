@@ -9,7 +9,14 @@ public sealed record IntegrationPurchaseInvoiceEnvelopePreparedEto(
     Guid ClientId,
     [NotNull] string PreparedFilePath,
     [NotNull] string PreparedFileName,
-    [NotNull] string  PurchaseInvoiceEnvelopeIdentifier
+    [NotNull] string  PurchaseInvoiceEnvelopeIdentifier,
+    [NotNull] string  SenderRegisterNumber,
+    [NotNull] string  SenderAlias,
+    [NotNull] string  SenderTitle,
+    [NotNull] string  ReceiverRegisterNumber,
+    [NotNull] string  ReceiverAlias,
+    [NotNull] string  ReceiverTitle
+
 ) : IIntegrationEventMessage
 {
     public Guid ReceivedGibDocQueueId { get; } = ReceivedGibDocQueueId;
@@ -18,4 +25,10 @@ public sealed record IntegrationPurchaseInvoiceEnvelopePreparedEto(
     [NotNull] public string PreparedFilePath { get; } = PreparedFilePath;
     [NotNull] public string PreparedFileName { get; } = PreparedFileName;
     [NotNull] public string PurchaseInvoiceEnvelopeIdentifier { get; } = PurchaseInvoiceEnvelopeIdentifier;
+    [NotNull] public string SenderRegisterNumber { get; } = SenderRegisterNumber;
+    [NotNull] public string SenderAlias { get; } = SenderAlias;
+    [NotNull] public string SenderTitle { get; } = SenderTitle;
+    [NotNull] public string ReceiverRegisterNumber { get; } = ReceiverRegisterNumber;
+    [NotNull] public string ReceiverAlias { get; } = ReceiverAlias;
+    [NotNull] public string ReceiverTitle { get; } = ReceiverTitle;
 }
