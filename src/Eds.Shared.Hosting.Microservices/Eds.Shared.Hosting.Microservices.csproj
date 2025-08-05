@@ -14,20 +14,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="9.0.0"/>
-        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0"/>
-        <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="9.0.0"/>
-        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0"/>
-        <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="9.0.0"/>
-        <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="9.0.0"/>
-    </ItemGroup>
-    
-    <ItemGroup>
-        <PackageReference Include="HsnSoft.Base.Caching.StackExchangeRedis" Version="$(HsnSoftFrameworkVersion)"/>
-        <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Caching.StackExchangeRedis\HsnSoft.Base.Caching.StackExchangeRedis.csproj" />-->
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Eds.Shared.Contracts\Eds.Shared.Contracts.csproj"/>
         <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj"/>
     </ItemGroup>

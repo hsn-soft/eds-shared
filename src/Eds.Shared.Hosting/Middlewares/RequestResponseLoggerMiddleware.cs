@@ -37,6 +37,16 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
             return;
         }
 
+        var pathString = context.Request.Path.ToString().ToLower();
+        if (pathString.Equals("/startupcheck") || pathString.Equals("/livenesscheck") || pathString.Equals("/readinesscheck"))
+        {
+            if (_settings?.IsEnabledHealthCheckRequestLogger == false)
+            {
+                await next(context);
+                return;
+            }
+        }
+
         var watch = new Stopwatch();
         watch.Start();
 

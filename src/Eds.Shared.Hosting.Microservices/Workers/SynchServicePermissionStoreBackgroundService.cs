@@ -52,10 +52,10 @@ public class SynchServicePermissionStoreBackgroundService : BaseSingleThreadBack
     {
         while (!token.IsCancellationRequested)
         {
-            if (BackgroundJobFlags.TriggerSynchPermissionServiceStore)
+            if (BackgroundServiceFlags.SkipWaitPeriodForSynchPermissionServiceStore)
             {
                 Logger.LogWarning("{WorkerName} | Skip Wait Period", nameof(SynchServicePermissionStoreBackgroundService));
-                BackgroundJobFlags.TriggerSynchPermissionServiceStore = false;
+                BackgroundServiceFlags.SkipWaitPeriodForSynchPermissionServiceStore = false;
 
                 // Skip operation wait period
                 SkipOperationWaitPeriod();

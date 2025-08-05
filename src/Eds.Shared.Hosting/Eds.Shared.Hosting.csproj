@@ -14,13 +14,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1"/>
-        <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0"/>
-        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0"/>
-        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0"/>
-    </ItemGroup>
-
-    <ItemGroup>
+        <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="9.0.0"/>
+        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0"/>
+        <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="9.0.0"/>
+        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0"/>
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0"/>
         <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1"/>
     </ItemGroup>
@@ -32,12 +29,14 @@
         <PackageReference Include="HsnSoft.Base.Data" Version="$(HsnSoftFrameworkVersion)"/>
         <PackageReference Include="HsnSoft.Base.Json" Version="$(HsnSoftFrameworkVersion)"/>
         <PackageReference Include="HsnSoft.Base.EventBus.RabbitMQ" Version="$(HsnSoftFrameworkVersion)"/>
+        <PackageReference Include="HsnSoft.Base.Caching.StackExchangeRedis" Version="$(HsnSoftFrameworkVersion)"/>
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Swashbuckle\HsnSoft.Base.Swashbuckle.csproj"/>-->
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.AspNetCore.Authentication.JwtBearer\HsnSoft.Base.AspNetCore.Authentication.JwtBearer.csproj"/>-->
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.AspNetCore.Serilog\HsnSoft.Base.AspNetCore.Serilog.csproj"/>-->
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Data\HsnSoft.Base.Data.csproj"/>-->
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Json\HsnSoft.Base.Json.csproj"/>-->
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.EventBus.RabbitMQ\HsnSoft.Base.EventBus.RabbitMQ.csproj" />-->
+        <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Caching.StackExchangeRedis\HsnSoft.Base.Caching.StackExchangeRedis.csproj" />-->
     </ItemGroup>
 
 </Project>
