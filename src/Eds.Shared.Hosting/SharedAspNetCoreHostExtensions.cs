@@ -182,6 +182,33 @@ public static class SharedAspNetCoreHostExtensions
         app.UseCors(corsName);
     }
 
+    public static IServiceCollection AddHostingRedis(this IServiceCollection services, IConfiguration configuration)
+    {
+        // services.Configure<BaseDistributedCacheOptions>(options =>
+        // {
+        //     options.KeyPrefix = "HsNsH:";
+        // });
+
+        // var dataProtectionBuilder = services.AddDataProtection().SetApplicationName("eShop");
+        // var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+        // dataProtectionBuilder.PersistKeysToStackExchangeRedis(redis, "eShop-Protection-Keys");
+
+        services.AddSingleton<IConnectionMultiplexer>(_ =>
+        {
+            var redisConf = ConfigurationOptions.Parse(configuration["Redis:Configuration"] ?? throw new InvalidOperationException(), true);
+            redisConf.ResolveDns = true;
+
+            return ConnectionMultiplexer.Connect(redisConf);
+        });
+
+        // var connectionString = Configuration["Redis:Configuration"];
+        // var multiplexer = ConnectionMultiplexer.Connect(connectionString);
+        // services.AddSingleton<IConnectionMultiplexer>(sp => multiplexer);
+
+        services.AddSingleton(typeof(IRedisRepository<>), typeof(RedisRepository<>));
+
+        return services;
+    }
 
     public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration, Assembly assembly)
     {
@@ -247,34 +274,6 @@ public static class SharedAspNetCoreHostExtensions
 
             eventBus.Subscribe(eventType, eventHandlerType, fetchCount < 1 ? (ushort)1 : fetchCount);
         }
-    }
-
-    public static IServiceCollection AddHostingRedis(this IServiceCollection services, IConfiguration configuration)
-    {
-        // services.Configure<BaseDistributedCacheOptions>(options =>
-        // {
-        //     options.KeyPrefix = "HsNsH:";
-        // });
-
-        // var dataProtectionBuilder = services.AddDataProtection().SetApplicationName("eShop");
-        // var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
-        // dataProtectionBuilder.PersistKeysToStackExchangeRedis(redis, "eShop-Protection-Keys");
-
-        services.AddSingleton<IConnectionMultiplexer>(_ =>
-        {
-            var redisConf = ConfigurationOptions.Parse(configuration["Redis:Configuration"] ?? throw new InvalidOperationException(), true);
-            redisConf.ResolveDns = true;
-
-            return ConnectionMultiplexer.Connect(redisConf);
-        });
-
-        // var connectionString = Configuration["Redis:Configuration"];
-        // var multiplexer = ConnectionMultiplexer.Connect(connectionString);
-        // services.AddSingleton<IConnectionMultiplexer>(sp => multiplexer);
-
-        services.AddSingleton(typeof(IRedisRepository<>), typeof(RedisRepository<>));
-
-        return services;
     }
 
     public static IServiceCollection AddHostingHealthChecks(this IServiceCollection services, IConfiguration configuration, string serviceName,
