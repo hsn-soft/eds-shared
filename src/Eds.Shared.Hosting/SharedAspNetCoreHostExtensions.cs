@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Security.Cryptography;
+using Eds.Shared.Hosting.HealthChecks;
 using Eds.Shared.Hosting.Middlewares;
 using HsnSoft.Base;
 using HsnSoft.Base.AspNetCore;
@@ -10,6 +11,7 @@ using HsnSoft.Base.AspNetCore.Serilog;
 using HsnSoft.Base.AspNetCore.Serilog.Persistent;
 using HsnSoft.Base.AspNetCore.Tracing;
 using HsnSoft.Base.Authorization;
+using HsnSoft.Base.Domain.Repositories;
 using HsnSoft.Base.EventBus;
 using HsnSoft.Base.EventBus.Logging;
 using HsnSoft.Base.EventBus.RabbitMQ;
@@ -24,11 +26,16 @@ using HsnSoft.Base.Tracing;
 using HsnSoft.Base.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
+using StackExchange.Redis;
 
 namespace Eds.Shared.Hosting;
 
@@ -242,4 +249,132 @@ public static class SharedAspNetCoreHostExtensions
         }
     }
 
+    public static IServiceCollection AddHostingRedis(this IServiceCollection services, IConfiguration configuration)
+    {
+        // services.Configure<BaseDistributedCacheOptions>(options =>
+        // {
+        //     options.KeyPrefix = "HsNsH:";
+        // });
+
+        // var dataProtectionBuilder = services.AddDataProtection().SetApplicationName("eShop");
+        // var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+        // dataProtectionBuilder.PersistKeysToStackExchangeRedis(redis, "eShop-Protection-Keys");
+
+        services.AddSingleton<IConnectionMultiplexer>(_ =>
+        {
+            var redisConf = ConfigurationOptions.Parse(configuration["Redis:Configuration"] ?? throw new InvalidOperationException(), true);
+            redisConf.ResolveDns = true;
+
+            return ConnectionMultiplexer.Connect(redisConf);
+        });
+
+        // var connectionString = Configuration["Redis:Configuration"];
+        // var multiplexer = ConnectionMultiplexer.Connect(connectionString);
+        // services.AddSingleton<IConnectionMultiplexer>(sp => multiplexer);
+
+        services.AddSingleton(typeof(IRedisRepository<>), typeof(RedisRepository<>));
+
+        return services;
+    }
+
+    public static IServiceCollection AddHostingHealthChecks(this IServiceCollection services, IConfiguration configuration, string serviceName,
+        bool checkMongo = false, string mongoConnectionName = null,
+        bool checkPostgresql = false, string postgresqlConnectionName = null,
+        bool checkRedis = false,
+        bool checkBroker = false)
+    {
+        var healtCheckPrefix = serviceName ?? "service";
+        var serviceProvider = services.BuildServiceProvider();
+        var hcBuilder = services.AddHealthChecks();
+
+        hcBuilder.AddCheck("self-check", () => HealthCheckResult.Healthy(), tags: ["dependencies"]);
+
+        // hcBuilder.AddUrlGroup
+        // (
+        //     new Uri(configuration["AuthServer:Authority"] ?? throw new InvalidOperationException()),
+        //     name: $"{healtCheckPrefix}-auth-check",
+        //     tags: new[] { "auth" }
+        // );
+
+        if (checkMongo)
+        {
+            hcBuilder.AddMongoDb(_ =>
+                {
+                    var mongoUrl = MongoUrl.Create(configuration.GetConnectionString(mongoConnectionName ?? throw new ArgumentNullException(nameof(mongoConnectionName))) ?? throw new InvalidOperationException());
+                    return new MongoClient(MongoClientSettings.FromConnectionString(mongoUrl.Url)).GetDatabase(mongoUrl.DatabaseName);
+                },
+                name: $"{healtCheckPrefix}-mongo-check",
+                tags: ["dependencies", "database"]
+            );
+            // hcBuilder.AddMongoDb(
+            //     mongodbConnectionString: configuration.GetConnectionString(mongoConnectionName) ?? throw new InvalidOperationException(),
+            //     name: $"{healtCheckPrefix}-mongo-check",
+            //     tags: new[] { "dependencies", "database" }
+            // );
+        }
+
+        if (checkPostgresql)
+        {
+            hcBuilder.AddNpgSql(
+                connectionString: configuration.GetConnectionString(postgresqlConnectionName ?? throw new ArgumentNullException(nameof(postgresqlConnectionName))) ?? throw new InvalidOperationException(),
+                name: $"{healtCheckPrefix}-postgresql-check",
+                tags: ["dependencies", "database"]
+            );
+        }
+
+        if (checkRedis)
+        {
+            var redisConnector = serviceProvider.GetRequiredService<IConnectionMultiplexer>();
+            hcBuilder.AddCheck(
+                instance: new CustomRedisHealthCheck(redisConnector),
+                name: $"{healtCheckPrefix}-redis-check",
+                tags: ["dependencies", "database"]
+            );
+        }
+
+        if (checkBroker)
+        {
+            var rabbitMq = new RabbitMqConnectionSettings();
+            configuration.Bind("RabbitMQ:Connection", rabbitMq);
+            hcBuilder.AddCheck(
+                instance: new RabbitMqHealthCheck(rabbitMq),
+                name: $"{healtCheckPrefix}-rabbitmq-check",
+                tags: ["dependencies", "broker"]
+            );
+
+            // var connectionSettings = serviceProvider.GetRequiredService<IOptions<KafkaConnectionSettings>>().Value;
+            // var producerConfig = new ProducerConfig
+            // {
+            //     BootstrapServers = $"{connectionSettings.HostName}:{connectionSettings.Port}",
+            // };
+            // hcBuilder.AddKafka(producerConfig, name: $"{healtCheckPrefix}-kafka-check", tags: new[] { "dependencies" });
+        }
+
+        return services;
+    }
+
+    public static void UseHostingHealthChecks(this IApplicationBuilder app)
+    {
+        // app.UseHealthChecks("/StartupCheck", new HealthCheckOptions { Predicate = _ => true });
+        // app.UseHealthChecks("/LivenessCheck", new HealthCheckOptions { Predicate = _ => true });
+        // app.UseHealthChecks("/ReadinessCheck", new HealthCheckOptions { Predicate = _ => true });
+
+        app.UseHealthChecks("/StartupCheck", new HealthCheckOptions { Predicate = r => r.Tags.Contains("dependencies"), ResponseWriter = CustomHealthCheckResponse });
+        app.UseHealthChecks("/LivenessCheck", new HealthCheckOptions { Predicate = r => r.Name.Equals("self-check") });
+        app.UseHealthChecks("/ReadinessCheck", new HealthCheckOptions
+        {
+            Predicate = r => r.Tags.Contains("dependencies"),
+            //ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            ResponseWriter = CustomHealthCheckResponse
+        });
+    }
+
+    private static async Task CustomHealthCheckResponse(HttpContext context, HealthReport report)
+    {
+        context.Response.ContentType = "application/json";
+        var result = System.Text.Json.JsonSerializer.Serialize(
+            new { status = report.Status.ToString(), checks = report.Entries.Select(e => new { name = e.Key, status = e.Value.Status.ToString(), exception = e.Value.Exception?.Message, duration = e.Value.Duration }) });
+
+        await context.Response.WriteAsync(result);
+    }
 }
