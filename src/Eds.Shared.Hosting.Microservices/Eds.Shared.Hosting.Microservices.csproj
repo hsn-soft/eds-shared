@@ -13,8 +13,6 @@
         <PackageTags>HsnSoft EDS Shared Hosting Microservices</PackageTags>
     </PropertyGroup>
 
-
-
     <ItemGroup>
         <ProjectReference Include="..\Eds.Shared.Contracts\Eds.Shared.Contracts.csproj"/>
         <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj"/>
