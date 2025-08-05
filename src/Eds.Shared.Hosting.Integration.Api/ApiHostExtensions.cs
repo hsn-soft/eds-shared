@@ -1,5 +1,5 @@
 using Eds.Shared.Helper;
-using Eds.Shared.Hosting.Worker;
+using Eds.Shared.Hosting.Workers;
 using HsnSoft.Base;
 using HsnSoft.Base.Application.Dtos;
 using HsnSoft.Base.AspNetCore.Hosting.Loader;

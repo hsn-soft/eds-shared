@@ -6,7 +6,7 @@ using Eds.Shared.Hosting.Microservices.Filters;
 using Eds.Shared.Hosting.Microservices.Handlers;
 using Eds.Shared.Hosting.Microservices.Middlewares;
 using Eds.Shared.Hosting.Microservices.Workers;
-using Eds.Shared.Hosting.Worker;
+using Eds.Shared.Hosting.Workers;
 using HsnSoft.Base;
 using HsnSoft.Base.Application.Dtos;
 using HsnSoft.Base.AspNetCore.Hosting.Loader;
