@@ -1,7 +1,9 @@
 using System.Reflection;
 using System.Security.Cryptography;
+using Eds.Shared.Helper;
 using Eds.Shared.Hosting.HealthChecks;
 using Eds.Shared.Hosting.Middlewares;
+using Eds.Shared.Localization;
 using HsnSoft.Base;
 using HsnSoft.Base.AspNetCore;
 using HsnSoft.Base.AspNetCore.Logging;
@@ -20,10 +22,12 @@ using HsnSoft.Base.EventBus.RabbitMQ.Connection;
 using HsnSoft.Base.EventBus.SubManagers;
 using HsnSoft.Base.Logging;
 using HsnSoft.Base.MultiTenancy;
+using HsnSoft.Base.Reflection;
 using HsnSoft.Base.Security.Claims;
 using HsnSoft.Base.Timing;
 using HsnSoft.Base.Tracing;
 using HsnSoft.Base.Users;
+using HsnSoft.Base.Validation.Localization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -33,6 +37,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using StackExchange.Redis;
@@ -63,21 +68,6 @@ public static class SharedAspNetCoreHostExtensions
         return services;
     }
 
-    // Microservices and Mvc Apps Base
-    public static IServiceCollection ConfigureSharedAspNetCoreHost(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.ConfigureSharedHost(configuration);
-
-        services.AddBaseAspNetCoreContextCollection();
-        services.AddBaseAspNetCoreJsonLocalization();
-        services.AddBaseMultiTenancyServiceCollection();
-        services.AddBaseTimingServiceCollection();
-
-        services.AddControllers();
-
-        return services;
-    }
-
     public static IServiceCollection AddMvcRazorRender(this IServiceCollection services)
     {
         services.AddScoped<IRazorRenderService, RazorRenderService>();
@@ -92,7 +82,7 @@ public static class SharedAspNetCoreHostExtensions
             var rsa = RSA.Create();
             try
             {
-                rsa.FromXmlString(File.ReadAllText("./public_key.xml"));
+                rsa.FromXmlString(File.ReadAllText("../../public_key.xml"));
             }
             catch (IOException ioException)
             {
@@ -124,16 +114,13 @@ public static class SharedAspNetCoreHostExtensions
 
                     ValidateIssuer = env.IsHostProduction(),
                     ValidIssuer = configuration["AuthServer:Authority"],
-
                     RequireExpirationTime = true, // JWTs are required to have "exp" property set
                     ValidateLifetime = true, // The "exp" will be validated
                     ClockSkew = TimeSpan.Zero,
-
                     RequireSignedTokens = true,
                     ValidateIssuerSigningKey = true,
                     // IssuerSigningKey = symmetricKey
                     IssuerSigningKey = asymmetricPublicKey,
-
                     ValidTypes = ["JWT"]
                 };
             });
@@ -147,7 +134,7 @@ public static class SharedAspNetCoreHostExtensions
 
         services.AddAuthorization(options =>
         {
-            foreach (var permissionPolicyName in servicePermissions)
+            foreach (string permissionPolicyName in servicePermissions)
             {
                 options.AddPolicy(permissionPolicyName, policyBuilder =>
                 {
@@ -159,6 +146,18 @@ public static class SharedAspNetCoreHostExtensions
         });
 
         return services;
+    }
+
+    public static IServiceCollection AddMicroserviceUserTenantChecker(this IServiceCollection services) => services.AddScoped<UserTenantCheckerMiddleware>();
+    public static void UseUserTenantChecker(this IApplicationBuilder app) => app.UseMiddleware<UserTenantCheckerMiddleware>();
+
+    public static void UseLocalization(this IApplicationBuilder app, Type serviceResourceType)
+    {
+        EnumHelper.Configure(app.ApplicationServices.GetService<IStringLocalizerFactory>(), serviceResourceType);
+        LocalizedModelValidator.Configure(app.ApplicationServices.GetService<IStringLocalizerFactory>(), [
+            serviceResourceType,
+            typeof(ValidationResource)
+        ]);
     }
 
     public static IServiceCollection AddCorsSettings(this IServiceCollection services, string corsName)

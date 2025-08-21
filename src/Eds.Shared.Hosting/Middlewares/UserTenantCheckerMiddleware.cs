@@ -9,7 +9,7 @@ using HsnSoft.Base.Validation.Localization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
-namespace Eds.Shared.Hosting.Microservices.Middlewares;
+namespace Eds.Shared.Hosting.Middlewares;
 
 public sealed class UserTenantCheckerMiddleware : IMiddleware
 {

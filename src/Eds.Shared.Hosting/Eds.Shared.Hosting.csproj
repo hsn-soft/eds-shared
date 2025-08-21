@@ -39,4 +39,8 @@
         <!--<ProjectReference Include="..\..\..\..\..\hsn-soft\base-framework\src\HsnSoft.Base.Caching.StackExchangeRedis\HsnSoft.Base.Caching.StackExchangeRedis.csproj" />-->
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Eds.Shared.Helper\Eds.Shared.Helper.csproj"/>
+    </ItemGroup>
+
 </Project>

@@ -24,28 +24,28 @@ public static class FakeStore
         return false;
     }
 
-    public static IEnumerable<Tenant> Tenants => new[]
-    {
+    public static IEnumerable<Tenant> Tenants =>
+    [
         new Tenant { Id = FakeTenantIds.TenantAAAId, TenantTitle = "AAA Tenant", TenantShortName = "TenantAAA" },
         new Tenant { Id = FakeTenantIds.TenantZZZId, TenantTitle = "ZZZ Tenant", TenantShortName = "TenantZZZ" }
-    };
+    ];
 
-    public static IEnumerable<GIBUserAccount> GIBUserAccounts => new[]
-    {
+    public static IEnumerable<GIBUserAccount> GIBUserAccounts =>
+    [
         new GIBUserAccount { Identifier = "9205121120", DocumentType = nameof(GibAliasDocumentTypes.Invoice), AliasName = "urn:mail:ankara_sube_pk@aaa.com.tr", AliasCreationTime = DateTime.UtcNow },
         new GIBUserAccount { Identifier = "9205121120", DocumentType = nameof(GibAliasDocumentTypes.Invoice), AliasName = "urn:mail:istanbul_sube_pk@aaa.com.tr", AliasCreationTime = DateTime.UtcNow },
         new GIBUserAccount { Identifier = "1288331521", DocumentType = nameof(GibAliasDocumentTypes.Invoice), AliasName = "urn:mail:defaultpk@zzz.com.tr", AliasCreationTime = DateTime.UtcNow }
-    };
+    ];
 
-    public static IEnumerable<FirmConfigSystem> FirmConfigSystems => new[]
-    {
+    public static IEnumerable<FirmConfigSystem> FirmConfigSystems =>
+    [
         new FirmConfigSystem { FirmId = FakeClientIds.AAAAnkaraClientId, EdsSystemType = (byte)GlobalEnums.VeribanSystemType.EINVOICE, IsActive = 1 },
         new FirmConfigSystem { FirmId = FakeClientIds.AAAIstanbulClientId, EdsSystemType = (byte)GlobalEnums.VeribanSystemType.EINVOICE, IsActive = 1 },
         new FirmConfigSystem { FirmId = FakeClientIds.ZZZClientId, EdsSystemType = (byte)GlobalEnums.VeribanSystemType.EINVOICE, IsActive = 1 }
-    };
+    ];
 
-    public static IEnumerable<Firm> Firms => new[]
-    {
+    public static IEnumerable<Firm> Firms =>
+    [
         new Firm
         {
             Id = FakeClientIds.AAAAnkaraClientId,
@@ -91,7 +91,7 @@ public static class FakeStore
             FirmGBAlias = "urn:mail:defaultgb@zzz.com.tr",
             FirmPKAlias = "urn:mail:defaultpk@zzz.com.tr",
         }
-    };
+    ];
 }
 
 public class Firm
