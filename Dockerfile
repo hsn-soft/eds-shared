@@ -16,9 +16,6 @@ COPY ["./src/Eds.Shared.Localization/Eds.Shared.Localization.csproj", "./src/Eds
 COPY ["./src/Eds.Shared.Hosting/Eds.Shared.Hosting.csproj", "./src/Eds.Shared.Hosting/"]
 COPY ["./src/Eds.Shared.Hosting.Gateways/Eds.Shared.Hosting.Gateways.csproj", "./src/Eds.Shared.Hosting.Gateways/"]
 COPY ["./src/Eds.Shared.Hosting.Microservices/Eds.Shared.Hosting.Microservices.csproj", "./src/Eds.Shared.Hosting.Microservices/"]
-COPY ["./src/Eds.Shared.Hosting.Integration.Grpc/Eds.Shared.Hosting.Integration.Grpc.csproj", "./src/Eds.Shared.Hosting.Integration.Grpc/"]
-COPY ["./src/Eds.Shared.Hosting.Integration.Api/Eds.Shared.Hosting.Integration.Api.csproj", "./src/Eds.Shared.Hosting.Integration.Api/"]
-COPY ["./src/Eds.Shared.Hosting.Integration.WcfCore/Eds.Shared.Hosting.Integration.WcfCore.csproj", "./src/Eds.Shared.Hosting.Integration.WcfCore/"]
 
 RUN dotnet restore "./Eds.Shared.sln" --verbosity minimal
 
@@ -28,9 +25,6 @@ COPY ["./src/Eds.Shared.Localization/.", "./src/Eds.Shared.Localization/"]
 COPY ["./src/Eds.Shared.Hosting/.", "./src/Eds.Shared.Hosting/"]
 COPY ["./src/Eds.Shared.Hosting.Gateways/.", "./src/Eds.Shared.Hosting.Gateways/"]
 COPY ["./src/Eds.Shared.Hosting.Microservices/.", "./src/Eds.Shared.Hosting.Microservices/"]
-COPY ["./src/Eds.Shared.Hosting.Integration.Grpc/.", "./src/Eds.Shared.Hosting.Integration.Grpc/"]
-COPY ["./src/Eds.Shared.Hosting.Integration.Api/.", "./src/Eds.Shared.Hosting.Integration.Api/"]
-COPY ["./src/Eds.Shared.Hosting.Integration.WcfCore/.", "./src/Eds.Shared.Hosting.Integration.WcfCore/"]
 
 RUN dotnet build "./Eds.Shared.sln" --no-restore --configuration Release --verbosity minimal
 
