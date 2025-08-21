@@ -19,7 +19,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj"/>
-        <ProjectReference Include="..\Eds.Shared.Helper\Eds.Shared.Helper.csproj"/>
     </ItemGroup>
 
 </Project>

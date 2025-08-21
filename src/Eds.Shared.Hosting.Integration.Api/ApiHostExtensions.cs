@@ -1,15 +1,13 @@
-using Eds.Shared.Helper;
 using Eds.Shared.Hosting.Workers;
 using HsnSoft.Base;
 using HsnSoft.Base.Application.Dtos;
+using HsnSoft.Base.AspNetCore;
 using HsnSoft.Base.AspNetCore.Hosting.Loader;
 using HsnSoft.Base.Data;
-using HsnSoft.Base.Reflection;
-using HsnSoft.Base.Validation.Localization;
-using Microsoft.AspNetCore.Builder;
+using HsnSoft.Base.MultiTenancy;
+using HsnSoft.Base.Timing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 
 namespace Eds.Shared.Hosting.Integration.Api;
 
@@ -30,7 +28,14 @@ public static class ApiHostExtensions
         //     options.IsEnabled = true;
         // });
 
-        services.ConfigureSharedAspNetCoreHost(configuration);
+        services.ConfigureSharedHost(configuration);
+
+        services.AddBaseAspNetCoreContextCollection();
+        services.AddBaseAspNetCoreJsonLocalization();
+        services.AddBaseMultiTenancyServiceCollection();
+        services.AddBaseTimingServiceCollection();
+
+        services.AddControllers();
 
         // Loader functionality
         services.AddTransient<IBasicLoader, AppBasicLoader>();
@@ -38,14 +43,5 @@ public static class ApiHostExtensions
         services.AddHostedService<LoaderHostedService>();
 
         return services;
-    }
-
-    public static void UseLocalization(this IApplicationBuilder app, Type serviceResourceType)
-    {
-        EnumHelper.Configure(app.ApplicationServices.GetService<IStringLocalizerFactory>(), serviceResourceType);
-        LocalizedModelValidator.Configure(app.ApplicationServices.GetService<IStringLocalizerFactory>(), [
-            serviceResourceType,
-            typeof(ValidationResource)
-        ]);
     }
 }

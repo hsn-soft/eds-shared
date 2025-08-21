@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using Eds.Shared.Contracts.Cache;
-using Eds.Shared.Helper;
 using Eds.Shared.Hosting.Microservices.Cache;
 using Eds.Shared.Hosting.Microservices.Filters;
 using Eds.Shared.Hosting.Microservices.Handlers;
@@ -9,21 +8,20 @@ using Eds.Shared.Hosting.Microservices.Workers;
 using Eds.Shared.Hosting.Workers;
 using HsnSoft.Base;
 using HsnSoft.Base.Application.Dtos;
+using HsnSoft.Base.AspNetCore;
 using HsnSoft.Base.AspNetCore.Hosting.Loader;
 using HsnSoft.Base.Data;
-using HsnSoft.Base.Reflection;
-using HsnSoft.Base.Validation.Localization;
-using Microsoft.AspNetCore.Builder;
+using HsnSoft.Base.MultiTenancy;
+using HsnSoft.Base.Timing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 
 namespace Eds.Shared.Hosting.Microservices;
 
 public static class MicroserviceHostExtensions
 {
-    public static IServiceCollection ConfigureMicroserviceHost(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigureMicroserviceHost(this IServiceCollection services, IConfiguration configuration, Type type)
     {
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
 
@@ -38,28 +36,17 @@ public static class MicroserviceHostExtensions
         //     options.IsEnabled = true;
         // });
 
-        services.ConfigureSharedAspNetCoreHost(configuration);
+        services.ConfigureSharedHost(configuration);
 
-        // Loader functionality
-        services.AddTransient<IBasicLoader, AppBasicLoader>();
-        services.AddTransient<IBasicDataSeeder, DefaultBasicDataSeeder>();
-        services.AddHostedService<LoaderHostedService>();
+        services.AddBaseAspNetCoreContextCollection();
+        services.AddBaseAspNetCoreJsonLocalization();
+        services.AddBaseMultiTenancyServiceCollection();
+        services.AddBaseTimingServiceCollection();
 
-        return services;
-    }
-
-    public static IServiceCollection AddAdvancedController(this IServiceCollection services, IConfiguration configuration, Type type)
-    {
         services.Configure<MicroserviceHostingSettings>(configuration.GetSection("HostingSettings"));
 
-        services.AddControllers(options =>
-            {
-                options.Filters.Add<RequestResponseActionFilterAttribute>();
-            })
-            .ConfigureApiBehaviorOptions(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            })
+        services.AddControllers(options => { options.Filters.Add<RequestResponseActionFilterAttribute>(); })
+            .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
             // Added for functional tests
             .AddApplicationPart(type.Assembly)
             .AddJsonOptions(options =>
@@ -92,18 +79,11 @@ public static class MicroserviceHostExtensions
         services.AddTransient<ICachePermissionGrantRepository, CachePermissionGrantRepository>();
         services.AddHostedService<SynchServicePermissionStoreBackgroundService>();
 
+        // Loader functionality
+        services.AddTransient<IBasicLoader, AppBasicLoader>();
+        services.AddTransient<IBasicDataSeeder, DefaultBasicDataSeeder>();
+        services.AddHostedService<LoaderHostedService>();
+
         return services;
-    }
-
-    public static IServiceCollection AddMicroserviceUserTenantChecker(this IServiceCollection services) => services.AddScoped<UserTenantCheckerMiddleware>();
-    public static void UseUserTenantChecker(this IApplicationBuilder app) => app.UseMiddleware<UserTenantCheckerMiddleware>();
-
-    public static void UseLocalization(this IApplicationBuilder app, Type serviceResourceType)
-    {
-        EnumHelper.Configure(app.ApplicationServices.GetService<IStringLocalizerFactory>(), serviceResourceType);
-        LocalizedModelValidator.Configure(app.ApplicationServices.GetService<IStringLocalizerFactory>(), [
-            serviceResourceType,
-            typeof(ValidationResource)
-        ]);
     }
 }

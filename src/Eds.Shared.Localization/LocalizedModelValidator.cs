@@ -3,27 +3,27 @@ using HsnSoft.Base.Validation.Localization;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Localization;
 
-namespace Eds.Shared.Helper;
+namespace Eds.Shared.Localization;
 
 public static class LocalizedModelValidator
 {
-    private static IStringLocalizer _localizer;
+    private static IStringLocalizer s_localizer;
 
     public static void Configure(IStringLocalizerFactory localizerFactory, List<Type> resourceTypes)
-        => _localizer = localizerFactory.CreateMultiple(resourceTypes);
+        => s_localizer = localizerFactory.CreateMultiple(resourceTypes);
 
     public static T NotNull<T>(T value, [NotNull] string parameterName)
     {
         if (value != null) return value;
 
-        var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.Required] : string.Empty;
+        string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.Required] : string.Empty;
         if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.Required))
         {
             throwMessage = $"{parameterName} can not be null";
         }
 
         var ex = new DomainException(throwMessage);
-        ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+        ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
         throw ex;
     }
 
@@ -31,27 +31,27 @@ public static class LocalizedModelValidator
     {
         if (value == null)
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.Required] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.Required] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.Required))
             {
                 throwMessage = $"{parameterName} is null";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
         if (value.Value.Equals(default(T)))
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.IsNotEmpty] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.IsNotEmpty] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.IsNotEmpty))
             {
                 throwMessage = $"{parameterName} has a default value";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
@@ -62,14 +62,14 @@ public static class LocalizedModelValidator
     {
         if (value is { Count: > 0 }) return value;
 
-        var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.IsNotEmpty] : string.Empty;
+        string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.IsNotEmpty] : string.Empty;
         if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.IsNotEmpty))
         {
             throwMessage = $"{parameterName} can not be null or empty";
         }
 
         var ex = new DomainException(throwMessage);
-        ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+        ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
         throw ex;
     }
 
@@ -77,40 +77,40 @@ public static class LocalizedModelValidator
     {
         if (value == null)
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.Required] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.Required] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.Required))
             {
                 throwMessage = $"{parameterName} can not be null";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
         if (value.Length > maxLength)
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.MaxLength, maxLength] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.MaxLength, maxLength] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.MaxLength))
             {
                 throwMessage = $"{parameterName} length must be equal to or lower than {maxLength}";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
         if (minLength > 0 && value.Length < minLength)
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.MinLength, minLength] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.MinLength, minLength] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.MinLength))
             {
                 throwMessage = $"{parameterName} length must be equal to or bigger than {minLength}";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
@@ -121,40 +121,40 @@ public static class LocalizedModelValidator
     {
         if (value.IsNullOrWhiteSpace())
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.IsNotEmpty] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.IsNotEmpty] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.IsNotEmpty))
             {
                 throwMessage = $"{parameterName} can not be null, empty or white space";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
         if (value.Length > maxLength)
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.MaxLength, maxLength] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.MaxLength, maxLength] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.MaxLength))
             {
                 throwMessage = $"{parameterName} length must be equal to or lower than {maxLength}";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
         if (minLength > 0 && value.Length < minLength)
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.MinLength, minLength] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.MinLength, minLength] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.MinLength))
             {
                 throwMessage = $"{parameterName} length must be equal to or bigger than {minLength}";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
@@ -165,40 +165,40 @@ public static class LocalizedModelValidator
     {
         if (value.IsNullOrEmpty())
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.IsNotEmpty] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.IsNotEmpty] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.IsNotEmpty))
             {
                 throwMessage = $"{parameterName} can not be null or empty";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
         if (value.Length > maxLength)
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.MaxLength, maxLength] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.MaxLength, maxLength] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.MaxLength))
             {
                 throwMessage = $"{parameterName} length must be equal to or lower than {maxLength}";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
         if (minLength > 0 && value.Length < minLength)
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.MinLength, minLength] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.MinLength, minLength] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.MinLength))
             {
                 throwMessage = $"{parameterName} length must be equal to or bigger than {minLength}";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
@@ -211,41 +211,41 @@ public static class LocalizedModelValidator
         {
             if (string.IsNullOrEmpty(value))
             {
-                var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.IsNotEmpty] : string.Empty;
+                string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.IsNotEmpty] : string.Empty;
                 if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.IsNotEmpty))
                 {
                     throwMessage = $"{parameterName} can not be null or empty";
                 }
 
                 var ex = new DomainException(throwMessage);
-                ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+                ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
                 throw ex;
             }
 
             if (value.Length < minLength)
             {
-                var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.MinLength, minLength] : string.Empty;
+                string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.MinLength, minLength] : string.Empty;
                 if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.MinLength))
                 {
                     throwMessage = $"{parameterName} length must be lower than {maxLength} and bigger than {minLength}";
                 }
 
                 var ex = new DomainException(throwMessage);
-                ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+                ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
                 throw ex;
             }
         }
 
         if (value != null && value.Length > maxLength)
         {
-            var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.MaxLength, maxLength] : string.Empty;
+            string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.MaxLength, maxLength] : string.Empty;
             if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.MaxLength))
             {
                 throwMessage = $"{parameterName} length must be equal to or lower than {maxLength}";
             }
 
             var ex = new DomainException(throwMessage);
-            ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+            ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
             throw ex;
         }
 
@@ -256,14 +256,14 @@ public static class LocalizedModelValidator
     {
         if (value >= minimumValue && value <= maximumValue) return value;
 
-        var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
+        string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
         if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.Range))
         {
             throwMessage = $"{parameterName} length must be lower than {maximumValue} and bigger than {minimumValue}";
         }
 
         var ex = new DomainException(throwMessage);
-        ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+        ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
         throw ex;
     }
 
@@ -271,14 +271,14 @@ public static class LocalizedModelValidator
     {
         if (value >= minimumValue && value <= maximumValue) return value;
 
-        var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
+        string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
         if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.Range))
         {
             throwMessage = $"{parameterName} length must be lower than {maximumValue} and bigger than {minimumValue}";
         }
 
         var ex = new DomainException(throwMessage);
-        ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+        ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
         throw ex;
     }
 
@@ -286,14 +286,14 @@ public static class LocalizedModelValidator
     {
         if (value >= minimumValue && value <= maximumValue) return value;
 
-        var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
+        string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
         if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.Range))
         {
             throwMessage = $"{parameterName} length must be lower than {maximumValue} and bigger than {minimumValue}";
         }
 
         var ex = new DomainException(throwMessage);
-        ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+        ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
         throw ex;
     }
 
@@ -301,14 +301,14 @@ public static class LocalizedModelValidator
     {
         if (value >= minimumValue && value <= maximumValue) return value;
 
-        var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
+        string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
         if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.Range))
         {
             throwMessage = $"{parameterName} length must be lower than {maximumValue} and bigger than {minimumValue}";
         }
 
         var ex = new DomainException(throwMessage);
-        ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+        ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
         throw ex;
     }
 
@@ -316,14 +316,14 @@ public static class LocalizedModelValidator
     {
         if (value >= minimumValue && value <= maximumValue) return value;
 
-        var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
+        string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
         if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.Range))
         {
             throwMessage = $"{parameterName} length must be lower than {maximumValue} and bigger than {minimumValue}";
         }
 
         var ex = new DomainException(throwMessage);
-        ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+        ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
         throw ex;
     }
 
@@ -331,14 +331,14 @@ public static class LocalizedModelValidator
     {
         if (value >= minimumValue && value <= maximumValue) return value;
 
-        var throwMessage = _localizer != null ? _localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
+        string throwMessage = s_localizer != null ? s_localizer[ValidationResourceKeys.Range, minimumValue, maximumValue] : string.Empty;
         if (string.IsNullOrWhiteSpace(throwMessage) || throwMessage.Equals(ValidationResourceKeys.Range))
         {
             throwMessage = $"{parameterName} length must be lower than {maximumValue} and bigger than {minimumValue}";
         }
 
         var ex = new DomainException(throwMessage);
-        ex.WithData(_localizer?[ValidationResourceKeys.ErrorReference], _localizer?[parameterName].ToString());
+        ex.WithData(s_localizer?[ValidationResourceKeys.ErrorReference], s_localizer?[parameterName].ToString());
         throw ex;
     }
 }
