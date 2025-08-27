@@ -82,7 +82,7 @@ public static class SharedAspNetCoreHostExtensions
             var rsa = RSA.Create();
             try
             {
-                rsa.FromXmlString(File.ReadAllText("../../public_key.xml"));
+                rsa.FromXmlString(File.ReadAllText(AppContext.BaseDirectory + "/public_key.xml"));
             }
             catch (IOException ioException)
             {
