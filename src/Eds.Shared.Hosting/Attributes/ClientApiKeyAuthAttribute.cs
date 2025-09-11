@@ -31,11 +31,11 @@ public class ClientApiKeyAuthAttribute : ActionFilterAttribute
             throw new ArgumentNullException(nameof(apiKeySettingValue));
         }
 
-        if (requestClientApiKey.ToString().Equals(apiKeySettingValue, StringComparison.OrdinalIgnoreCase))
+        if (!requestClientApiKey.ToString().Equals(apiKeySettingValue, StringComparison.OrdinalIgnoreCase))
         {
-            await base.OnActionExecutionAsync(context, next);
+            throw new BaseHttpException((int)HttpStatusCode.Unauthorized, "API Key is not authorized!");
         }
 
-        throw new BaseHttpException((int)HttpStatusCode.Unauthorized, "API Key is not authorized!");
+        await base.OnActionExecutionAsync(context, next);
     }
 }
