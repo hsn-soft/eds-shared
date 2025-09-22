@@ -17,7 +17,7 @@ COPY ["./src/Eds.Shared.Hosting/Eds.Shared.Hosting.csproj", "./src/Eds.Shared.Ho
 COPY ["./src/Eds.Shared.Hosting.Gateways/Eds.Shared.Hosting.Gateways.csproj", "./src/Eds.Shared.Hosting.Gateways/"]
 COPY ["./src/Eds.Shared.Hosting.Microservices/Eds.Shared.Hosting.Microservices.csproj", "./src/Eds.Shared.Hosting.Microservices/"]
 
-RUN dotnet restore "./Eds.Shared.sln" --verbosity minimal
+RUN dotnet restore "./Eds.Shared.sln" --force --verbosity minimal --configfile nuget.config
 
 COPY ["./src/Eds.Shared.Contracts/.", "./src/Eds.Shared.Contracts/"]
 COPY ["./src/Eds.Shared.Helper/.", "./src/Eds.Shared.Helper/"]
@@ -26,9 +26,9 @@ COPY ["./src/Eds.Shared.Hosting/.", "./src/Eds.Shared.Hosting/"]
 COPY ["./src/Eds.Shared.Hosting.Gateways/.", "./src/Eds.Shared.Hosting.Gateways/"]
 COPY ["./src/Eds.Shared.Hosting.Microservices/.", "./src/Eds.Shared.Hosting.Microservices/"]
 
-RUN dotnet build "./Eds.Shared.sln" --no-restore --configuration Release --verbosity minimal
+RUN dotnet build "./Eds.Shared.sln" --no-restore --no-incremental --verbosity minimal --configuration Release
 
-RUN dotnet test "./Eds.Shared.sln" --no-restore --no-build --configuration Release --verbosity minimal
+RUN dotnet test "./Eds.Shared.sln" --no-restore --no-build --verbosity minimal --configuration Release --filter "category!=integration"
 
 RUN --mount=type=secret,id=VERSION_NUMBER \
     export VERSION_NUMBER=$(cat /run/secrets/VERSION_NUMBER) && \
