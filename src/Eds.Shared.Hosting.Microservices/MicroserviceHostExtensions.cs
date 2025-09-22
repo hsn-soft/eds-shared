@@ -31,17 +31,10 @@ public static class MicroserviceHostExtensions
         // Set filter limit value
         SearchLimitedResultRequestDto.MaxMaxResultCount = 20;
 
-        // services.Configure<BaseMultiTenancyOptions>(options =>
-        // {
-        //     options.IsEnabled = true;
-        // });
-
         services.ConfigureSharedHost(configuration);
 
         services.AddBaseAspNetCoreContextCollection();
         services.AddBaseAspNetCoreJsonLocalization();
-        services.AddBaseMultiTenancyServiceCollection();
-        services.AddBaseTimingServiceCollection();
 
         services.Configure<MicroserviceHostingSettings>(configuration.GetSection("HostingSettings"));
 
