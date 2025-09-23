@@ -13,6 +13,7 @@ using HsnSoft.Base.AspNetCore.Serilog;
 using HsnSoft.Base.AspNetCore.Serilog.Persistent;
 using HsnSoft.Base.AspNetCore.Tracing;
 using HsnSoft.Base.Authorization;
+using HsnSoft.Base.Data;
 using HsnSoft.Base.Domain.Repositories;
 using HsnSoft.Base.EventBus;
 using HsnSoft.Base.EventBus.Logging;
@@ -148,7 +149,13 @@ public static class SharedAspNetCoreHostExtensions
         return services;
     }
 
-    public static IServiceCollection AddMicroserviceUserTenantChecker(this IServiceCollection services) => services.AddScoped<UserTenantCheckerMiddleware>();
+    public static IServiceCollection AddMicroserviceUserTenantChecker(this IServiceCollection services)
+    {
+        services.AddBaseDataServiceCollection();
+        services.AddScoped<UserTenantCheckerMiddleware>();
+
+        return services;
+    }
     public static void UseUserTenantChecker(this IApplicationBuilder app) => app.UseMiddleware<UserTenantCheckerMiddleware>();
 
     public static void UseLocalization(this IApplicationBuilder app, Type serviceResourceType)
