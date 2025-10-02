@@ -958,7 +958,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                         int allowanceAmountLineNumber = xlsTotalLineNumberCount + 26;
 
                         //Not
-                        var noteLineNumber = xlsTotalLineNumberCount + 26;
+                        int noteLineNumber = xlsTotalLineNumberCount + 26;
 
                         //Toplam Sigorta / Navlun
                         int chargeAmountLineNumber = xlsTotalLineNumberCount + 27;
@@ -1072,7 +1072,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                 }
                                 else
                                 {
-                                    var titleFromExcel = string.IsNullOrEmpty(dt.Rows[2][3].ToString()) ? null : dt.Rows[2][3].ToString();
+                                    string titleFromExcel = string.IsNullOrEmpty(dt.Rows[2][3].ToString()) ? null : dt.Rows[2][3].ToString();
                                     if (titleFromExcel != null)
                                     {
                                         xlsInvoice.AccountingSupplierParty.Party.Person = new Person()
@@ -1247,9 +1247,9 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                         invoiceLineData.Deliveries.Add(delivery);
 
 
-                                        var allowDiscountRate = drInvoiceLine[14].ToString();
-                                        var alowDiscountAmount = drInvoiceLine[16].ToString();
-                                        var alowDiscountBaseAmount = drInvoiceLine[39].ToString();
+                                        string allowDiscountRate = drInvoiceLine[14].ToString();
+                                        string alowDiscountAmount = drInvoiceLine[16].ToString();
+                                        string alowDiscountBaseAmount = drInvoiceLine[39].ToString();
 
                                         if (string.IsNullOrEmpty(allowDiscountRate))
                                         {
@@ -1266,9 +1266,9 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                                             alowDiscountBaseAmount = "0";
                                         }
 
-                                        var allowanceFreightRate = drInvoiceLine[35].ToString();
-                                        var allowanceFreightAmount = drInvoiceLine[36].ToString();
-                                        var allowanceFreightBaseAmount = drInvoiceLine[39].ToString();
+                                        string allowanceFreightRate = drInvoiceLine[35].ToString();
+                                        string allowanceFreightAmount = drInvoiceLine[36].ToString();
+                                        string allowanceFreightBaseAmount = drInvoiceLine[39].ToString();
 
                                         if (string.IsNullOrEmpty(allowanceFreightRate))
                                         {
@@ -1656,7 +1656,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                 {
                     tempInvoice.Notes = new List<string>();
 
-                    foreach (var item in sapInvoice.NOTE.ITEM)
+                    foreach (string item in sapInvoice.NOTE.ITEM)
                     {
                         tempInvoice.Notes.Add(item);
                     }
@@ -1666,14 +1666,14 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                 {
                     tempInvoice.DespatchDocumentReferences = new List<DocumentReference>();
 
-                    var indexDate = sapInvoice.DISPATCH.DATE.IndexOf(" / ");
-                    var indexId = sapInvoice.DISPATCH.ID.IndexOf(" / ");
+                    int indexDate = sapInvoice.DISPATCH.DATE.IndexOf(" / ");
+                    int indexId = sapInvoice.DISPATCH.ID.IndexOf(" / ");
 
                     if (indexDate > 0 && indexId > 0)
                     {
                         var splitDate = sapInvoice.DISPATCH.DATE.Split('/').ToList();
                         var splitId = sapInvoice.DISPATCH.ID.Split('/').ToList();
-                        foreach (var item in splitDate)
+                        foreach (string item in splitDate)
                         {
                             tempInvoice.DespatchDocumentReferences.Add(new DocumentReference() { ID = new CombineId() { Id = splitId[splitDate.IndexOf(item)] }, IssueDate = item });
                         }
@@ -2686,7 +2686,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.DocumentControl
                 {
                     tempDespatchAdviceModel.Notes = new List<string>();
 
-                    foreach (var item in sapDespatch.NOTE.ITEM)
+                    foreach (string item in sapDespatch.NOTE.ITEM)
                     {
                         tempDespatchAdviceModel.Notes.Add(item);
                     }

@@ -950,14 +950,14 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Serializer
                     if (invoiceModel.TaxRepresentativeParty.PartyIdentification != null)
                     {
                         //ARACIKURUMVKN KONTROLÜ
-                        var ARACIKURUMVKN = invoiceModel.TaxRepresentativeParty.PartyIdentification.
+                        bool ARACIKURUMVKN = invoiceModel.TaxRepresentativeParty.PartyIdentification.
                             Any(x =>
                                  x.ID.SchemeId == "ARACIKURUMVKN" &&
                                 (x.ID.Id.Length == 10 || x.ID.Id.Length == 11) &&
                                  long.TryParse(x.ID.Id, out long res)
                             );
                         //ARACIKURUMETIKET KONTROLÜ
-                        var ARACIKURUMETIKET = invoiceModel.TaxRepresentativeParty.PartyIdentification.
+                        bool ARACIKURUMETIKET = invoiceModel.TaxRepresentativeParty.PartyIdentification.
                              Any(x =>
                                   x.ID.SchemeId == "ARACIKURUMETIKET" &&
                                   x.ID.Id.Length > 0
@@ -980,12 +980,12 @@ namespace Eds.Shared.Helper.eInvoice.Library.Model.Serializer
                     )
                 {
                     //ARACIKURUMETIKET KONTROLÜ
-                    var PARTYTYPE = invoiceModel.BuyerCustomerParty.Party.PartyIdentification.
+                    bool PARTYTYPE = invoiceModel.BuyerCustomerParty.Party.PartyIdentification.
                          Any(x =>
                               x.ID.SchemeId == "PARTYTYPE" &&
                               x.ID.Id == "TAXFREE"
                          );
-                    var COUNTRY = VeribanGlobal.Library.Common.ConstRepository.CountryTypeForIhracat.GetCountryList().
+                    bool COUNTRY = VeribanGlobal.Library.Common.ConstRepository.CountryTypeForIhracat.GetCountryList().
                         Any(x => x.CountryCode == invoiceModel.BuyerCustomerParty.Party.Person.NationalityID);
                     TaxFreeNationalityIDCheck = PARTYTYPE && COUNTRY;
                 }

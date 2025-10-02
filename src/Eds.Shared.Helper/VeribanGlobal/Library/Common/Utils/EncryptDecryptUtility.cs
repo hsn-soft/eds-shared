@@ -18,7 +18,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
         {
             var rijndaelCipher = new RijndaelManaged();
 
-            var plainText = Encoding.UTF8.GetBytes(inputText);
+            byte[] plainText = Encoding.UTF8.GetBytes(inputText);
             var secretKey = new Rfc2898DeriveBytes(EncryptionKey, _salt);
 
             using (var encryptor = rijndaelCipher.CreateEncryptor(secretKey.GetBytes(32), secretKey.GetBytes(16)))
@@ -41,7 +41,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
             {
                 var rijndaelCipher = new RijndaelManaged();
 
-                var encryptedData = Convert.FromBase64String(FixPadding(FromUrlEncode(inputText)));
+                byte[] encryptedData = Convert.FromBase64String(FixPadding(FromUrlEncode(inputText)));
                 var secretKey = new Rfc2898DeriveBytes(EncryptionKey, _salt);
 
                 using (var decryptor = rijndaelCipher.CreateDecryptor(secretKey.GetBytes(32), secretKey.GetBytes(16)))
@@ -50,8 +50,8 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
                     {
                         using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                         {
-                            var plainText = new byte[encryptedData.Length];
-                            var decryptedCount = cryptoStream.Read(plainText, 0, plainText.Length);
+                            byte[] plainText = new byte[encryptedData.Length];
+                            int decryptedCount = cryptoStream.Read(plainText, 0, plainText.Length);
                             return Encoding.UTF8.GetString(plainText, 0, decryptedCount);
                         }
                     }
@@ -67,7 +67,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
         #region Helper
         private static string FixPadding(string base64)
         {
-            var paddingLength = (4 - base64.Length % 4) % 4;
+            int paddingLength = (4 - base64.Length % 4) % 4;
             return base64.PadRight(base64.Length + paddingLength, '=');
         }
 

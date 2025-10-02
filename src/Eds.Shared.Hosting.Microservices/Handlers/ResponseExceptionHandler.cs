@@ -19,7 +19,7 @@ internal sealed class ResponseExceptionHandler : IResponseExceptionHandler
 
     public (int code, List<string> messages) Handle(Exception ex, IHostEnvironment env)
     {
-        var code = StatusCodes.Status500InternalServerError;
+        int code = StatusCodes.Status500InternalServerError;
         var messages = new List<string>();
 
         if (ex is null) return (code, messages);

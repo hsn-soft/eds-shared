@@ -18,8 +18,8 @@ public class RabbitMqHealthCheck(RabbitMqConnectionSettings conSettings) : IHeal
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
-        var connectionOpened = false;
-        var errorMessage = string.Empty;
+        bool connectionOpened = false;
+        string errorMessage = string.Empty;
         try
         {
             await using var connection = await _connectionFactory.CreateConnectionAsync(cancellationToken);

@@ -85,7 +85,7 @@ public sealed class RequestResponseActionFilterAttribute : Attribute, IActionFil
         {
             _logger.LogError("Request Response Exception Filter -> Error Message: {ErrorMessage}", context.Exception.Message);
 
-            var (code, messages) = _handler.Handle(context.Exception, _env);
+            (int code, List<string> messages) = _handler.Handle(context.Exception, _env);
 
             context.Exception = null!;
             context.ExceptionDispatchInfo = null!;
@@ -103,7 +103,7 @@ public sealed class RequestResponseActionFilterAttribute : Attribute, IActionFil
 
             if (!_settings.IsActiveResponseDataManipulation) return;
 
-            var newContent = context.Result switch
+            string newContent = context.Result switch
             {
                 ObjectResult or => JsonConvert.SerializeObject(
                     new BaseResponse<object>

@@ -39,8 +39,8 @@ public class CustomRedisHealthCheck : IHealthCheck
                 }
             }
 
-            var isActiveConnectionFound = false;
-            var standAloneServerFound = false;
+            bool isActiveConnectionFound = false;
+            bool standAloneServerFound = false;
             foreach (var endPoint in connection!.GetEndPoints(configuredOnly: true))
             {
                 try

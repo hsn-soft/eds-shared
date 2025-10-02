@@ -15,8 +15,8 @@ public class BaseRemoveCsrfCookieHandler : DelegatingHandler
 
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var authCookieName = _baseAntiForgeryOptions.AuthCookieSchemaName;
-        var antiForgeryCookieName = _baseAntiForgeryOptions.TokenCookie.Name;
+        string authCookieName = _baseAntiForgeryOptions.AuthCookieSchemaName;
+        string antiForgeryCookieName = _baseAntiForgeryOptions.TokenCookie.Name;
 
         if (request.Headers.TryGetValues(CookieHeaderName, out var cookies))
         {

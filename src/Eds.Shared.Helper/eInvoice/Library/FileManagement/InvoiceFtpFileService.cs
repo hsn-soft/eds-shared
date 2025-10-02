@@ -108,7 +108,7 @@ namespace Eds.Shared.Helper.eInvoice.Library.FileManagement
 
                 string extensionFilter = string.Format("*.{0}", extension);
                 List<string> folderFiles = Directory.GetFiles(sourcePath, extensionFilter).Take(50).ToList();
-                foreach (var file in folderFiles)
+                foreach (string file in folderFiles)
                 {
                     FileInfo info = new FileInfo(file);
                     FtpFileInfo fileInfo = new FtpFileInfo();

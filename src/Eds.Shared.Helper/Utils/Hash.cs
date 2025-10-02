@@ -46,7 +46,7 @@ public class Hash
 
     public virtual string HashPassword(string plainText)
     {
-        var cryptoByte = _cryptoService.ComputeHash(
+        byte[] cryptoByte = _cryptoService.ComputeHash(
             Encoding.ASCII.GetBytes(plainText + _salt));
 
         return Convert.ToBase64String(cryptoByte, 0, cryptoByte.Length);

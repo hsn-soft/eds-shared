@@ -16,7 +16,7 @@ public class Signer
 
     public string Sign(string data)
     {
-        var encryptedData = Cryptography.Encrypt(data);
+        string encryptedData = Cryptography.Encrypt(data);
 
         string timestampedData = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + "." + encryptedData;
 
@@ -27,7 +27,7 @@ public class Signer
 
     public bool Verify(string tokenData, int maxAgeSeconds)
     {
-        var parts = tokenData.Split('.');
+        string[] parts = tokenData.Split('.');
         if (parts.Length != 3) return false;
 
         string encodedSignature = parts[0];

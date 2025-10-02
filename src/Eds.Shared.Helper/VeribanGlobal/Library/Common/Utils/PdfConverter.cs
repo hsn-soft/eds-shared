@@ -149,7 +149,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
                     {
                         if (process.ExitCode != 0)
                         {
-                            var error = si.RedirectStandardError ? process.StandardError.ReadToEnd() : String.Format("Process exited with code {0}.", process.ExitCode);
+                            string error = si.RedirectStandardError ? process.StandardError.ReadToEnd() : String.Format("Process exited with code {0}.", process.ExitCode);
                             throw new PdfConvertException(String.Format("Html to PDF conversion of '{0}' failed. Wkhtmltopdf output: \r\n{1}", document.Url, error));
                         }
 

@@ -27,7 +27,7 @@ public sealed class ClientInfoLogDetail
     public string ClientVersion { get; set; }
     public string ClientUserId { get; set; }
     public string ClientUserRole { get; set; }
-    public string ClientUserAgent { get; set; }
+    public ClientUserAgentDetail ClientUserAgent { get; set; }
     public string ClientLanguage { get; set; }
 }
 
