@@ -10,10 +10,9 @@ using Microsoft.Extensions.Options;
 
 namespace Eds.Shared.Hosting.Middlewares;
 
-public sealed class RequestResponseLoggerMiddleware : IMiddleware
+public sealed class RequestResponseLoggerMiddleware(IOptions<HostingSettings> settings, IRequestResponseLogger logger) : IMiddleware
 {
-    private readonly HostingSettings _settings;
-    private readonly IRequestResponseLogger _logger;
+    private readonly HostingSettings _settings = settings.Value;
 
     private readonly string[] _blacklist =
     [
@@ -23,12 +22,6 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
 
     private const string MaskValue = "******";
 
-    public RequestResponseLoggerMiddleware(IOptions<HostingSettings> settings, IRequestResponseLogger logger)
-    {
-        _settings = settings.Value;
-        _logger = logger;
-    }
-
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         if (_settings?.IsEnabledRequestResponseLogger == false)
@@ -37,7 +30,7 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
             return;
         }
 
-        var pathString = context.Request.Path.ToString().ToLower();
+        string pathString = context.Request.Path.ToString().ToLower();
         if (pathString.Equals("/startupcheck") || pathString.Equals("/livenesscheck") || pathString.Equals("/readinesscheck"))
         {
             if (_settings?.IsEnabledHealthCheckRequestLogger == false)
@@ -58,7 +51,7 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
         log.LogId = Guid.NewGuid().ToString();
         log.TraceId = context.TraceIdentifier;
         log.CorrelationId = context.GetCorrelationId();
-        log.Facility = RequestResponseLogFacility.HTTP_REQUEST_LOG.ToString();
+        log.Facility = nameof(RequestResponseLogFacility.HTTP_REQUEST_LOG);
 
 
         var ip = request.HttpContext.Connection.RemoteIpAddress;
@@ -126,7 +119,7 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
 
         if (request.HttpContext.Request.Headers.TryGetValue("User-Agent", out var userAgent))
         {
-            log.ClientInfo.ClientUserAgent = userAgent.ToString();
+            log.ClientInfo.ClientUserAgent = UserAgentProvider.GetUserAgentDetails(userAgent.ToString());
         }
 
         if (request.HttpContext.Request.Headers.TryGetValue("Accept-Language", out var acceptLanguage))
@@ -144,7 +137,7 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
             RequestScheme = request.Scheme,
             RequestHost = request.Host.ToString()
         };
-        var requestQuery = request.QueryString.ToString();
+        string requestQuery = request.QueryString.ToString();
         var requestHeaders = FormatHeaders(request.Headers);
 
         // Temporarily replace the HttpResponseStream,
@@ -164,11 +157,11 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception.Message);
+            logger.LogError(exception.Message);
         }
 
         newResponseBody.Seek(0, SeekOrigin.Begin);
-        var responseBodyText = await new StreamReader(newResponseBody).ReadToEndAsync();
+        string responseBodyText = await new StreamReader(newResponseBody).ReadToEndAsync();
         if (!string.IsNullOrWhiteSpace(responseBodyText) && (responseBodyText.StartsWith("{") || responseBodyText.StartsWith("[")) && (responseBodyText.EndsWith("}") || responseBodyText.EndsWith("]")))
         {
             responseBodyText = responseBodyText.MaskFields(_blacklist, MaskValue);
@@ -179,7 +172,7 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
         await newResponseBody.DisposeAsync();
 
         watch.Stop();
-        var elapsedMiliseconds = watch.ElapsedMilliseconds;
+        long elapsedMiliseconds = watch.ElapsedMilliseconds;
         SetSessionUserInfo(request.HttpContext.User, ref log);
 
         /*response*/
@@ -190,7 +183,7 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
 
         if (response?.StatusCode >= 400)
         {
-            log.Facility = RequestResponseLogFacility.HTTP_REQUEST_ERROR_LOG.ToString();
+            log.Facility = nameof(RequestResponseLogFacility.HTTP_REQUEST_ERROR_LOG);
             log.RequestInfo.RequestHeaders = requestHeaders;
             log.RequestInfo.RequestQuery = requestQuery;
             log.ResponseInfo.ResponseHeaders = responseHeader;
@@ -200,13 +193,13 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
                 log.ClientInfo.ClientForwardedDetails = await GetIpDetails(log.ClientInfo.ClientForwardedIp);
             }
 
-            _logger.RequestResponseErrorLog(log);
+            logger.RequestResponseErrorLog(log);
         }
         else
         {
-            log.Facility = RequestResponseLogFacility.HTTP_REQUEST_RESPONSE_LOG.ToString();
+            log.Facility = nameof(RequestResponseLogFacility.HTTP_REQUEST_RESPONSE_LOG);
 
-            _logger.RequestResponseInfoLog(log);
+            logger.RequestResponseInfoLog(log);
         }
     }
 
@@ -230,11 +223,11 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
     private List<KeyValuePair<string, string>> FormatQueries(string queryString)
     {
         var pairs = new List<KeyValuePair<string, string>>();
-        foreach (var query in queryString.TrimStart('?').Split("&"))
+        foreach (string query in queryString.TrimStart('?').Split("&"))
         {
-            var items = query.Split("=");
-            var key = items.Any() ? items[0] : string.Empty;
-            var value = items.Length >= 2 ? items[1] : string.Empty;
+            string[] items = query.Split("=");
+            string key = items.Any() ? items[0] : string.Empty;
+            string value = items.Length >= 2 ? items[1] : string.Empty;
             if (!string.IsNullOrEmpty(key))
             {
                 pairs.Add(new KeyValuePair<string, string>(key, value));
@@ -257,7 +250,7 @@ public sealed class RequestResponseLoggerMiddleware : IMiddleware
             // (for the next middlewares in the pipeline).
             request.EnableBuffering();
             using var streamReader = new StreamReader(request.Body, leaveOpen: true);
-            var requestBody = await streamReader.ReadToEndAsync();
+            string requestBody = await streamReader.ReadToEndAsync();
             // Reset the request's body stream position for
             // next middleware in the pipeline.
             request.Body.Position = 0;

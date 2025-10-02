@@ -296,7 +296,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Model.Serializer
             ci.NumberFormat.NumberGroupSeparator = ",";
             ci.NumberFormat.NumberDecimalSeparator = ".";
 
-            var res = price.Value.ToString(ci).Split('.');
+            string[] res = price.Value.ToString(ci).Split('.');
             if (res != null && res.Length == 2)
             {
                 if (res[0].Length <= 15)

@@ -148,7 +148,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
     {
         public static async Task<byte[]> ZipStringAsync(string input, CancellationToken cancellationToken)
         {
-            var inputBytes = Encoding.UTF8.GetBytes(input);
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
             return await ZipBytesAsync(inputBytes, cancellationToken);
         }
 
@@ -186,7 +186,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
             await using var archiveStream = new MemoryStream();
             using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: true))
             {
-                foreach (var path in filePaths)
+                foreach (string path in filePaths)
                 {
                     if (!File.Exists(path)) continue;
 
@@ -202,7 +202,7 @@ namespace Eds.Shared.Helper.VeribanGlobal.Library.Common.Utils
 
         public static async Task<byte[]> CreateAndSaveZipFileAsync(string[] filePaths, string zipFilePath, CancellationToken cancellationToken)
         {
-            var zipBytes = await CreateZipFileAsync(filePaths, cancellationToken);
+            byte[] zipBytes = await CreateZipFileAsync(filePaths, cancellationToken);
             await WriteFileAsync(zipBytes, zipFilePath, cancellationToken);
             return zipBytes;
         }

@@ -20,8 +20,8 @@ public sealed class SearchEngineAgentMiddleware : IMiddleware
             return;
         }
 
-        var robotsTxtPath = Path.Combine(_env.ContentRootPath, "robots.txt");
-        var output = "User-agent: *  \nDisallow: /";
+        string robotsTxtPath = Path.Combine(_env.ContentRootPath, "robots.txt");
+        string output = "User-agent: *  \nDisallow: /";
         if (File.Exists(robotsTxtPath))
         {
             output = await File.ReadAllTextAsync(robotsTxtPath);

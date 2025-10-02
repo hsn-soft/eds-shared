@@ -272,7 +272,7 @@ public static class SharedAspNetCoreHostExtensions
             ushort fetchCount = 0;
             if (eventFetchCounts is { Count: > 0 })
             {
-                if (eventFetchCounts.TryGetValue(eventType.Name, out var eventFetchCount))
+                if (eventFetchCounts.TryGetValue(eventType.Name, out ushort eventFetchCount))
                 {
                     fetchCount = eventFetchCount;
                 }
@@ -288,7 +288,7 @@ public static class SharedAspNetCoreHostExtensions
         bool checkRedis = false,
         bool checkBroker = false)
     {
-        var healtCheckPrefix = serviceName ?? "service";
+        string healtCheckPrefix = serviceName ?? "service";
         var serviceProvider = services.BuildServiceProvider();
         var hcBuilder = services.AddHealthChecks();
 
@@ -377,7 +377,7 @@ public static class SharedAspNetCoreHostExtensions
     private static async Task CustomHealthCheckResponse(HttpContext context, HealthReport report)
     {
         context.Response.ContentType = "application/json";
-        var result = System.Text.Json.JsonSerializer.Serialize(
+        string result = System.Text.Json.JsonSerializer.Serialize(
             new { status = report.Status.ToString(), checks = report.Entries.Select(e => new { name = e.Key, status = e.Value.Status.ToString(), exception = e.Value.Exception?.Message, duration = e.Value.Duration }) });
 
         await context.Response.WriteAsync(result);
