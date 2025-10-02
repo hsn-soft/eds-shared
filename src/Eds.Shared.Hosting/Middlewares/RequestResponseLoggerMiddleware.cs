@@ -160,16 +160,20 @@ public sealed class RequestResponseLoggerMiddleware(IOptions<HostingSettings> se
             logger.LogError(exception.Message);
         }
 
-        newResponseBody.Seek(0, SeekOrigin.Begin);
-        string responseBodyText = await new StreamReader(newResponseBody).ReadToEndAsync();
-        if (!string.IsNullOrWhiteSpace(responseBodyText) && (responseBodyText.StartsWith("{") || responseBodyText.StartsWith("[")) && (responseBodyText.EndsWith("}") || responseBodyText.EndsWith("]")))
+        string responseBodyText = "GET Response";
+        if (request.Method != "GET")
         {
-            responseBodyText = responseBodyText.MaskFields(_blacklist, MaskValue);
-        }
+            newResponseBody.Seek(0, SeekOrigin.Begin);
+            responseBodyText= await new StreamReader(newResponseBody).ReadToEndAsync();
+            if (!string.IsNullOrWhiteSpace(responseBodyText) && (responseBodyText.StartsWith("{") || responseBodyText.StartsWith("[")) && (responseBodyText.EndsWith("}") || responseBodyText.EndsWith("]")))
+            {
+                responseBodyText = responseBodyText.MaskFields(_blacklist, MaskValue);
+            }
 
-        newResponseBody.Seek(0, SeekOrigin.Begin);
-        await newResponseBody.CopyToAsync(originalResponseBody);
-        await newResponseBody.DisposeAsync();
+            newResponseBody.Seek(0, SeekOrigin.Begin);
+            await newResponseBody.CopyToAsync(originalResponseBody);
+            await newResponseBody.DisposeAsync();
+        }
 
         watch.Stop();
         long elapsedMiliseconds = watch.ElapsedMilliseconds;
