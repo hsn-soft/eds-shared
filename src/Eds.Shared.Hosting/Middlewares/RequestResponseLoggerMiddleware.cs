@@ -160,26 +160,33 @@ public sealed class RequestResponseLoggerMiddleware(IOptions<HostingSettings> se
             logger.LogError(exception.Message);
         }
 
-        newResponseBody.Seek(0, SeekOrigin.Begin);
-        string responseBodyText = await new StreamReader(newResponseBody).ReadToEndAsync();
-        if (!string.IsNullOrWhiteSpace(responseBodyText) && (responseBodyText.StartsWith("{") || responseBodyText.StartsWith("[")) && (responseBodyText.EndsWith("}") || responseBodyText.EndsWith("]")))
+        string responseBodyText = "No JSON Response";
+        if (response.Headers.TryGetValue("Content-Type", out var responseContentType))
         {
-            responseBodyText = responseBodyText.MaskFields(_blacklist, MaskValue);
+            if (responseContentType.ToString().Equals("application/json"))
+            {
+                newResponseBody.Seek(0, SeekOrigin.Begin);
+                responseBodyText = await new StreamReader(newResponseBody).ReadToEndAsync();
+                if (!string.IsNullOrWhiteSpace(responseBodyText) && (responseBodyText.StartsWith("{") || responseBodyText.StartsWith("[")) && (responseBodyText.EndsWith("}") || responseBodyText.EndsWith("]")))
+                {
+                    responseBodyText = responseBodyText.MaskFields(_blacklist, MaskValue);
+                }
+
+                newResponseBody.Seek(0, SeekOrigin.Begin);
+                await newResponseBody.CopyToAsync(originalResponseBody);
+                await newResponseBody.DisposeAsync();
+            }
         }
 
-        newResponseBody.Seek(0, SeekOrigin.Begin);
-        await newResponseBody.CopyToAsync(originalResponseBody);
-        await newResponseBody.DisposeAsync();
-
         watch.Stop();
-        long elapsedMiliseconds = watch.ElapsedMilliseconds;
+        long elapsedMilliseconds = watch.ElapsedMilliseconds;
         SetSessionUserInfo(request.HttpContext.User, ref log);
 
         /*response*/
         var responseHeader = FormatHeaders(response.Headers);
         log.ResponseInfo = new ResponseInfoLogDetail { ResponseStatus = response.StatusCode.ToString(), ResponseBody = responseBodyText, ResponseDateTimeUtc = DateTime.UtcNow };
 
-        log.RequestResponseWorkingTime = $"{elapsedMiliseconds:0.####}ms";
+        log.RequestResponseWorkingTime = $"{elapsedMilliseconds:0.####}ms";
 
         if (response?.StatusCode >= 400)
         {
