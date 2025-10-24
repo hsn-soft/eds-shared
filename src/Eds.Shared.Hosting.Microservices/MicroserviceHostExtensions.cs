@@ -25,11 +25,8 @@ public static class MicroserviceHostExtensions
     {
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
 
-        // Set paging limit value
-        PagedLimitedResultRequestDto.MaxMaxResultCount = 1000000;
-
         // Set filter limit value
-        SearchLimitedResultRequestDto.MaxMaxResultCount = 20;
+        LimitedDataRequestDto.MaxMaxResultCount = 100;
 
         services.ConfigureSharedHost(configuration);
 
