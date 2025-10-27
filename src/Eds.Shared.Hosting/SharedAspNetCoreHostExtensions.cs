@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using Eds.Shared.Helper;
 using Eds.Shared.Hosting.HealthChecks;
+using Eds.Shared.Hosting.Limiter;
 using Eds.Shared.Hosting.Middlewares;
 using Eds.Shared.Localization;
 using HsnSoft.Base;
@@ -204,6 +205,14 @@ public static class SharedAspNetCoreHostExtensions
             var redisConf = ConfigurationOptions.Parse(configuration["Redis:Configuration"] ?? throw new InvalidOperationException(), true);
             redisConf.ResolveDns = true;
 
+            // if (redisConf.EndPoints.Count > 0 && env.EnvironmentName == "Local")
+            // {
+            //     redisConf.ServiceName = null;
+            //     redisConf.EndPoints.Clear();
+            //     redisConf.EndPoints.Add("host.docker.internal:6379"); //master
+            //     redisConf.TieBreaker = "";
+            // }
+
             return ConnectionMultiplexer.Connect(redisConf);
         });
 
@@ -212,6 +221,7 @@ public static class SharedAspNetCoreHostExtensions
         // services.AddSingleton<IConnectionMultiplexer>(sp => multiplexer);
 
         services.AddSingleton(typeof(IRedisRepository<>), typeof(RedisRepository<>));
+        services.AddSingleton<IRequestLimitStore, RedisRequestLimitStore>();
 
         return services;
     }
