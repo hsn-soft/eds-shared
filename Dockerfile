@@ -1,8 +1,8 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS base
 WORKDIR /packages
 USER root
 
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build-stage
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build-stage
 WORKDIR /build-source
 
 COPY ["./nuget.config", "./"]
@@ -32,7 +32,7 @@ RUN dotnet test "./Eds.Shared.sln" --no-restore --no-build --verbosity minimal -
 
 RUN --mount=type=secret,id=VERSION_NUMBER \
     export VERSION_NUMBER=$(cat /run/secrets/VERSION_NUMBER) && \
-    echo ${VERSION_NUMBER} > ./version_number 
+    echo ${VERSION_NUMBER} > ./version_number
 
 RUN --mount=type=secret,id=ACTION_NUMBER \
     export ACTION_NUMBER=$(cat /run/secrets/ACTION_NUMBER) && \

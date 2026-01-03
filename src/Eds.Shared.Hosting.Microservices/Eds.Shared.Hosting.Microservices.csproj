@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <Import Project="..\..\common.version.props"/>
     <Import Project="..\..\common.props"/>
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <PackageId>Eds.Shared.Hosting.Microservices</PackageId>
         <RootNamespace>Eds.Shared.Hosting.Microservices</RootNamespace>
@@ -14,8 +14,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Eds.Shared.Contracts\Eds.Shared.Contracts.csproj"/>
-        <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj"/>
+        <ProjectReference Include="..\Eds.Shared.Contracts\Eds.Shared.Contracts.csproj" />
+        <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj" />
     </ItemGroup>
-
 </Project>
