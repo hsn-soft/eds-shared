@@ -4,7 +4,7 @@
     <Import Project="..\..\common.props"/>
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <PackageId>Eds.Shared.Hosting</PackageId>
         <RootNamespace>Eds.Shared.Hosting</RootNamespace>
@@ -41,7 +41,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Eds.Shared.Helper\Eds.Shared.Helper.csproj"/>
+        <ProjectReference Include="..\Eds.Shared.Helper\Eds.Shared.Helper.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <Import Project="..\..\common.version.props"/>
     <Import Project="..\..\common.props"/>
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <PackageId>Eds.Shared.Hosting.Gateways</PackageId>
         <RootNamespace>Eds.Shared.Hosting.Gateways</RootNamespace>
@@ -25,7 +25,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj"/>
+        <ProjectReference Include="..\Eds.Shared.Hosting\Eds.Shared.Hosting.csproj" />
     </ItemGroup>
-
 </Project>
