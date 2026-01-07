@@ -1,6 +1,6 @@
 using System.Net;
-using Eds.Shared.Hosting.Limiter;
 using HsnSoft.Base;
+using HsnSoft.Base.Caching.StackExchangeRedis;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 

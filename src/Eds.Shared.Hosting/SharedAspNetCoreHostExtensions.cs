@@ -1,12 +1,8 @@
 using System.Reflection;
 using System.Security.Cryptography;
-using Eds.Shared.Helper;
-using Eds.Shared.Hosting.HealthChecks;
-using Eds.Shared.Hosting.Limiter;
 using Eds.Shared.Hosting.Middlewares;
 using Eds.Shared.Localization;
 using HsnSoft.Base;
-using HsnSoft.Base.AspNetCore;
 using HsnSoft.Base.AspNetCore.Logging;
 using HsnSoft.Base.AspNetCore.Mvc.Services;
 using HsnSoft.Base.AspNetCore.Security.Claims;
@@ -14,6 +10,7 @@ using HsnSoft.Base.AspNetCore.Serilog;
 using HsnSoft.Base.AspNetCore.Serilog.Persistent;
 using HsnSoft.Base.AspNetCore.Tracing;
 using HsnSoft.Base.Authorization;
+using HsnSoft.Base.Caching.StackExchangeRedis;
 using HsnSoft.Base.Data;
 using HsnSoft.Base.Domain.Repositories;
 using HsnSoft.Base.EventBus;
@@ -23,10 +20,8 @@ using HsnSoft.Base.EventBus.RabbitMQ.Configs;
 using HsnSoft.Base.EventBus.RabbitMQ.Connection;
 using HsnSoft.Base.EventBus.SubManagers;
 using HsnSoft.Base.Logging;
-using HsnSoft.Base.MultiTenancy;
 using HsnSoft.Base.Reflection;
 using HsnSoft.Base.Security.Claims;
-using HsnSoft.Base.Timing;
 using HsnSoft.Base.Tracing;
 using HsnSoft.Base.Users;
 using HsnSoft.Base.Validation.Localization;
@@ -191,6 +186,12 @@ public static class SharedAspNetCoreHostExtensions
 
     public static IServiceCollection AddHostingRedis(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddStackExchangeRedisCache(opt =>
+        {
+            opt.Configuration = configuration["Redis:Configuration"] ?? throw new InvalidOperationException();
+        });
+        services.AddSingleton<RedisLockService>();
+
         // services.Configure<BaseDistributedCacheOptions>(options =>
         // {
         //     options.KeyPrefix = "HsNsH:";
